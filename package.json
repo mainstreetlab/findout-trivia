@@ -3,25 +3,27 @@
   "version": "1.0.0",
   "description": "Solidity smart contracts template ",
   "main": "index.js",
-  "author": "LooksRare",
+  "author": "Mainstreet Labs",
   "license": "MIT",
   "private": true,
   "keywords": [
-    "looksrare"
+    "mainstreet_labs"
   ],
   "homepage": "https://looksrare.org/",
-  "bugs": "https://github.com/LooksRare/solidity-template/issues",
+  "bugs": "https://github.com/mainstreetlab/findout-trivia/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/LooksRare/solidity-template.git"
+    "url": "https://github.com/mainstreetlab/findout-trivia.git"
   },
   "scripts": {
     "compile": "hardhat compile",
     "compile:force": "hardhat compile --force",
-    "format:check": "npx prettier --check '**/*.{js,jsx,ts,tsx,sol,json,yaml,md}'",
-    "format:write": "npx prettier --write '**/*.{js,jsx,ts,tsx,sol,json,yaml,md}'",
+    "format:check": "npx prettier prettier-plugin-solidity --check '**/*.{js,jsx,ts,tsx,sol,json,yaml,md}'",
+    "format:write": "npx prettier prettier-plugin-solidity --write '**/*.{js,jsx,ts,tsx,sol,json,yaml,md}'",
     "lint": "eslint '**/*.{js,jsx,ts,tsx}'",
+    "preinstall": "npx only-allow pnpm",
     "prepare": "husky install",
+    "create-hook": "husky add .husky/pre-commit \"pnpm test\"",
     "test": "hardhat test",
     "test:gas": "REPORT_GAS=true hardhat test",
     "test:forge": "forge test",
@@ -38,8 +40,8 @@
     "@types/chai": "^4.2.21",
     "@types/mocha": "^9.0.0",
     "@types/node": "^12.0.0",
-    "@typescript-eslint/eslint-plugin": "^4.29.1",
-    "@typescript-eslint/parser": "^4.29.1",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5",
     "chai": "^4.2.0",
     "dotenv": "^10.0.0",
     "eslint": "^7.29.0",
@@ -56,18 +58,19 @@
     "hardhat-gas-reporter": "^1.0.8",
     "husky": "^7.0.4",
     "merkletreejs": "^0.2.31",
-    "prettier": "^2.3.2",
-    "prettier-plugin-solidity": "^1.3.0",
+    "prettier": "^2.8.8",
+    "prettier-plugin-solidity": "^1.3.1",
     "release-it": "^15.0.0",
     "solhint": "^3.3.7",
     "solidity-coverage": "^0.7.21",
     "ts-node": "^10.1.0",
     "typechain": "^5.1.2",
-    "typescript": "^4.5.2"
+    "typescript": "^4.5.0"
   },
   "dependencies": {
     "@chainlink/contracts": "^0.6.1",
-    "@looksrare/contracts-libs": "^3.4.0",
-    "@openzeppelin/contracts": "^5.0.2"
+    "@nomicfoundation/hardhat-viem": "^2.0.2",
+    "@openzeppelin/contracts": "^5.0.2",
+    "lts": "^1.2.0"
   }
 }

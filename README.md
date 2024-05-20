@@ -1,6 +1,6 @@
 # Solidity template
 
-This is a template for GitHub repos with Solidity smart contracts using Forge and Hardhat. This template is used by the LooksRare team for Solidity-based repos. Feel free to use or get inspired to build your own templates!
+This is a template for GitHub repos with Solidity smart contracts using Forge and Hardhat. This template was made by the Mainstreet Labs team and adopted from the LooksRare team for Solidity-based repos. Feel free to use or get inspired to build your own templates!
 
 ## Getting Started
 
@@ -13,7 +13,7 @@ FOUNDRY_INVARIANT_FAIL_ON_REVERT=true
 then
 
 ```
-yarn install --ignore-scripts
+pnpm install --ignore-scripts
 forge install foundry-rs/forge-std
 forge install dapphub/ds-test
 forge install gelatodigital/vrf-contracts
@@ -24,7 +24,7 @@ FOUNDRY_PROFILE=local forge test
 
 ### Structure
 
-It is a hybrid [Hardhat](https://hardhat.org/) repo that also requires [Foundry](https://book.getfoundry.sh/index.html) to run Solidity tests powered by the [ds-test library](https://github.com/dapphub/ds-test/).
+It is a hybrid [Hardhat-Viem](https://hardhat.org/) repo that also requires [Foundry](https://book.getfoundry.sh/index.html) to run Solidity tests powered by the [ds-test library](https://github.com/dapphub/ds-test/).
 
 > To install Foundry, please follow the instructions [here](https://book.getfoundry.sh/getting-started/installation.html).
 
@@ -45,20 +45,20 @@ forge tree
 ### Example of Hardhat commands
 
 ```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-npx hardhat help
-REPORT_GAS=true npx hardhat test
-npx hardhat coverage
-npx hardhat run scripts/deploy.ts
-TS_NODE_FILES=true npx ts-node scripts/deploy.ts
-npx eslint '**/*.{js,ts}'
-npx eslint '**/*.{js,ts}' --fix
-npx prettier '**/*.{json,sol,md}' --check
-npx prettier '**/*.{json,sol,md}' --write
-npx solhint 'contracts/**/*.sol'
-npx solhint 'contracts/**/*.sol' --fix
+pnpx hardhat accounts
+pnpx hardhat compile
+pnpx hardhat clean
+pnpx hardhat test
+pnpx hardhat node
+pnpx hardhat help
+REPORT_GAS=true pnpx hardhat test
+pnpx hardhat coverage
+pnpx hardhat run scripts/deploy.ts
+TS_NODE_FILES=true pnpx ts-node scripts/deploy.ts
+pnpx eslint '**/*.{js,ts}'
+pnpx eslint '**/*.{js,ts}' --fix
+pnpx prettier '**/*.{json,sol,md}' --check
+pnpx prettier '**/*.{json,sol,md}' --write
+pnpx solhint 'contracts/**/*.sol'
+pnpx solhint 'contracts/**/*.sol' --fix
 ```
