@@ -18,6 +18,7 @@ out/
 
 .gas-snapshot
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 broadcast/
 
@@ -26,9 +27,15 @@ flake.nix
 .replit
 .replit.nix
 =======
+=======
+>>>>>>> 45956e3 (clean up: unnecessary files)
 .replit
 replit.nix
 flake.lock
 flake.nix
+<<<<<<< HEAD
+broadcast/in
+>>>>>>> 45956e3 (clean up: unnecessary files)
+=======
 broadcast/in
 >>>>>>> 45956e3 (clean up: unnecessary files)
