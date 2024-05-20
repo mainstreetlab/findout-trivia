@@ -17,6 +17,7 @@ lcov.info
 out/
 
 .gas-snapshot
+<<<<<<< HEAD
 
 broadcast/
 
@@ -24,3 +25,10 @@ flake.lock
 flake.nix
 .replit
 .replit.nix
+=======
+.replit
+replit.nix
+flake.lock
+flake.nix
+broadcast/in
+>>>>>>> 45956e3 (clean up: unnecessary files)
