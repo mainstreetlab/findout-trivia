@@ -19,3 +19,8 @@ out/
 .gas-snapshot
 
 broadcast/
+
+flake.lock
+flake.nix
+.replit
+.replit.nix
