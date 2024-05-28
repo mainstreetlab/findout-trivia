@@ -19,6 +19,7 @@ out/
 .gas-snapshot
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 broadcast/
 
@@ -29,13 +30,28 @@ flake.nix
 =======
 =======
 >>>>>>> 45956e3 (clean up: unnecessary files)
+=======
+>>>>>>> 693af59 (add new submodule dependency to template)
 .replit
 replit.nix
 flake.lock
 flake.nix
+<<<<<<< HEAD
 <<<<<<< HEAD
 broadcast/in
 >>>>>>> 45956e3 (clean up: unnecessary files)
 =======
 broadcast/in
 >>>>>>> 45956e3 (clean up: unnecessary files)
+=======
+broadcast/in
+=======
+
+broadcast/
+
+flake.lock
+flake.nix
+.replit
+.replit.nix
+>>>>>>> cd788b9 (Update gitignore)
+>>>>>>> 693af59 (add new submodule dependency to template)
