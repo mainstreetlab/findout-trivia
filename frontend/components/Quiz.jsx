@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import quizData from "@/quizData";
+import quizData from "@/data/quizData";
 
 const Quiz = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [selectedAnswer, setSelectedAnswer] = useState(-1);
   const [score, setScore] = useState(0);
   const [submitted, setSubmitted] = useState(false); // Track if question submitted
   const [complete, setComplete] = useState(false);
@@ -15,12 +15,12 @@ const Quiz = () => {
   };
 
   const handleSubmitAnswer = () => {
-    if (selectedAnswer) {
+    if (selectedAnswer >= 0) {
       if (selectedAnswer === quizData[currentQuestion].answer) {
         setScore(score + 1);
       }
       setSubmitted(true); // Mark question submitted
-      setSelectedAnswer(null); // Reset selected answer
+      setSelectedAnswer(-1); // Reset selected answer
     }
   };
 
@@ -67,7 +67,7 @@ const Quiz = () => {
     const question = quizData[currentQuestion];
     return (
       <div className="w-[90%] gap-6 flex flex-col">
-        <div className="w-full h-[220px] flex items-center justify-center text-2xl text-center leading-normal bg-blue-500/60 mx-auto rounded-md text-primary">
+        <div className="w-full h-[220px] flex items-center justify-center text-2xl text-center leading-normal bg-blue-600/90 mx-auto rounded-md text-white px-4">
           {question.question}
         </div>
         <ul className="flex flex-col gap-6 mx-auto w-full">
@@ -100,7 +100,7 @@ const Quiz = () => {
                 ? handleNextQuestion
                 : handleSubmitAnswer
           }
-          disabled={!selectedAnswer}
+          disabled={selectedAnswer < 0 && !submitted}
         >
           {complete
             ? "Restart Quiz"
