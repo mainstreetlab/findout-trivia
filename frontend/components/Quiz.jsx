@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 import quizData from "@/data/quizData";
+import Link from "next/link";
+
+import { FaCircleCheck } from "react-icons/fa6";
 
 const Quiz = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -50,14 +53,19 @@ const Quiz = () => {
   const ProgressBar = () => {
     const progress = ((currentQuestion + 1) / quizData.length) * 100;
     return (
-      <div className="w-full flex p-4">
-        <div className="flex items-center justify-between w-full">
+      <div className="w-full flex justify-between items-center p-4 gap-2">
+        <div className="flex items-center flex-1 p-2">
           <div
             style={{
               width: `${progress}%`,
             }}
-            className="h-3 flex items-center p-1 text-white bg-gradient-to-r from-indigo-600 via-blue-600 to-pink-500 w-full rounded-md border border-primary/20"
+            className="h-3 flex items-center p-1 text-white bg-gradient-to-r from-pink-600/80 via-blue-600 to-indigo-600 w-full rounded-[4px] border border-primary/20"
           ></div>
+        </div>
+        <div className="">
+          <FaCircleCheck
+            className={`${complete ? "block" : "hidden"} text-2xl text-violet-700`}
+          />
         </div>
       </div>
     );
@@ -122,6 +130,9 @@ const Quiz = () => {
             out of{" "}
             <span className="text-xl font-semibold">{quizData.length}</span>
           </p>
+          <Link href={"/review"} className="text-sm ">
+            Review your answers
+          </Link>
         </div>
       );
     }
@@ -129,7 +140,7 @@ const Quiz = () => {
 
   return (
     // ... JSX for your quiz UI
-    <div className="flex flex-col items-center bg-white rounded-md w-[420px] h-[95%] text-primary gap-8">
+    <div className="flex flex-col items-center bg-white rounded-md w-[420px] h-[95%] text-primary gap-8 overflow-y-auto pb-6">
       {<ProgressBar />}
       {<QuestionContent />}
       {<FinalResults />}
