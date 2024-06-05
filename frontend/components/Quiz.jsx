@@ -64,7 +64,7 @@ const Quiz = () => {
         </div>
         <div className="">
           <FaCircleCheck
-            className={`${complete ? "block" : "hidden"} text-2xl text-violet-700`}
+            className={`${complete ? "block" : "hidden"} text-xl text-violet-700`}
           />
         </div>
       </div>
@@ -75,7 +75,10 @@ const Quiz = () => {
     const question = quizData[currentQuestion];
     return (
       <div className="w-[90%] gap-6 flex flex-col">
-        <div className="w-full h-[220px] flex items-center justify-center text-2xl text-center leading-normal bg-blue-600/90 mx-auto rounded-md text-white px-4">
+        <div className="w-full h-[220px] flex flex-col items-center justify-center text-2xl text-center leading-normal bg-blue-600/90 mx-auto rounded-md text-white px-4 relative pt-4">
+          <span className="flex items-center justify-center rounded-full absolute top-6 text-lg font-bold text-blue-600/90 bg-white w-8 h-8">
+            {currentQuestion + 1}
+          </span>
           {question.question}
         </div>
         <ul className="flex flex-col gap-6 mx-auto w-full">
