@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply  bg-primary text-white leading-loose;
+  }
+
+  .h1, .h2, .h3 {
+    @apply leading-[1.1] font-semibold;
+  }
+
+  .h1{
+    @apply text-[48px] xl:text-[80px];
+  }
+  .h2{
+    @apply text-[36px] xl:text-[48px];
+  }
+  .h3{
+    @apply text-[20px] xl:text-[24+px];
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
