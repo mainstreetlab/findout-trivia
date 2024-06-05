@@ -115,8 +115,8 @@ const Quiz = () => {
   const FinalResults = () => {
     if (currentQuestion + 1 === quizData.length && submitted) {
       return (
-        <div className="flex flex-col justify-center items-center">
-          <h2 className="text-2xl font-semibold">You finished the quiz!</h2>
+        <div className="w-[90%] rounded-md p-6 flex flex-col justify-center items-center bg-gradient-to-r from-blue-500/80 via-blue-600 to-violet-600/90 text-white">
+          <h2 className="text-2xl font-semibold">🎉You finished the quiz!</h2>
           <p>
             Your score: {score} out of {quizData.length}
           </p>
