@@ -115,17 +115,17 @@ const Quiz = () => {
   const FinalResults = () => {
     if (currentQuestion + 1 === quizData.length && submitted) {
       return (
-        <div className="w-[90%] rounded-md p-6 flex flex-col justify-center items-center bg-gradient-to-r from-blue-500/80 via-blue-600 to-violet-600/90 text-white">
+        <div className="w-[90%] rounded-md p-5 flex flex-col justify-center items-center bg-gradient-to-r from-blue-400 via-blue-700/80 to-violet-600/90 text-white gap-2">
           <h2 className="text-2xl font-semibold">🎉You finished the quiz!</h2>
           <p>
-            Your score: {score} out of {quizData.length}
+            You scored <span className="text-xl font-semibold">{score}</span>{" "}
+            out of{" "}
+            <span className="text-xl font-semibold">{quizData.length}</span>
           </p>
         </div>
       );
     }
   };
-
-  // ... Render question, answer options, submit button based on state
 
   return (
     // ... JSX for your quiz UI
