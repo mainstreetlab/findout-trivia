@@ -14,16 +14,26 @@ const quizData = [
     choices: ["Japan", "India", "China", "Korea"],
     answer: 2,
   },
-  // {
-  //   question: "What is the name of the world's largest ocean?",
-  //   choices: ["Pacific Ocean", "Atlantic Ocean", "Indian Ocean", "Arctic Ocean"],
-  //   answer: 0,
-  // },
-  // {
-  //   question: "Who painted the Mona Lisa?",
-  //   choices: ["Leonardo da Vinci", "Michelangelo", "Vincent van Gogh", "Salvador Dalí"],
-  //   answer: 0,
-  // },
+  {
+    question: "What is the name of the world's largest ocean?",
+    choices: [
+      "Pacific Ocean",
+      "Atlantic Ocean",
+      "Indian Ocean",
+      "Arctic Ocean",
+    ],
+    answer: 0,
+  },
+  {
+    question: "Who painted the Mona Lisa?",
+    choices: [
+      "Leonardo da Vinci",
+      "Michelangelo",
+      "Vincent van Gogh",
+      "Salvador Dalí",
+    ],
+    answer: 0,
+  },
   // {
   //   question: "What is the chemical symbol for water?",
   //   choices: ["H2O", "CO2", "NaCl", "NH3"],

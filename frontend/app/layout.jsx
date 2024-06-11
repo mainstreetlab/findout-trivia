@@ -1,18 +1,25 @@
-import { Inter } from "next/font/google";
+import { Quicksand } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+import Header from "@/components/Header";
+import ScrollTop from "@/components/ScrollTop";
+
+const quickSand = Quicksand({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Findout",
+  title: "Findout Trivia",
   description:
-    "Findout is a quiz app that allows you to create quizzes and share them with friends to win prizes.",
+    "Findout is a trivia app that allows you to create quizzes and share them with friends to win prizes.",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={quickSand.className}>
+        <Header />
+        {children}
+        <ScrollTop />
+      </body>
     </html>
   );
 }

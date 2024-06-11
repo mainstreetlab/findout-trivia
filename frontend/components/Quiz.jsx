@@ -32,9 +32,9 @@ const Quiz = () => {
       setCurrentQuestion(currentQuestion + 1);
       setSubmitted(false); // Reset submitted flag for next question
     }
-    console.log(currentQuestion);
-    console.log(submitted);
-    console.log(quizData.length);
+    // console.log(currentQuestion);
+    // console.log(submitted);
+    // console.log(quizData.length);
   };
 
   const handleRestart = () => {
@@ -133,7 +133,7 @@ const Quiz = () => {
             out of{" "}
             <span className="text-xl font-semibold">{quizData.length}</span>
           </p>
-          <Link href={"/review"} className="text-sm ">
+          <Link href={"/results?id=abcdef"} className="text-sm ">
             Review your answers
           </Link>
         </div>
@@ -142,7 +142,6 @@ const Quiz = () => {
   };
 
   return (
-    // ... JSX for your quiz UI
     <div className="flex flex-col items-center bg-white rounded-md w-[420px] h-[95%] text-primary gap-8 overflow-y-auto pb-6">
       {<ProgressBar />}
       {<QuestionContent />}
