@@ -4,7 +4,10 @@ import "./globals.css";
 import Header from "@/components/Header";
 import ScrollTop from "@/components/ScrollTop";
 
-const quickSand = Quicksand({ subsets: ["latin"] });
+const quickSand = Quicksand({
+  subsets: ["latin"],
+  variable: "--font-quicksand",
+});
 
 export const metadata = {
   title: "Findout Trivia",
