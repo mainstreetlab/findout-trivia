@@ -1,3 +1,5 @@
+export const choiceMap = ["A", "B", "C", "D"];
+
 const quizData = [
   {
     question: "What is the capital of France?",

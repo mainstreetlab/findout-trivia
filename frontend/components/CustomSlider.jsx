@@ -21,7 +21,7 @@ const SliderDemo = (props) => {
 
   return (
     <SliderPrimitive.Root
-      className="relative flex items-center select-none touch-none w-[100%] h-1.5 bg-accent/15 rounded-full my-2 mb- mx-2.5"
+      className="relative flex items-center select-none touch-none w-[100%] h-1.5 bg-accent rounded-full my-2 mx-2.5"
       onValueChange={(newValues) => {
         const roundedValue = Math.round(newValues[0]);
 
