@@ -14,10 +14,10 @@ import {
 } from "@/components/ui/tooltip";
 import { Input } from "./ui/input";
 
-import useStore from "@/hooks/useStore";
+import useQuizStore from "@/hooks/useQuizStore";
 
 const QuestionCard = ({ questionIdx, onDelete }) => {
-  const { questions, editQuestion, editChoice } = useStore((state) => {
+  const { questions, editQuestion, editChoice } = useQuizStore((state) => {
     return {
       questions: state.questions,
       editQuestion: state.editQuestion,
@@ -63,7 +63,7 @@ const QuestionCard = ({ questionIdx, onDelete }) => {
           }}
           className="resize-none"
         />
-        <p>{JSON.stringify(questions[questionIdx])}</p>
+        {/* <p>{JSON.stringify(questions[questionIdx])}</p> */}
       </div>
 
       <ul className="w-full flex flex-col items-center justify-center gap-4 px-2">
@@ -72,7 +72,7 @@ const QuestionCard = ({ questionIdx, onDelete }) => {
             <Input
               size="md"
               variant="clickable"
-              placeholder={choice.letter}
+              placeholder={`${choice.letter}.`}
               value={choice.value}
               onChange={(e) =>
                 handleEditChoice(questionIdx, idx, e.target.value)
@@ -87,47 +87,18 @@ const QuestionCard = ({ questionIdx, onDelete }) => {
 };
 
 const QuestionList = () => {
-  const {
-    questions,
-    addQuestion,
-    // editQuestion,
-    deleteQuestion,
-    resetQuestions,
-    editChoice,
-  } = useStore((state) => {
-    return {
-      questions: state.questions,
-      addQuestion: state.addQuestion,
-      // editQuestion: state.editQuestion,
-      deleteQuestion: state.deleteQuestion,
-      resetQuestions: state.resetQuestions,
-    };
-  });
+  const { questions, addQuestion, deleteQuestion, resetQuestions, editChoice } =
+    useQuizStore((state) => {
+      return {
+        questions: state.questions,
+        addQuestion: state.addQuestion,
+        deleteQuestion: state.deleteQuestion,
+        resetQuestions: state.resetQuestions,
+      };
+    });
 
   const handleAddQuestion = () => {
-    if (questions.length < 5)
-      addQuestion({
-        questionText: "",
-        choices: [
-          {
-            letter: "A",
-            value: "",
-          },
-          {
-            letter: "B",
-            value: "",
-          },
-          {
-            letter: "C",
-            value: "",
-          },
-          {
-            letter: "D",
-            value: "",
-          },
-        ],
-        answer: "",
-      });
+    if (questions.length < 5) addQuestion();
   };
 
   const handleDeleteQuestion = (id) => {

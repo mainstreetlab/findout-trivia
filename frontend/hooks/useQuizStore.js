@@ -3,43 +3,72 @@ import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 produce;
 
-const useStore = create()(
+const initialState = {
+  questionText: "",
+  choices: [
+    {
+      letter: "A",
+      value: "",
+    },
+    {
+      letter: "B",
+      value: "",
+    },
+    {
+      letter: "C",
+      value: "",
+    },
+    {
+      letter: "D",
+      value: "",
+    },
+  ],
+  answer: "",
+};
+
+const useQuizStore = create()(
   immer((set) => ({
+    // prize state
+    prize: 0,
+    setPrize: (prize) =>
+      set(
+        produce((state) => {
+          state.prize = Number(prize);
+        }),
+      ),
+
+    // questions state
     questions: [
       {
         id: 0,
         questionText: "",
         choices: [
           {
-            letter: "A.",
+            letter: "A",
             value: "",
           },
           {
-            letter: "B.",
+            letter: "B",
             value: "",
           },
           {
-            letter: "C.",
+            letter: "C",
             value: "",
           },
           {
-            letter: "D.",
+            letter: "D",
             value: "",
           },
         ],
         answer: "",
       },
-      // { id: 1, questionText: "", choices: [], answer: "" },
-      // { id: 2, questionText: "", choices: [], answer: "" },
-      // { id: 3, questionText: "", choices: [], answer: "" },
-      // { id: 4, questionText: "", choices: [], answer: "" },
     ],
-    addQuestion: (question) =>
+    addQuestion: () =>
       set(
         produce((state) => {
           state.questions.push({
             id: state.questions.length,
-            ...question,
+            ...initialState,
           });
         }),
       ),
@@ -69,4 +98,4 @@ const useStore = create()(
   })),
 );
 
-export default useStore;
+export default useQuizStore;
