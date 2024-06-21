@@ -98,4 +98,7 @@ const useQuizStore = create()(
   })),
 );
 
+//should have a function that return just the answers to each questions
+//const Answers = QuizStore(state);  state.questions[idx].a
+
 export default useQuizStore;

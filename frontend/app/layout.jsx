@@ -1,6 +1,7 @@
 import { Quicksand } from "next/font/google";
 import "./globals.css";
-import {PrivyProvider} from "lib/privy_io/providers.tsx";
+//import {PrivyProvider} from '@privy-io/react-auth';
+//import {CreatePage} from "./create/page.jsx"
 
 import Header from "@/components/Header";
 import ScrollTop from "@/components/ScrollTop";
@@ -23,7 +24,12 @@ export default function RootLayout({ children }) {
         <Header />
         {children}
         <ScrollTop />
-        <PrivyProvider />
+
+      //<PrivyProvider appId="APP_ID_FROM_DASHBOARD" onSuccess={() => console.log('Success!')}>
+          <Component {...pageProps} />
+          <Submit />
+          <SignIn />
+        </PrivyProvider> 
       </body>
     </html>
   );
