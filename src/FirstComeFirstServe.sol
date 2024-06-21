@@ -52,7 +52,7 @@ contract FirstComeFirstServe {
     feeBalance += fee;
     record [i] = 
     
-    //struct answer(uint2 a, uint256 b, uint256 c, uint256 d, uint256 e, msg.sender, bounty, 1);
+    //struct answer(uint2 a, uint256 b, uint256 c, uint256 d, uint256 e, msg.sender, bounty, 1); all the answers and beneficiary
 
     abi.encode(uint a, uint b, uint c, uint d, uint e, msg.sender, bounty, 1);
     emit Open (msg.sender, amount);

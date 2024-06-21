@@ -1,5 +1,6 @@
 import { Quicksand } from "next/font/google";
 import "./globals.css";
+import {PrivyProvider} from "lib/privy_io/providers.tsx";
 
 import Header from "@/components/Header";
 import ScrollTop from "@/components/ScrollTop";
@@ -22,6 +23,7 @@ export default function RootLayout({ children }) {
         <Header />
         {children}
         <ScrollTop />
+        <PrivyProvider />
       </body>
     </html>
   );
