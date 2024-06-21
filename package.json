@@ -9,7 +9,7 @@
   "keywords": [
     "mainstreet_labs"
   ],
-  "homepage": "https://looksrare.org/",
+  "homepage": "https://...",
   "bugs": "https://github.com/mainstreetlab/findout-trivia/issues",
   "repository": {
     "type": "git",
@@ -70,7 +70,6 @@
   "dependencies": {
     "@chainlink/contracts": "^0.6.1",
     "@nomicfoundation/hardhat-viem": "^2.0.2",
-    "@openzeppelin/contracts": "^5.0.2",
-    "lts": "^1.2.0"
+    "@openzeppelin/contracts": "^5.0.2"
   }
 }

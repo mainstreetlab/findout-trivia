@@ -12,7 +12,7 @@ const inputVariants = cva(
         clickable:
           "text-left border border-accent/40 focus-visible:bg-accent  cursor-pointer text-accent focus-visible:text-white placeholder:text-[20px]          placeholder:text-accent focus-visible:placeholder:text-white/90 placeholder:font-medium placeholder:text-center cursor-pointer",
       },
-      size: {
+      boxsize: {
         default: "h-12",
         md: "h-[56px] p-3",
         lg: "h-[64px] px-8 text-sm uppercase tracking-[2px]",
@@ -20,7 +20,7 @@ const inputVariants = cva(
     },
     defaultVariants: {
       variant: "default",
-      size: "default",
+      boxsize: "default",
     },
   },
 );
@@ -28,10 +28,11 @@ const inputVariants = cva(
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
     variant?: "default" | "clickable" | null | undefined
+    boxsize: "default" | "md" | "lg" | null |undefined
   }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, variant="default", size="default", type, ...props }, ref) => {
+  ({ className, variant="default", boxsize="default", type, ...props }, ref) => {
     return (
       <input
         type={type}

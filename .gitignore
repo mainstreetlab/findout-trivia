@@ -15,13 +15,11 @@ abis/
 lcov-filtered.info
 lcov.info
 out/
-
 .gas-snapshot
-
 broadcast/
 
+# Nix files
 flake.lock
 flake.nix
 .replit
-.replit.nix
-
+replit.nix

@@ -71,7 +71,7 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
 
         <Textarea
           placeholder="Type your question here..."
-          id={questionIdx}
+          id={questionIdx.toString()}
           value={questionText}
           onChange={(e) => {
             handleEditQuestion(questionIdx, e.target.value);
@@ -86,7 +86,7 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
           <div className="w-full">
             <Input
               key={idx}
-              size="md"
+              boxsize="md"
               variant="clickable"
               placeholder={`${choice.letter}.`}
               value={choice.value}
