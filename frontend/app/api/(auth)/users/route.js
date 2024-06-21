@@ -13,7 +13,7 @@ export const GET = async () => {
   } catch (error) {
     return NextResponse.json(
       { error: "Error in fetching users", message: error },
-      { status: 500 },
+      { status: 500 }
     );
   }
 };
@@ -27,12 +27,12 @@ export const POST = async (req) => {
 
     return NextResponse.json(
       { message: "User created successfully!", user: newUser },
-      { status: 200 },
+      { status: 200 }
     );
   } catch (error) {
     return NextResponse.json(
       { error: "Error creating user!", message: error },
-      { status: 500 },
+      { status: 500 }
     );
   }
 };
@@ -45,14 +45,14 @@ export const PATCH = async (req) => {
     if (!userId || !username) {
       return NextResponse.json(
         { error: "Invalid credentials!", message: error },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
     if (!ObjectId.isValid(userId)) {
       return NextResponse.json(
         { error: "Invalid user ID!", message: error },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -61,23 +61,23 @@ export const PATCH = async (req) => {
         _id: new ObjectId(userId),
       },
       { username: username },
-      { new: true },
+      { new: true }
     );
 
     if (!updatedUser) {
       return NextResponse.json(
         { error: "User not found in DB!", message: error },
-        { status: 400 },
+        { status: 400 }
       );
     }
     return NextResponse.json(
       { message: "User updated successfully!", user: updatedUser },
-      { status: 200 },
+      { status: 200 }
     );
   } catch (error) {
     return NextResponse.json(
       { error: "Error updating user!", message: error },
-      { status: 500 },
+      { status: 500 }
     );
   }
 };
@@ -90,14 +90,14 @@ export const DELETE = async (req) => {
     if (!userId) {
       return NextResponse.json(
         { error: "Please provide a user ID!", message: error },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
     if (!ObjectId.isValid(userId)) {
       return NextResponse.json(
         { error: "Invalid user ID!", message: error },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -108,18 +108,18 @@ export const DELETE = async (req) => {
     if (!deletedUser) {
       return NextResponse.json(
         { error: "User not found in database!", message: error },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
     return NextResponse.json(
       { message: "User deleted successfully!", user: deletedUser },
-      { status: 200 },
+      { status: 200 }
     );
   } catch (error) {
     return NextResponse.json(
       { error: "Error deleting user!", message: error },
-      { status: 500 },
+      { status: 500 }
     );
   }
 };

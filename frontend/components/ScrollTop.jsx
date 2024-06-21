@@ -3,7 +3,7 @@ import React from "react";
 import { CgChevronUp } from "react-icons/cg";
 import { Button } from "./ui/button";
 
-const ScrollTop = ({ containerStyles, iconStyles }) => {
+const ScrollTop = () => {
   const [showTopBtn, setShowTopBtn] = React.useState(false);
 
   React.useEffect(() => {

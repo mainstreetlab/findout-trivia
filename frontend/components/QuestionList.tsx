@@ -14,24 +14,39 @@ import {
 } from "@/components/ui/tooltip";
 import { Input } from "./ui/input";
 
-import useQuizStore from "@/hooks/useQuizStore";
+import useQuizStore, { QuizStore } from "@/hooks/useQuizStore";
 
-const QuestionCard = ({ questionIdx, onDelete }) => {
-  const { questions, editQuestion, editChoice } = useQuizStore((state) => {
-    return {
-      questions: state.questions,
-      editQuestion: state.editQuestion,
-      editChoice: state.editChoice,
-    };
-  });
+interface QuestionCardProps {
+  questionIdx: number;
+  onDelete: (questionIdx: number) => void;
+}
 
-  const { questionText, choices, answer, completed } = questions[questionIdx];
+const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
+  const { questions, editQuestion, editChoice } = useQuizStore<QuizStore>(
+    (state) => {
+      return {
+        prize: state.prize,
+        setPrize: state.setPrize,
+        questions: state.questions,
+        addQuestion: state.addQuestion,
+        editQuestion: state.editQuestion,
+        deleteQuestion: state.deleteQuestion,
+        editChoice: state.editChoice,
+      };
+    }
+  );
 
-  const handleEditQuestion = (idx, newValue) => {
+  const { questionText, choices, answer } = questions[questionIdx];
+
+  const handleEditQuestion = (idx: number, newValue: string) => {
     editQuestion(idx, newValue);
   };
 
-  const handleEditChoice = (idx, choiceIdx, newValue) => {
+  const handleEditChoice = (
+    idx: number,
+    choiceIdx: number,
+    newValue: string
+  ) => {
     editChoice(idx, choiceIdx, newValue);
   };
 
@@ -70,6 +85,7 @@ const QuestionCard = ({ questionIdx, onDelete }) => {
         {choices.map((choice, idx) => (
           <div className="w-full">
             <Input
+              key={idx}
               size="md"
               variant="clickable"
               placeholder={`${choice.letter}.`}
@@ -77,7 +93,7 @@ const QuestionCard = ({ questionIdx, onDelete }) => {
               onChange={(e) =>
                 handleEditChoice(questionIdx, idx, e.target.value)
               }
-              className={`${idx === answer && "bg-red-500"}`}
+              className={`${idx === parseInt(answer) && "bg-red-500"}`}
             />
           </div>
         ))}
@@ -87,27 +103,25 @@ const QuestionCard = ({ questionIdx, onDelete }) => {
 };
 
 const QuestionList = () => {
-  const { questions, addQuestion, deleteQuestion, resetQuestions, editChoice } =
-    useQuizStore((state) => {
-      return {
-        questions: state.questions,
-        addQuestion: state.addQuestion,
-        deleteQuestion: state.deleteQuestion,
-        resetQuestions: state.resetQuestions,
-      };
-    });
+  const { questions, addQuestion, deleteQuestion } = useQuizStore((state) => {
+    return {
+      questions: state.questions,
+      addQuestion: state.addQuestion,
+      deleteQuestion: state.deleteQuestion,
+    };
+  });
 
   const handleAddQuestion = () => {
     if (questions.length < 5) addQuestion();
   };
 
-  const handleDeleteQuestion = (id) => {
+  const handleDeleteQuestion = (id: number) => {
     deleteQuestion(id);
   };
 
   return (
     <div className="flex flex-col items-center justify-center gap-2 py-4">
-      <div className="w-full">
+      <form className="w-full">
         {questions?.map((question, idx) => {
           return (
             <QuestionCard
@@ -117,7 +131,7 @@ const QuestionList = () => {
             />
           );
         })}
-      </div>
+      </form>
 
       {/* Add another question */}
       {questions.length < 5 && (

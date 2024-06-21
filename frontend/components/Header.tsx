@@ -5,6 +5,8 @@ import MobileNav from "./MobileNav";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
+import AvatarContainer from "@/components/AvatarContainer";
+
 const Header = () => {
   const [top, setTop] = useState(true);
   const pathName = usePathname();
@@ -37,14 +39,9 @@ const Header = () => {
             </h1>
           </Link>
 
-          <h2 className="text-xl font-medium">
-            Ask 5 Questions, Share Rewards
-          </h2>
+          <h2 className="text-xl font-medium">Ask Questions, Share Rewards</h2>
 
-          <div className="absolute top-0 right-0 flex gap-2 items-center justify-between px-5 py-2.5">
-            <p className="text-xl">$0</p>
-            <div className="bg-yellow-300 w-10 h-10 rounded-full"></div>
-          </div>
+          <AvatarContainer />
         </div>
       ) : (
         <div className="container mx-auto flex justify-between items-center ">

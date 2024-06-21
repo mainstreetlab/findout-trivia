@@ -1,8 +1,33 @@
 import { produce } from "immer";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
-produce;
 
+export interface QuizStore {
+  // Existing properties
+  prize: number;
+  setPrize: (amount: number) => void;
+
+  // Questions state
+  questions: Question[];
+  addQuestion: () => void;
+  editQuestion: (idx: number, newValue: string) => void;
+  deleteQuestion: (id: number) => void;
+
+  // Choices editing
+  editChoice: (idx: number, choiceIdx: number, newValue: string) => void;
+}
+
+interface Question {
+  id: number;
+  questionText: string;
+  choices: Choice[];
+  answer: string;
+}
+
+interface Choice {
+  letter: string;
+  value: string;
+}
 const initialState = {
   questionText: "",
   choices: [
@@ -26,15 +51,15 @@ const initialState = {
   answer: "",
 };
 
-const useQuizStore = create()(
+const useQuizStore = create<QuizStore>()(
   immer((set) => ({
     // prize state
     prize: 0,
-    setPrize: (prize) =>
+    setPrize: (prize: number) =>
       set(
         produce((state) => {
           state.prize = Number(prize);
-        }),
+        })
       ),
 
     // questions state
@@ -70,32 +95,28 @@ const useQuizStore = create()(
             id: state.questions.length,
             ...initialState,
           });
-        }),
+        })
       ),
-    editQuestion: (idx, newValue) =>
+    editQuestion: (idx: number, newValue: string) =>
       set(
         produce((state) => {
           state.questions[idx].questionText = newValue;
-        }),
+        })
       ),
-    deleteQuestion: (id) =>
+    deleteQuestion: (id: number) =>
       set(
         produce((state) => {
           state.questions.splice(id, 1);
-        }),
+        })
       ),
-    resetQuestions: () =>
-      set(() => {
-        questions: [];
-      }),
     // edit choices
-    editChoice: (idx, choiceIdx, newValue) =>
+    editChoice: (idx: number, choiceIdx: number, newValue: string) =>
       set(
         produce((state) => {
           state.questions[idx].choices[choiceIdx].value = newValue;
-        }),
+        })
       ),
-  })),
+  }))
 );
 
 export default useQuizStore;

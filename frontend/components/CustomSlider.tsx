@@ -1,7 +1,7 @@
 "use client";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import clsx from "clsx";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const valueMapping = {
   0: 2,
@@ -12,12 +12,27 @@ const valueMapping = {
   5: 50,
 };
 
-const SliderDemo = (props) => {
-  const [mappedValues, setMappedValues] = useState(() =>
-    props.defaultValue !== undefined
-      ? [valueMapping[Math.round(props.defaultValue[0] ?? 0)]]
-      : [0],
-  );
+interface CustomSliderProps {
+  defaultValue?: number[]; // Optional array of numbers for initial value
+  max: number; // Maximum value for the slider
+  // Other props if needed (e.g., step, min)
+  onSetPrize: (amount: number) => void;
+}
+
+const CustomSlider = (props: CustomSliderProps) => {
+  // const [mappedValues, setMappedValues] = useState(() =>
+  //   props.defaultValue !== undefined
+  //     ? [valueMapping[Math.round(props.defaultValue[0] ?? 0)]]
+  //     : [0]
+  // );
+
+  const mappedValues = React.useMemo(() => {
+    const mappedArray = [];
+    for (let i = 0; i <= props.max; i++) {
+      mappedArray.push((valueMapping as { [key: number]: number })[i] || 0); // Handle potential missing values
+    }
+    return mappedArray;
+  }, [props.max, valueMapping]);
 
   return (
     <SliderPrimitive.Root
@@ -25,8 +40,14 @@ const SliderDemo = (props) => {
       onValueChange={(newValues) => {
         const roundedValue = Math.round(newValues[0]);
 
-        const newMappingValue = [valueMapping[roundedValue]];
-        setMappedValues(newMappingValue);
+        // const newMappingValue = [valueMapping[roundedValue]];
+        const newMappingValue = [mappedValues[roundedValue]];
+
+        const currentMappedValue = mappedValues[roundedValue]; // Access pre-computed value
+        props.onSetPrize(currentMappedValue);
+
+        // setMappedValues(newMappingValue);
+        // onSetPrize(mappedValues[0]);
       }}
       {...props}
     >
@@ -43,18 +64,33 @@ const SliderDemo = (props) => {
       </SliderPrimitive.Thumb>
       {/* <div className="flex flex-row justify-between items-center w-full text-primary/70 ml-2"> */}
       <div className="flex items-center justify-between w-full text-primary/70">
-        {Array.from({ length: props.max + 1 }).map((_, i) => (
+        {/* {Array.from({ length: props.max + 1 }).map((_, i) => (
           <span
             key={i}
             className={clsx(
               "text-base font-normal flex items-center justify-center mt-12",
               {
                 "ml-4": i > 0,
-              },
+              }
             )}
             role="presentation"
           >
             ${valueMapping[i]}
+          </span>
+        ))} */}
+
+        {mappedValues.map((mappedValue, i) => (
+          <span
+            key={i}
+            className={clsx(
+              "text-base font-normal flex items-center justify-center mt-12",
+              {
+                "ml-4": i > 0,
+              }
+            )}
+            role="presentation"
+          >
+            {mappedValue}
           </span>
         ))}
       </div>
@@ -62,4 +98,4 @@ const SliderDemo = (props) => {
   );
 };
 
-export default SliderDemo;
+export default CustomSlider;

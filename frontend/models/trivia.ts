@@ -1,6 +1,11 @@
 import { Schema, model, models } from "mongoose";
 
-const ChoiceSchema = new Schema({
+export interface Choice {
+  value: string;
+  isCorrect?: boolean;
+}
+
+const ChoiceSchema = new Schema<Choice>({
   value: {
     type: String,
     required: true,
@@ -10,7 +15,13 @@ const ChoiceSchema = new Schema({
   isCorrect: { type: Boolean, default: false },
 });
 
-const QuestionSchema = new Schema(
+export interface Question {
+  questionText: string;
+  choices: Choice[];
+  answer: Number;
+}
+
+const QuestionSchema = new Schema<Question>(
   {
     questionText: {
       type: String,
@@ -44,10 +55,10 @@ const QuestionSchema = new Schema(
     //   required: true,
     // },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
-QuestionSchema.pre("save", async function (next) {
+QuestionSchema.pre<Question>("save", async function (next) {
   const question = this; // Use 'this' to access the document being saved
   question.choices.forEach((choice, index) => {
     choice.isCorrect = index === question.answer; // Set isCorrect based on answer index
@@ -56,15 +67,15 @@ QuestionSchema.pre("save", async function (next) {
 });
 
 // validator functions
-function validateAnswerIndex(answer) {
+function validateAnswerIndex(this: Question, answer: number) {
   return this.choices && answer >= 0 && answer < this.choices.length;
 }
 
-function choicesLengthValidator(choices) {
+function choicesLengthValidator(choices: Choice[]): boolean {
   return choices.length === 4;
 }
 
-function validateIsCorrect(choices) {
+function validateIsCorrect(choices: Choice[]) {
   // Check if exactly one choice has isCorrect set to true
   const correctChoices = choices.filter((choice) => choice.isCorrect);
   return (
@@ -75,11 +86,10 @@ function validateIsCorrect(choices) {
 
 const validateChoiceSchema = [choicesLengthValidator, validateIsCorrect]; // Combine validations
 
-QuestionSchema.pre("validate", function (next) {
-  const errors = []; // Collect potential errors
-  const question = this;
+QuestionSchema.pre<Question>("validate", function (next) {
+  const errors: string[] = []; // Collect potential errors
 
-  if (!validateChoiceSchema.every((validator) => validator(question.choices))) {
+  if (!validateChoiceSchema.every((validator) => validator(this.choices))) {
     // Perform all validations
     errors.push("Choices validation failed");
   }
@@ -91,6 +101,32 @@ QuestionSchema.pre("validate", function (next) {
   }
 });
 
-const Question = models.Question || model("Question", QuestionSchema);
+interface Trivia {
+  questions: Question[];
+}
 
-export default Question;
+const triviaSchema = new Schema<Trivia>({
+  questions: {
+    type: [QuestionSchema],
+    required: true,
+  },
+});
+
+triviaSchema.pre<Trivia>("validate", function (next) {
+  const errors: string[] = []; // Collect potential errors
+
+  if (this.questions.length !== 5) {
+    // Perform all validations
+    errors.push("Choices validation failed");
+  }
+
+  if (errors.length > 0) {
+    next(new Error(errors.join(", "))); // Throw a combined error message if validations fail
+  } else {
+    next(); // Proceed with validation if no errors
+  }
+});
+
+const Trivia = models.Trivia<Trivia> || model<Trivia>("Trivia", triviaSchema);
+
+export default Trivia;
