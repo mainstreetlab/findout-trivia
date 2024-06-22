@@ -1,4 +1,5 @@
 "use client";
+import {base, baseSepolia} from "viem/chains"
 
 import { PrivyProvider } from "@privy-io/react-auth";
 
@@ -13,6 +14,8 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
           accentColor: "#676FFF",
           logo: "",
         },
+        defaultChain: base,
+        supportedChains: [base, baseSepolia],
         // Create embedded wallets for users who don't have a wallet
         embeddedWallets: {
           createOnLogin: "users-without-wallets",
