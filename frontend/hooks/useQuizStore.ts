@@ -1,17 +1,22 @@
 import { produce } from "immer";
+import { z } from "zod";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
 export interface QuizStore {
-  // Existing properties
+  // Prize state
   prize: number;
   setPrize: (amount: number) => void;
+  isValidatePrize: boolean | null,
+  validatePrize: () => void;
 
   // Questions state
   questions: Question[];
   addQuestion: () => void;
   editQuestion: (idx: number, newValue: string) => void;
   deleteQuestion: (id: number) => void;
+  isValidateQuestion: {}[],
+  validateQuestion: (idx:number, validate:string)=>void
 
   // Choices editing
   editChoice: (idx: number, choiceIdx: number, newValue: string) => void;
@@ -29,26 +34,31 @@ interface Choice {
   value: string;
 }
 const initialState = {
-  questionText: "",
-  choices: [
-    {
-      letter: "A",
-      value: "",
-    },
-    {
-      letter: "B",
-      value: "",
-    },
-    {
-      letter: "C",
-      value: "",
-    },
-    {
-      letter: "D",
-      value: "",
-    },
-  ],
-  answer: "",
+  questions: [
+      {
+        id: 0,
+        questionText: "",
+        choices: [
+          {
+            letter: "A",
+            value: "",
+          },
+          {
+            letter: "B",
+            value: "",
+          },
+          {
+            letter: "C",
+            value: "",
+          },
+          {
+            letter: "D",
+            value: "",
+          },
+        ],
+        answer: "",
+      },
+    ],
 };
 
 const useQuizStore = create<QuizStore>()(
@@ -61,11 +71,114 @@ const useQuizStore = create<QuizStore>()(
           state.prize = Number(prize);
         })
       ),
+    isValidatePrize: null,
+    validatePrize:  () => set(produce(async (state)=>{
+      const prizeSchema = z.number().min(1).max(1000)
+      try {
+        await prizeSchema.parseAsync(state.prize)
+        set({ isValidatePrize: true });
+      } catch (error) {
+        set({ isValidatePrize: false });
+      }
+    })),
+
 
     // questions state
     questions: [
       {
         id: 0,
+        questionText: "",
+        choices: [
+          {
+            letter: "A",
+            value: "",
+          },
+          {
+            letter: "B",
+            value: "",
+          },
+          {
+            letter: "C",
+            value: "",
+          },
+          {
+            letter: "D",
+            value: "",
+          },
+        ],
+        answer: "",
+      },
+      {
+        id: 1,
+        questionText: "",
+        choices: [
+          {
+            letter: "A",
+            value: "",
+          },
+          {
+            letter: "B",
+            value: "",
+          },
+          {
+            letter: "C",
+            value: "",
+          },
+          {
+            letter: "D",
+            value: "",
+          },
+        ],
+        answer: "",
+      },
+      {
+        id: 2,
+        questionText: "",
+        choices: [
+          {
+            letter: "A",
+            value: "",
+          },
+          {
+            letter: "B",
+            value: "",
+          },
+          {
+            letter: "C",
+            value: "",
+          },
+          {
+            letter: "D",
+            value: "",
+          },
+        ],
+        answer: "",
+      },
+      {
+        id: 3,
+        questionText: "",
+        choices: [
+          {
+            letter: "A",
+            value: "",
+          },
+          {
+            letter: "B",
+            value: "",
+          },
+          {
+            letter: "C",
+            value: "",
+          },
+          {
+            letter: "D",
+            value: "",
+          },
+        ],
+        answer: "",
+      },
+      {
+        id: 4,
         questionText: "",
         choices: [
           {
@@ -109,6 +222,40 @@ const useQuizStore = create<QuizStore>()(
           state.questions.splice(id, 1);
         })
       ),
+    isValidateQuestion: [
+      {
+        question: null,
+        choices: null,
+        answer: null
+      },
+      {
+        question: null,
+        choices: null,
+        answer: null
+      },
+      {
+        question: null,
+        choices: null,
+        answer: null
+      },
+      {
+        question: null,
+        choices: null,
+        answer: null
+      },
+      {
+        question: null,
+        choices: null,
+        answer: null
+      }
+    ],
+    validateQuestion: (idx:number, validate:string) => 
+      set(
+        produce((state) => {
+          state.isValidateQuestion[idx].question = validate;
+        })
+      ),
+
     // edit choices
     editChoice: (idx: number, choiceIdx: number, newValue: string) =>
       set(

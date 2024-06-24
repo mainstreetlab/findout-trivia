@@ -7,15 +7,25 @@ import { Input } from "@/components/ui/input";
 import useQuizStore, { QuizStore } from "@/hooks/useQuizStore";
 
 const PrizeInput = () => {
-  const { prize, setPrize } = useQuizStore((state: QuizStore) => {
+  const { prize, setPrize, isValidatePrize, validatePrize } = useQuizStore((state: QuizStore) => {
     return {
       prize: state.prize,
       setPrize: state.setPrize,
+      isValidatePrize: state.isValidatePrize,
+      validatePrize: state.validatePrize
     };
   });
 
-  const handleSetPrize = (amount: number) => {
-    setPrize(amount);
+  const handleSetPrize = (strAmount: string) => {
+
+   if (!strAmount.includes("e")) {
+    if (strAmount==="") {
+      setPrize(0)
+    }
+    else {
+      setPrize(parseInt(strAmount))
+    }
+    };
   };
 
   return (
@@ -37,13 +47,14 @@ const PrizeInput = () => {
         <Input
           type="number"
           placeholder="Enter prize amount..."
-          value={prize === 0 ? null : prize}
+          value={prize === 0 ? "" : prize}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            handleSetPrize(parseInt(e.target.value))
+            handleSetPrize(e.target.value)
           }
+          onKeyUp={validatePrize}
         />
+      <p className="text-sm font-normal text-red-600 mt-1">{!isValidatePrize && "Prize must be between $1 and $1000"}</p>
       </div>
-      <p>{prize}</p>
     </div>
   );
 };

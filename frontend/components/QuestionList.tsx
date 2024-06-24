@@ -16,13 +16,32 @@ import { Input } from "./ui/input";
 
 import useQuizStore, { QuizStore } from "@/hooks/useQuizStore";
 
+import PrizeInput from "@/components/PrizeInput";
+
+import { z } from "zod";
+import { ZodError, fromZodError } from 'zod-validation-error';
+
+const FormSchema = z.object({
+  questionText: z.string().min(5).max(255),
+  choices: z
+    .array(
+      z.object({
+        value: z.string().min(3).max(65),
+        // isCorrect: z.boolean().optional(),
+      })
+    )
+    .length(4), // Validate choices length and value
+  answer: z.number().min(0).max(3),
+  // owner: z.string().uuid(), // Assuming owner ID is a stringified UUID
+});
+
 interface QuestionCardProps {
   questionIdx: number;
-  onDelete: (questionIdx: number) => void;
+  onDelete?: (questionIdx: number) => void;
 }
 
 const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
-  const { questions, editQuestion, editChoice } = useQuizStore<QuizStore>(
+  const { questions, editQuestion, editChoice, isValidateQuestion,validateQuestion } = useQuizStore<QuizStore>(
     (state) => {
       return {
         prize: state.prize,
@@ -30,7 +49,8 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
         questions: state.questions,
         addQuestion: state.addQuestion,
         editQuestion: state.editQuestion,
-        deleteQuestion: state.deleteQuestion,
+        isValidateQuestion: state.isValidateQuestion,
+        validateQuestion: state.validateQuestion,
         editChoice: state.editChoice,
       };
     }
@@ -38,9 +58,20 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
 
   const { questionText, choices, answer } = questions[questionIdx];
 
-  const handleEditQuestion = (idx: number, newValue: string) => {
+  const handleEditQuestion =  (idx: number, newValue: string) => {
     editQuestion(idx, newValue);
   };
+
+  const handleValidateQuestion = async (idx:number)=>{
+    const questionSchema = z.string().min(5).max(255)
+    try {
+      await questionSchema.parseAsync(questions[idx].questionText)
+      validateQuestion(idx, "")
+    } catch (error) {
+      const validationError = fromZodError(error as ZodError, {prefix:null});
+      validateQuestion(idx, validationError.toString())
+    }
+  }
 
   const handleEditChoice = (
     idx: number,
@@ -49,6 +80,10 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
   ) => {
     editChoice(idx, choiceIdx, newValue);
   };
+
+  const handleValidateChoice = ()=>{
+
+  }
 
   return (
     <div className="flex flex-col justify-center items-start gap-6 my-6">
@@ -60,25 +95,32 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
           >
             Question {questionIdx + 1}
           </Label>
-          <Button
+          {/* <Button
             variant="ghost"
             size="sm"
             onClick={() => onDelete(questionIdx)}
           >
             <MdOutlineClear className="w-4 h-4" />
-          </Button>
+          </Button> */}
         </div>
 
-        <Textarea
-          placeholder="Type your question here..."
-          id={questionIdx.toString()}
-          value={questionText}
-          onChange={(e) => {
-            handleEditQuestion(questionIdx, e.target.value);
-          }}
-          className="resize-none"
-        />
-        {/* <p>{JSON.stringify(questions[questionIdx])}</p> */}
+        <div className="w-full my-2">
+          <Textarea
+            placeholder="Type your question here..."
+            id={questionIdx.toString()}
+            value={questionText}
+            onChange={(e) => {
+              handleEditQuestion(questionIdx, e.target.value);
+            }}
+            onBlur={(e) => {
+              handleValidateQuestion(Number(e.target.id))}
+            }
+            className="resize-none"
+          />
+          <p className="text-sm font-normal text-red-600 mt-1"> 
+            {isValidateQuestion[questionIdx].question}
+          </p>
+        </div>
       </div>
 
       <ul className="w-full flex flex-col items-center justify-center gap-4 px-2">
@@ -103,38 +145,44 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
 };
 
 const QuestionList = () => {
-  const { questions, addQuestion, deleteQuestion } = useQuizStore((state) => {
+  const { questions } = useQuizStore((state) => {
     return {
       questions: state.questions,
-      addQuestion: state.addQuestion,
-      deleteQuestion: state.deleteQuestion,
+      // addQuestion: state.addQuestion,
+      // deleteQuestion: state.deleteQuestion,
     };
   });
 
-  const handleAddQuestion = () => {
-    if (questions.length < 5) addQuestion();
-  };
+  // const handleAddQuestion = () => {
+  //   if (questions.length < 5) addQuestion();
+  // };
 
-  const handleDeleteQuestion = (id: number) => {
-    deleteQuestion(id);
-  };
+  // const handleDeleteQuestion = (id: number) => {
+  //   deleteQuestion(id);
+  // };
+
 
   return (
     <div className="flex flex-col items-center justify-center gap-2 py-4">
-      <form className="w-full">
-        {questions?.map((question, idx) => {
+      <form className="w-full" >
+        <PrizeInput />
+        {questions?.map((_, idx) => {
           return (
             <QuestionCard
               key={idx}
               questionIdx={idx}
-              onDelete={() => handleDeleteQuestion(idx)}
+              // onDelete={() => handleDeleteQuestion(idx)}
             />
           );
         })}
+        <Button type="submit" onClick={(e)=>{
+          e.preventDefault()
+          console.log(e)
+        }}>Submit</Button>
       </form>
 
       {/* Add another question */}
-      {questions.length < 5 && (
+      {/* {questions.length < 5 && (
         <TooltipProvider delayDuration={275}>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -148,7 +196,7 @@ const QuestionList = () => {
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-      )}
+      )} */}
     </div>
   );
 };

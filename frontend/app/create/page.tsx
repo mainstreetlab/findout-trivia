@@ -1,6 +1,5 @@
 import QuestionList from "@/components/QuestionList";
-import PrizeInput from "@/components/PrizeInput";
-import {PrivyProvider} from "@/app/api/(auth)/users/account-module/providers.tsx";
+
 
 //TO DO
 //We import two more newly created button components: SignIn.tsx & Submit.tsx
@@ -13,7 +12,6 @@ const CreatePage = () => {
   return (
     <main className="h-screen mt-4">
       <div className="container mx-auto h-full bg-white md:max-w-md">
-        <PrizeInput />
         <QuestionList />
       </div>
     </main>
