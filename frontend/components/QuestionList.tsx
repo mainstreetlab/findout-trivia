@@ -20,20 +20,9 @@ import PrizeInput from "@/components/PrizeInput";
 
 import { z } from "zod";
 import { ZodError, fromZodError } from 'zod-validation-error';
+import { FormEvent } from "react";
 
-const FormSchema = z.object({
-  questionText: z.string().min(5).max(255),
-  choices: z
-    .array(
-      z.object({
-        value: z.string().min(3).max(65),
-        // isCorrect: z.boolean().optional(),
-      })
-    )
-    .length(4), // Validate choices length and value
-  answer: z.number().min(0).max(3),
-  // owner: z.string().uuid(), // Assuming owner ID is a stringified UUID
-});
+import { useToast } from "@/components/ui/use-toast"
 
 interface QuestionCardProps {
   questionIdx: number;
@@ -41,7 +30,7 @@ interface QuestionCardProps {
 }
 
 const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
-  const { questions, editQuestion, editChoice, isValidateQuestion,validateQuestion } = useQuizStore<QuizStore>(
+  const { questions, editQuestion, editChoice, isValidateQuestion,validateQuestion, validateChoice } = useQuizStore<QuizStore>(
     (state) => {
       return {
         prize: state.prize,
@@ -52,6 +41,8 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
         isValidateQuestion: state.isValidateQuestion,
         validateQuestion: state.validateQuestion,
         editChoice: state.editChoice,
+        validateChoice: state.validateChoice
+
       };
     }
   );
@@ -81,13 +72,26 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
     editChoice(idx, choiceIdx, newValue);
   };
 
-  const handleValidateChoice = ()=>{
-
+  const handleValidateChoice = async (idx:number) => {
+    const choicesSchema = z.array(
+      z.object({
+        value: z.string().min(3).max(65),
+        // isCorrect: z.boolean().optional(),
+      })
+    )
+    .length(4)
+    try {
+      await choicesSchema.parseAsync(questions[idx].choices)
+      validateChoice(idx, "")
+    } catch (error) {
+      const validationError = fromZodError(error as ZodError, {prefix:null});
+      validateChoice(idx, validationError.toString())
+    }
   }
 
   return (
-    <div className="flex flex-col justify-center items-start gap-6 my-6">
-      <div className="w-full px-2 flex flex-col gap-4">
+    <div className="flex flex-col justify-center items-start gap-4 my-10">
+      <div className="w-full px-0 flex flex-col gap-4">
         <div className="flex justify-between items-center">
           <Label
             htmlFor={`ques-${questionIdx + 1}`}
@@ -115,27 +119,31 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
             onBlur={(e) => {
               handleValidateQuestion(Number(e.target.id))}
             }
-            className="resize-none"
+            className={`resize-none ${!!isValidateQuestion[questionIdx].question && 'border border-red-600/70'}`}
           />
-          <p className="text-sm font-normal text-red-600 mt-1"> 
+          <p className="text-sm font-normal text-red-600 mt-1 "> 
             {isValidateQuestion[questionIdx].question}
           </p>
         </div>
       </div>
 
-      <ul className="w-full flex flex-col items-center justify-center gap-4 px-2">
+      <ul className={`w-full flex flex-col items-center justify-center gap-4 px-2.5 py-3 rounded-md ${'border border-red-600/70'}`}>
         {choices.map((choice, idx) => (
           <div className="w-full">
             <Input
               key={idx}
+              id={idx.toString()}
               boxsize="md"
               variant="clickable"
               placeholder={`${choice.letter}.`}
               value={choice.value}
+              className={`${idx === parseInt(answer) && "bg-red-500"}`}
               onChange={(e) =>
                 handleEditChoice(questionIdx, idx, e.target.value)
               }
-              className={`${idx === parseInt(answer) && "bg-red-500"}`}
+              onBlur={(e)=>
+                handleValidateChoice(questionIdx)
+              }
             />
           </div>
         ))}
@@ -145,9 +153,13 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
 };
 
 const QuestionList = () => {
-  const { questions } = useQuizStore((state) => {
+  const { toast } = useToast()
+  
+  const { questions, isValidatePrize, isValidateQuestion } = useQuizStore((state) => {
     return {
       questions: state.questions,
+      isValidatePrize: state.isValidatePrize,
+      isValidateQuestion: state.isValidateQuestion
       // addQuestion: state.addQuestion,
       // deleteQuestion: state.deleteQuestion,
     };
@@ -161,10 +173,36 @@ const QuestionList = () => {
   //   deleteQuestion(id);
   // };
 
+  const handleSubmit = (e:FormEvent) => {
+      e.preventDefault();
+
+      if (!isValidatePrize) {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "Incorrect prize amount.",
+          // action: <ToastAction altText="Try again">Try again</ToastAction>,
+        })
+        return;
+      }
+
+      if(!isValidateQuestion){
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "Invalid question.",
+          // action: <ToastAction altText="Try again">Try again</ToastAction>,
+        })
+        return;
+      }
+
+
+  }
 
   return (
     <div className="flex flex-col items-center justify-center gap-2 py-4">
-      <form className="w-full" >
+      <form className="w-full" onSubmit={handleSubmit}
+      >
         <PrizeInput />
         {questions?.map((_, idx) => {
           return (
@@ -175,10 +213,9 @@ const QuestionList = () => {
             />
           );
         })}
-        <Button type="submit" onClick={(e)=>{
-          e.preventDefault()
-          console.log(e)
-        }}>Submit</Button>
+        <div className="flex flex-col items-center justify-center mt-10 mb-6">
+          <Button type="submit" className="w-3/4 md:w-3/5 px-8">Submit</Button>
+        </div>
       </form>
 
       {/* Add another question */}

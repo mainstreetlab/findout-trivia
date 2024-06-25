@@ -22,7 +22,12 @@ const config = {
     },
     extend: {
       colors: {
-        primary: "#1c1c22",
+        primary: "#1c1c22",        
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))"
+        },
+        // destructive: "hsl(var(--destructive))",
+        "destructive-foreground": "hsl(var(--destructive-foreground))",
         accent: {
           DEFAULT: "rgb(124 58 237)",
           hover: "rgb(96 32 206)",

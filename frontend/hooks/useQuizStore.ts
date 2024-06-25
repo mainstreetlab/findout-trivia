@@ -17,6 +17,7 @@ export interface QuizStore {
   deleteQuestion: (id: number) => void;
   isValidateQuestion: {}[],
   validateQuestion: (idx:number, validate:string)=>void
+  validateChoice: (idx:number, validate:string)=>void
 
   // Choices editing
   editChoice: (idx: number, choiceIdx: number, newValue: string) => void;
@@ -253,6 +254,12 @@ const useQuizStore = create<QuizStore>()(
       set(
         produce((state) => {
           state.isValidateQuestion[idx].question = validate;
+        })
+      ),
+    validateChoice: (idx:number, validate:string) => 
+      set(
+        produce((state) => {
+          state.isValidateQuestion[idx].choices = validate;
         })
       ),
 

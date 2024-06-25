@@ -9,6 +9,8 @@ import Providers from "./providers";
 
 import type { Metadata } from "next";
 
+import { Toaster } from "@/components/ui/toaster"
+
 const quickSand = Quicksand({
   subsets: ["latin"],
   variable: "--font-quicksand",
@@ -27,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-<body className={quickSand.className}>
+      <body className={quickSand.className}>
         <Providers>
           <LoaderOverlay>
             <Header />
@@ -35,6 +37,7 @@ export default function RootLayout({
             <ScrollTop />
           </LoaderOverlay>
         </Providers>
+        <Toaster />
       </body>
     </html>
   );
