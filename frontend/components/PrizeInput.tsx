@@ -53,7 +53,7 @@ const PrizeInput = () => {
           }
           onKeyUp={validatePrize}
         />
-      <p className="text-sm font-normal text-red-600 mt-1">{!isValidatePrize && "Prize must be between $1 and $1000"}</p>
+      <p className="text-sm font-normal text-red-600 mt-1 select-none">{!isValidatePrize && "Prize must be between $1 and $1000"}</p>
       </div>
     </div>
   );

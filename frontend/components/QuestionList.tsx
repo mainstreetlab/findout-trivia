@@ -84,8 +84,8 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
       await choicesSchema.parseAsync(questions[idx].choices)
       validateChoice(idx, "")
     } catch (error) {
-      const validationError = fromZodError(error as ZodError, {prefix:null});
-      validateChoice(idx, validationError.toString())
+      // const validationError = fromZodError(error as ZodError, {prefix: null});
+      validateChoice(idx, "Please fill all four answers correctly.")
     }
   }
 
@@ -121,13 +121,13 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
             }
             className={`resize-none ${!!isValidateQuestion[questionIdx].question && 'border border-red-600/70'}`}
           />
-          <p className="text-sm font-normal text-red-600 mt-1 "> 
+          <p className="text-sm font-normal text-red-600 mt-1 select-none"> 
             {isValidateQuestion[questionIdx].question}
           </p>
         </div>
       </div>
 
-      <ul className={`w-full flex flex-col items-center justify-center gap-4 px-2.5 py-3 rounded-md ${'border border-red-600/70'}`}>
+      <ul className={`w-full flex flex-col items-center justify-center gap-4 px-2.5 py-3 rounded-md ${isValidateQuestion[questionIdx].choices && 'border border-red-600/70'}`}>
         {choices.map((choice, idx) => (
           <div className="w-full">
             <Input
@@ -147,6 +147,9 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
             />
           </div>
         ))}
+        <p className="text-sm font-normal text-red-600 -mt-1 select-none self-start"> 
+          {isValidateQuestion[questionIdx].choices}
+        </p>
       </ul>
     </div>
   );
