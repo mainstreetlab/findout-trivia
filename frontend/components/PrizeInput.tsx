@@ -16,16 +16,22 @@ const PrizeInput = () => {
     };
   });
 
-  const handleSetPrize = (strAmount: string) => {
+  const handleSetPrize = (strAmoun: string) => {
 
-   if (!strAmount.includes("e")) {
-    if (strAmount==="") {
-      setPrize(0)
-    }
-    else {
-      setPrize(parseInt(strAmount))
-    }
-    };
+  if (!strAmoun.includes("e")) {
+    setPrize(0)
+  }
+   const strAmount= Number(strAmoun)
+   setPrize(strAmount)
+   console.log(strAmount)
+  //  if (!strAmount.includes("e")) {
+  //   if (strAmount==="") {
+  //     setPrize(0)
+  //   }
+  //   else {
+  //     setPrize(parseInt(strAmount))
+  //   }
+  //   };
   };
 
   return (
@@ -46,14 +52,16 @@ const PrizeInput = () => {
       <div className="w-full my-2">
         <Input
           type="number"
+          autoComplete="off"
           placeholder="Enter prize amount..."
           value={prize === 0 ? "" : prize}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             handleSetPrize(e.target.value)
           }
-          onKeyUp={validatePrize}
+          onBlur={validatePrize}
+          onKeyDown={(e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()}
         />
-      <p className="text-sm font-normal text-red-600 mt-1 select-none">{!isValidatePrize && "Prize must be between $1 and $1000"}</p>
+      <p className="text-sm font-normal text-red-600 mt-1 select-none">{isValidatePrize === false && "Prize must be between $1 and $1000"}</p>
       </div>
     </div>
   );

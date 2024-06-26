@@ -137,6 +137,7 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
               variant="clickable"
               placeholder={`${choice.letter}.`}
               value={choice.value}
+              autoComplete="off"
               className={`${idx === parseInt(answer) && "bg-red-500"}`}
               onChange={(e) =>
                 handleEditChoice(questionIdx, idx, e.target.value)
