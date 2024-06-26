@@ -1,2 +1,0 @@
-//SignIn component will be embedded in app/create/page.jsx. It should import useLogin from privy react-auth and enable privy user authentication through a prompt.
-//import {base, baseSepolia} from 'viem/chains';
