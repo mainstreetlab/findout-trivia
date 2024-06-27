@@ -1,29 +1,31 @@
-import { ENTRYPOINT_ADDRESS_V06, UserOperation } from "permissionless";
+import { ENTRYPOINT_ADDRESS_V06, UserOperation } from 'permissionless';
 import {
   Address,
   BlockTag,
   Hex,
   decodeAbiParameters,
   decodeFunctionData,
-} from "viem";
-import { base, baseSepolia } from "viem/chains";
-import { baseClient, baseSepoliaClient } from "./config";
+} from 'viem';
+import { base, baseSepolia } from 'viem/chains';
+import { baseClient, baseSepoliaClient } from './config';
 import {
   coinbaseSmartWalletABI,
   coinbaseSmartWalletProxyBytecode,
   coinbaseSmartWalletV1Implementation,
   erc1967ProxyImplementationSlot,
   magicSpendAddress,
-} from "./constants";
-
-// Add the correct ABIs using the project's style guide 
-// import { myNFTABI, myNFTAddress } from "@/ABIs/myNFT";
+} from './constants';
+import { myNFTABI, myNFTAddress } from '@/abi/myNFT';
 
 export async function willSponsorBase({
   chainId,
   entrypoint,
   userOp,
-}: { chainId: number; entrypoint: string; userOp: UserOperation<"v0.6"> }) {
+}: {
+  chainId: number;
+  entrypoint: string;
+  userOp: UserOperation<'v0.6'>;
+}) {
   // check chain id
   if (chainId !== base.id) return false;
   // check entrypoint
@@ -41,11 +43,11 @@ export async function willSponsorBase({
       Parameters: [Address, Hex, BlockTag];
       ReturnType: Hex;
     }>({
-      method: "eth_getStorageAt",
-      params: [userOp.sender, erc1967ProxyImplementationSlot, "latest"],
+      method: 'eth_getStorageAt',
+      params: [userOp.sender, erc1967ProxyImplementationSlot, 'latest'],
     });
     const implementationAddress = decodeAbiParameters(
-      [{ type: "address" }],
+      [{ type: 'address' }],
       implementation,
     )[0];
     if (implementationAddress != coinbaseSmartWalletV1Implementation)
@@ -58,7 +60,7 @@ export async function willSponsorBase({
     });
 
     // keys.coinbase.com always uses executeBatch
-    if (calldata.functionName !== "executeBatch") return false;
+    if (calldata.functionName !== 'executeBatch') return false;
     if (!calldata.args || calldata.args.length == 0) return false;
 
     const calls = calldata.args[0] as {
@@ -87,7 +89,7 @@ export async function willSponsorBase({
       abi: myNFTABI,
       data: calls[callToCheckIndex].data,
     });
-    if (innerCalldata.functionName !== "safeMint") return false;
+    if (innerCalldata.functionName !== 'safeMint') return false;
 
     return true;
   } catch (e) {
@@ -100,7 +102,11 @@ export async function willSponsorBaseSepolia({
   chainId,
   entrypoint,
   userOp,
-}: { chainId: number; entrypoint: string; userOp: UserOperation<"v0.6"> }) {
+}: {
+  chainId: number;
+  entrypoint: string;
+  userOp: UserOperation<'v0.6'>;
+}) {
   // check chain id
   if (chainId !== baseSepolia.id) return false;
   // check entrypoint
@@ -110,7 +116,9 @@ export async function willSponsorBaseSepolia({
 
   try {
     // check the userOp.sender is a proxy with the expected bytecode
-    const code = await baseSepoliaClient.getBytecode({ address: userOp.sender });
+    const code = await baseSepoliaClient.getBytecode({
+      address: userOp.sender,
+    });
     if (code != coinbaseSmartWalletProxyBytecode) return false;
 
     // check that userOp.sender proxies to expected implementation
@@ -118,11 +126,11 @@ export async function willSponsorBaseSepolia({
       Parameters: [Address, Hex, BlockTag];
       ReturnType: Hex;
     }>({
-      method: "eth_getStorageAt",
-      params: [userOp.sender, erc1967ProxyImplementationSlot, "latest"],
+      method: 'eth_getStorageAt',
+      params: [userOp.sender, erc1967ProxyImplementationSlot, 'latest'],
     });
     const implementationAddress = decodeAbiParameters(
-      [{ type: "address" }],
+      [{ type: 'address' }],
       implementation,
     )[0];
     if (implementationAddress != coinbaseSmartWalletV1Implementation)
@@ -135,7 +143,7 @@ export async function willSponsorBaseSepolia({
     });
 
     // keys.coinbase.com always uses executeBatch
-    if (calldata.functionName !== "executeBatch") return false;
+    if (calldata.functionName !== 'executeBatch') return false;
     if (!calldata.args || calldata.args.length == 0) return false;
 
     const calls = calldata.args[0] as {
@@ -164,7 +172,7 @@ export async function willSponsorBaseSepolia({
       abi: myNFTABI,
       data: calls[callToCheckIndex].data,
     });
-    if (innerCalldata.functionName !== "safeMint") return false;
+    if (innerCalldata.functionName !== 'safeMint') return false;
 
     return true;
   } catch (e) {
