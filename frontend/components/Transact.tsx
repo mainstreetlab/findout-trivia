@@ -1,5 +1,5 @@
 import { useAccount } from "wagmi";
-import { myNFTABI, myNFTAddress } from "@/ABIs/myNFT";
+import { myNFTABI, myNFTAddress } from "@/abi/myNFT";
 import { TransactButton } from "./TransactButton";
 
 // example batch transaction, making two mint NFT calls

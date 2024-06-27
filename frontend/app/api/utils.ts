@@ -15,7 +15,7 @@ import {
   erc1967ProxyImplementationSlot,
   magicSpendAddress,
 } from "./constants";
-import { myNFTABI, myNFTAddress } from "@/ABIs/myNFT";
+import { myNFTABI, myNFTAddress } from "@/abi/myNFT";
 
 export async function willSponsorBase({
   chainId,
