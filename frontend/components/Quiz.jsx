@@ -48,7 +48,7 @@ const Quiz = () => {
     if (currentQuestion + 1 === quizData.length && submitted) {
       setComplete(true);
     }
-  }, [submitted, complete]);
+  }, [submitted, complete, currentQuestion]);
 
   const ProgressBar = () => {
     const progress = ((currentQuestion + 1) / quizData.length) * 100;

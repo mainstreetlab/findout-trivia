@@ -16,22 +16,10 @@ const PrizeInput = () => {
     };
   });
 
-  const handleSetPrize = (strAmoun: string) => {
+  const handleSetPrize = (strAmount: string) => {
+    const parsedAmt = Math.max(Number(strAmount), 0);
 
-  if (!strAmoun.includes("e")) {
-    setPrize(0)
-  }
-   const strAmount= Number(strAmoun)
-   setPrize(strAmount)
-   console.log(strAmount)
-  //  if (!strAmount.includes("e")) {
-  //   if (strAmount==="") {
-  //     setPrize(0)
-  //   }
-  //   else {
-  //     setPrize(parseInt(strAmount))
-  //   }
-  //   };
+    setPrize(parsedAmt);
   };
 
   return (

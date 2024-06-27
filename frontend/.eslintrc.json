@@ -12,5 +12,6 @@
         "ecmaVersion": 2020
       }
     }
-  ]
+  ],
+  "rules": { "react/no-unescaped-entities": 0 }
 }

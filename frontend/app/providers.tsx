@@ -1,4 +1,6 @@
 "use client";
+import { useState } from "react";
+
 import {base, baseSepolia} from "viem/chains"
 
 import { PrivyProvider } from "@privy-io/react-auth";
@@ -7,9 +9,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import {wagmiConfig} from "@/config"
 
-const queryClient = new QueryClient()
-
 const Providers = ({ children }: { children: React.ReactNode }) => {
+  const [queryClient] = useState(() => new QueryClient());
+
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>

@@ -7,23 +7,27 @@ export interface QuizStore {
   // Prize state
   prize: number;
   setPrize: (amount: number) => void;
-  isValidatePrize: boolean | null,
-  validatePrize: () => void;
+  isValidatePrize?: boolean | null;
+  validatePrize?: () => void;
 
   // Questions state
   questions: Question[];
   addQuestion: () => void;
   editQuestion: (idx: number, newValue: string) => void;
-  deleteQuestion: (id: number) => void;
-  isValidateQuestion: {}[],
-  validateQuestion: (idx:number, validate:string)=>void
-  validateChoice: (idx:number, validate:string)=>void
+  deleteQuestion?: (id: number) => void;
+  isValidateQuestion: {
+    question: string | null;
+    choices: string | null;
+    answer: number | null;
+  }[];
+  validateQuestion: (idx: number, validate: string) => void;
+  validateChoice: (idx: number, validate: string) => void;
 
   // Choices editing
   editChoice: (idx: number, choiceIdx: number, newValue: string) => void;
 }
 
-interface Question {
+export interface Question {
   id: number;
   questionText: string;
   choices: Choice[];

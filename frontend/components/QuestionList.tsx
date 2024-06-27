@@ -30,64 +30,69 @@ interface QuestionCardProps {
 }
 
 const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
-  const { questions, editQuestion, editChoice, isValidateQuestion,validateQuestion, validateChoice } = useQuizStore<QuizStore>(
-    (state) => {
-      return {
-        prize: state.prize,
-        setPrize: state.setPrize,
-        questions: state.questions,
-        addQuestion: state.addQuestion,
-        editQuestion: state.editQuestion,
-        isValidateQuestion: state.isValidateQuestion,
-        validateQuestion: state.validateQuestion,
-        editChoice: state.editChoice,
-        validateChoice: state.validateChoice
-
-      };
-    }
-  );
+  const {
+    questions,
+    editQuestion,
+    editChoice,
+    isValidateQuestion,
+    validateQuestion,
+    validateChoice,
+  } = useQuizStore<QuizStore>(state => {
+    return {
+      prize: state.prize,
+      setPrize: state.setPrize,
+      questions: state.questions,
+      addQuestion: state.addQuestion,
+      editQuestion: state.editQuestion,
+      isValidateQuestion: state.isValidateQuestion,
+      validateQuestion: state.validateQuestion,
+      editChoice: state.editChoice,
+      validateChoice: state.validateChoice,
+    };
+  });
 
   const { questionText, choices, answer } = questions[questionIdx];
 
-  const handleEditQuestion =  (idx: number, newValue: string) => {
+  const handleEditQuestion = (idx: number, newValue: string) => {
     editQuestion(idx, newValue);
   };
 
-  const handleValidateQuestion = async (idx:number)=>{
-    const questionSchema = z.string().min(5).max(255)
+  const handleValidateQuestion = async (idx: number) => {
+    const questionSchema = z.string().min(5).max(255);
     try {
-      await questionSchema.parseAsync(questions[idx].questionText)
-      validateQuestion(idx, "")
+      await questionSchema.parseAsync(questions[idx].questionText);
+      validateQuestion(idx, '');
     } catch (error) {
-      const validationError = fromZodError(error as ZodError, {prefix:null});
-      validateQuestion(idx, validationError.toString())
+      const validationError = fromZodError(error as ZodError, { prefix: null });
+      validateQuestion(idx, validationError.toString());
     }
-  }
+  };
 
   const handleEditChoice = (
     idx: number,
     choiceIdx: number,
-    newValue: string
+    newValue: string,
   ) => {
     editChoice(idx, choiceIdx, newValue);
   };
 
-  const handleValidateChoice = async (idx:number) => {
-    const choicesSchema = z.array(
-      z.object({
-        value: z.string().min(3).max(65),
-        // isCorrect: z.boolean().optional(),
-      })
-    )
-    .length(4)
+  const handleValidateChoice = async (idx: number) => {
+    const choicesSchema = z
+      .array(
+        z.object({
+          value: z.string().min(3).max(65),
+          // isCorrect: z.boolean().optional(),
+        }),
+      )
+      .length(4);
     try {
-      await choicesSchema.parseAsync(questions[idx].choices)
-      validateChoice(idx, "")
+      await choicesSchema.parseAsync(questions[idx].choices);
+      validateChoice(idx, '');
     } catch (error) {
       // const validationError = fromZodError(error as ZodError, {prefix: null});
-      validateChoice(idx, "Please fill all four answers correctly.")
+      validateChoice(idx, 'Please fill all four answers correctly.');
     }
-  }
+  };
 
   return (
     <div className="flex flex-col justify-center items-start gap-4 my-10">
@@ -113,23 +118,25 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
             placeholder="Type your question here..."
             id={questionIdx.toString()}
             value={questionText}
-            onChange={(e) => {
+            onChange={e => {
               handleEditQuestion(questionIdx, e.target.value);
             }}
-            onBlur={(e) => {
-              handleValidateQuestion(Number(e.target.id))}
-            }
+            onBlur={e => {
+              handleValidateQuestion(Number(e.target.id));
+            }}
             className={`resize-none ${!!isValidateQuestion[questionIdx].question && 'border border-red-600/70'}`}
           />
-          <p className="text-sm font-normal text-red-600 mt-1 select-none"> 
+          <p className="text-sm font-normal text-red-600 mt-1 select-none">
             {isValidateQuestion[questionIdx].question}
           </p>
         </div>
       </div>
 
-      <ul className={`w-full flex flex-col items-center justify-center gap-4 px-2.5 py-3 rounded-md ${isValidateQuestion[questionIdx].choices && 'border border-red-600/70'}`}>
+      <ul
+        className={`w-full flex flex-col items-center justify-center gap-4 px-2.5 py-3 rounded-md ${isValidateQuestion[questionIdx].choices && 'border border-red-600/70'}`}
+      >
         {choices.map((choice, idx) => (
-          <div className="w-full">
+          <li key={idx} className="w-full">
             <Input
               key={idx}
               id={idx.toString()}
@@ -138,17 +145,13 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
               placeholder={`${choice.letter}.`}
               value={choice.value}
               autoComplete="off"
-              className={`${idx === parseInt(answer) && "bg-red-500"}`}
-              onChange={(e) =>
-                handleEditChoice(questionIdx, idx, e.target.value)
-              }
-              onBlur={(e)=>
-                handleValidateChoice(questionIdx)
-              }
+              className={`${idx === parseInt(answer) && 'bg-red-500'}`}
+              onChange={e => handleEditChoice(questionIdx, idx, e.target.value)}
+              onBlur={e => handleValidateChoice(questionIdx)}
             />
-          </div>
+          </li>
         ))}
-        <p className="text-sm font-normal text-red-600 -mt-1 select-none self-start"> 
+        <p className="text-sm font-normal text-red-600 -mt-1 select-none self-start">
           {isValidateQuestion[questionIdx].choices}
         </p>
       </ul>
@@ -157,17 +160,19 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
 };
 
 const QuestionList = () => {
-  const { toast } = useToast()
-  
-  const { questions, isValidatePrize, isValidateQuestion } = useQuizStore((state) => {
-    return {
-      questions: state.questions,
-      isValidatePrize: state.isValidatePrize,
-      isValidateQuestion: state.isValidateQuestion
-      // addQuestion: state.addQuestion,
-      // deleteQuestion: state.deleteQuestion,
-    };
-  });
+  const { toast } = useToast();
+
+  const { questions, isValidatePrize, isValidateQuestion } = useQuizStore(
+    state => {
+      return {
+        questions: state.questions,
+        isValidatePrize: state.isValidatePrize,
+        isValidateQuestion: state.isValidateQuestion,
+        // addQuestion: state.addQuestion,
+        // deleteQuestion: state.deleteQuestion,
+      };
+    },
+  );
 
   // const handleAddQuestion = () => {
   //   if (questions.length < 5) addQuestion();
@@ -177,36 +182,33 @@ const QuestionList = () => {
   //   deleteQuestion(id);
   // };
 
-  const handleSubmit = (e:FormEvent) => {
-      e.preventDefault();
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
 
-      if (!isValidatePrize) {
-        toast({
-          variant: "destructive",
-          title: "Uh oh! Something went wrong.",
-          description: "Incorrect prize amount.",
-          // action: <ToastAction altText="Try again">Try again</ToastAction>,
-        })
-        return;
-      }
+    if (!isValidatePrize) {
+      toast({
+        variant: 'destructive',
+        title: 'Uh oh! Something went wrong.',
+        description: 'Incorrect prize amount.',
+        // action: <ToastAction altText="Try again">Try again</ToastAction>,
+      });
+      return;
+    }
 
-      if(!isValidateQuestion){
-        toast({
-          variant: "destructive",
-          title: "Uh oh! Something went wrong.",
-          description: "Invalid question.",
-          // action: <ToastAction altText="Try again">Try again</ToastAction>,
-        })
-        return;
-      }
-
-
-  }
+    if (!isValidateQuestion) {
+      toast({
+        variant: 'destructive',
+        title: 'Uh oh! Something went wrong.',
+        description: 'Some questions have not been filled properly.',
+        // action: <ToastAction altText="Try again">Try again</ToastAction>,
+      });
+      return;
+    }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center gap-2 py-4">
-      <form className="w-full" onSubmit={handleSubmit}
-      >
+      <form className="w-full" onSubmit={handleSubmit}>
         <PrizeInput />
         {questions?.map((_, idx) => {
           return (
@@ -218,7 +220,9 @@ const QuestionList = () => {
           );
         })}
         <div className="flex flex-col items-center justify-center mt-10 mb-6">
-          <Button type="submit" className="w-3/4 md:w-3/5 px-8">Submit</Button>
+          <Button type="submit" className="w-3/4 md:w-3/5 px-8">
+            Submit
+          </Button>
         </div>
       </form>
 

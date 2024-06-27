@@ -32,7 +32,7 @@ const CustomSlider = (props: CustomSliderProps) => {
       mappedArray.push((valueMapping as { [key: number]: number })[i] || 0); // Handle potential missing values
     }
     return mappedArray;
-  }, [props.max, valueMapping]);
+  }, [props.max]);
 
   return (
     <SliderPrimitive.Root
