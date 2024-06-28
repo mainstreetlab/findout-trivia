@@ -1,64 +1,49 @@
-# Solidity template
+# Findout Trivia
 
-This is a template for GitHub repos with Solidity smart contracts using Forge and Hardhat. This template was made by the Mainstreet Labs team and adopted from the LooksRare team for Solidity-based repos. Feel free to use or get inspired to build your own templates!
+Findout is a playground for crypto enthusiasts to interact with friends and have fun with crypto. This MVP build version of the app features a quiz game creator with an embedded wallet for every user. And this allows them to assign prizes for whoever wins their created trivia! Other interactive features will come in the future as we are scaling Findout into a social app..
 
-## Getting Started
 
-Set an dotenv file with:
+## Play our fun game with your friend group
+https://wwww...
 
-```
-FOUNDRY_INVARIANT_FAIL_ON_REVERT=true
-```
 
-then
+## How to play
+ #### Step 1
+ #### Step 2
+ #### Step 3
+ #### Step 4
+ #### Step 5
 
-```
-pnpm install --ignore-scripts
-forge install foundry-rs/forge-std
-forge install dapphub/ds-test
-forge install gelatodigital/vrf-contracts
-FOUNDRY_PROFILE=local forge test
-```
 
-## About this repo
+## Onchain Summer Buildathon 2024
+Findout Trivia is a 2024 Onchain Summer Buildathon project. It is currently in development by the Mainstreet Labs Team. This app enables the mainstream adoption of the onchain economy by providing crypto enthusiasts with a social environment to have fun, easily onboard friends and progressively use crypto. Here are the details of the MVP:
 
-### Structure
+### Demo
+Here is a link to the app demo video we made for you:
+https://www...
 
-It is a hybrid [Hardhat-Viem](https://hardhat.org/) repo that also requires [Foundry](https://book.getfoundry.sh/index.html) to run Solidity tests powered by the [ds-test library](https://github.com/dapphub/ds-test/).
+### Deployed Trivia Contract
+Here is our deployed trivia contracts on the base mainnet and base sepolia testnet networks. 
+> 
+|      <b><u>Network</u></b>      | <b><u>Contract Address</u></b> |
+| :------------------------------ | :------------------------------- |
+| **`Base Mainnet`**              | https://www...      |
+| **`Base Sepolia Testnet`**      | https://www...            |
 
-> To install Foundry, please follow the instructions [here](https://book.getfoundry.sh/getting-started/installation.html).
+Base Mainnet:
+Base Sepolia Testnet:
 
-### Run tests
+### Onchain Summer Submission Link
+Here is our buildathon submission link: https://www.
 
-- TypeScript tests are included in the `typescript` folder in the `test` folder at the root of the repo.
-- Solidity tests are included in the `foundry` folder in the `test` folder at the root of the repo.
 
-### Example of Foundry/Forge commands
+## Join Us
+### Our beta-testing waitlist 
+If you are interested in getting an early access spot for our new releases. Fill out this short form: https://www...
 
-```shell
-forge build
-forge test
-forge test -vv
-forge tree
-```
-
-### Example of Hardhat commands
-
-```shell
-pnpx hardhat accounts
-pnpx hardhat compile
-pnpx hardhat clean
-pnpx hardhat test
-pnpx hardhat node
-pnpx hardhat help
-REPORT_GAS=true pnpx hardhat test
-pnpx hardhat coverage
-pnpx hardhat run scripts/deploy.ts
-TS_NODE_FILES=true pnpx ts-node scripts/deploy.ts
-pnpx eslint '**/*.{js,ts}'
-pnpx eslint '**/*.{js,ts}' --fix
-pnpx prettier '**/*.{json,sol,md}' --check
-pnpx prettier '**/*.{json,sol,md}' --write
-pnpx solhint 'contracts/**/*.sol'
-pnpx solhint 'contracts/**/*.sol' --fix
-```
+### Our community
+Get along with us and gain access to first-hand information by joining our community!
+Discord: https://www.
+Telegram: https://www.
+X(formerly Twitter): https://www.x.com/
+Github: https://www.github.com/mainstreetlab
