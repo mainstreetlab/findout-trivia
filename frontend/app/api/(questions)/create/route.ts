@@ -46,10 +46,10 @@ export const POST = async (req: Request) => {
 
     return NextResponse.json(
       {
-        message: "Question created successfully!",
-        question: newTrivia,
+        message: 'Question created successfully!',
+        data: newTrivia,
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     console.error("Error:", error);

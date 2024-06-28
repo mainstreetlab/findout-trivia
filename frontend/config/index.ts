@@ -21,6 +21,6 @@ export const wagmiConfig = createConfig({
 
 declare module "wagmi" {
   interface Register {
-    wagmiConfig: typeof config;
+    wagmiConfig: typeof wagmiConfig;
   }
 }

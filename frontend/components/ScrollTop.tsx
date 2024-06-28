@@ -8,7 +8,7 @@ const ScrollTop = () => {
 
   React.useEffect(() => {
     const scrollHandler = () => {
-      window.scrollY > 20 ? setShowTopBtn(true) : setShowTopBtn(false);
+      window.scrollY > 25 ? setShowTopBtn(true) : setShowTopBtn(false);
     };
     window.addEventListener("scroll", scrollHandler);
     return () => window.removeEventListener("scroll", scrollHandler);
@@ -27,7 +27,7 @@ const ScrollTop = () => {
       <Button
         onClick={handleScrollTop}
         asChild
-        className="fixed bottom-12 right-8 p-1 w-12 h-12 bg-accent rounded-full text-white hover:bg-accent-hover"
+        className="fixed bottom-20 right-8 p-1 w-12 h-12 bg-accent rounded-full text-white hover:bg-accent-hover"
       >
         <CgChevronUp />
       </Button>

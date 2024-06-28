@@ -25,13 +25,16 @@ export interface QuizStore {
 
   // Choices editing
   editChoice: (idx: number, choiceIdx: number, newValue: string) => void;
+
+  // Answer setting
+  editAnswer: (idx: number, choiceIdx: number) => void;
 }
 
 export interface Question {
   id: number;
   questionText: string;
   choices: Choice[];
-  answer: string;
+  answer: number | null;
 }
 
 interface Choice {
@@ -40,30 +43,30 @@ interface Choice {
 }
 const initialState = {
   questions: [
-      {
-        id: 0,
-        questionText: "",
-        choices: [
-          {
-            letter: "A",
-            value: "",
-          },
-          {
-            letter: "B",
-            value: "",
-          },
-          {
-            letter: "C",
-            value: "",
-          },
-          {
-            letter: "D",
-            value: "",
-          },
-        ],
-        answer: "",
-      },
-    ],
+    {
+      id: 0,
+      questionText: '',
+      choices: [
+        {
+          letter: 'A',
+          value: '',
+        },
+        {
+          letter: 'B',
+          value: '',
+        },
+        {
+          letter: 'C',
+          value: '',
+        },
+        {
+          letter: 'D',
+          value: '',
+        },
+      ],
+      answer: '',
+    },
+  ],
 };
 
 const useQuizStore = create<QuizStore>()(
@@ -113,7 +116,7 @@ const useQuizStore = create<QuizStore>()(
             value: '',
           },
         ],
-        answer: '',
+        answer: null,
       },
       {
         id: 1,
@@ -136,7 +139,7 @@ const useQuizStore = create<QuizStore>()(
             value: '',
           },
         ],
-        answer: '',
+        answer: null,
       },
       {
         id: 2,
@@ -159,7 +162,7 @@ const useQuizStore = create<QuizStore>()(
             value: '',
           },
         ],
-        answer: '',
+        answer: null,
       },
       {
         id: 3,
@@ -182,7 +185,7 @@ const useQuizStore = create<QuizStore>()(
             value: '',
           },
         ],
-        answer: '',
+        answer: null,
       },
       {
         id: 4,
@@ -205,7 +208,7 @@ const useQuizStore = create<QuizStore>()(
             value: '',
           },
         ],
-        answer: '',
+        answer: null,
       },
     ],
     addQuestion: () =>
@@ -274,6 +277,14 @@ const useQuizStore = create<QuizStore>()(
       set(
         produce(state => {
           state.questions[idx].choices[choiceIdx].value = newValue;
+        }),
+      ),
+    // set answer
+    editAnswer: (idx: number, choiceIdx: number) =>
+      set(
+        produce(state => {
+          state.questions[idx].answer = choiceIdx;
+          state.isValidateQuestion[idx].answer = choiceIdx;
         }),
       ),
   })),
