@@ -3,27 +3,28 @@
 import { CgMathPlus } from "react-icons/cg";
 import { MdOutlineClear } from "react-icons/md";
 
-import { Textarea } from "./ui/textarea";
-import { Button } from "./ui/button";
-import { Label } from "./ui/label";
+import { Textarea } from './ui/textarea';
+import { Button } from './ui/button';
+import { Label } from './ui/label';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Input } from "./ui/input";
+} from '@/components/ui/tooltip';
+import { Input } from './ui/input';
 
-import useQuizStore, { QuizStore } from "@/hooks/useQuizStore";
+import useQuizStore, { QuizStore } from '@/hooks/useQuizStore';
 
-import PrizeInput from "@/components/PrizeInput";
+import PrizeInput from '@/components/PrizeInput';
 
-import { z } from "zod";
+import { z } from 'zod';
 import { ZodError, fromZodError } from 'zod-validation-error';
-import { FormEvent } from "react";
+import { FormEvent } from 'react';
 
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from '@/components/ui/use-toast';
 import checkValidationErrors from '@/utils/checkValidationErrors';
+import CreateButton from './CreateButton';
 
 interface QuestionCardProps {
   questionIdx: number;
@@ -237,7 +238,20 @@ const QuestionList = () => {
       };
 
       const res = await fetch('/api/create', fetchData);
+
+      if (!res.ok) {
+        toast({
+          variant: 'destructive',
+          title: 'Internal Server Error',
+          description: 'Could not create trivia. Try again.',
+        });
+      }
       const data = await res.json();
+      toast({
+        variant: 'default',
+        title: 'Success',
+        description: data.message,
+      });
     }
   };
 
@@ -255,9 +269,7 @@ const QuestionList = () => {
           );
         })}
         <div className="flex flex-col items-center justify-center mt-10 mb-6">
-          <Button type="submit" className="w-3/4 md:w-3/5 px-8">
-            Submit
-          </Button>
+          <CreateButton />
         </div>
       </form>
 
