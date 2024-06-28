@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { usePrivy } from "@privy-io/react-auth";
+import { usePrivy } from "@privy-io/react-auth"; 
 import { CgSpinnerAlt } from "react-icons/cg";
 
 interface LoaderProps  { 
