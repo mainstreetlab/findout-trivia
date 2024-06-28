@@ -3,12 +3,12 @@ pragma solidity 0.8.24;
 
 import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
 
-// Scripting tool
-import {Script} from "forge-std/Script.sol";
-import {console2} from "forge-std/console2.sol";
-import {stdJson} from "forge-std/StdJson.sol";
+// Scripting tools
+import {Script} from "../lib/forge-std/src/Script.sol";
+import {console2} from "../lib/forge-std/src/console2.sol";
+import {stdJson} from "../lib/forge-std/src/StdJson.sol";
 
-contract Deployment is Script {
+contract Deployment is Script{
     using stdJson for string;
 
     function run() external {
