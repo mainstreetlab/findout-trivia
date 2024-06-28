@@ -8,7 +8,7 @@ const ScrollTop = () => {
 
   React.useEffect(() => {
     const scrollHandler = () => {
-      window.scrollY > 20 ? setShowTopBtn(true) : setShowTopBtn(false);
+      window.scrollY > 25 ? setShowTopBtn(true) : setShowTopBtn(false);
     };
     window.addEventListener("scroll", scrollHandler);
     return () => window.removeEventListener("scroll", scrollHandler);
