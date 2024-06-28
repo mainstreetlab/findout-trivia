@@ -23,6 +23,7 @@ import { ZodError, fromZodError } from 'zod-validation-error';
 import { FormEvent } from "react";
 
 import { useToast } from "@/components/ui/use-toast"
+import checkValidationErrors from '@/utils/checkValidationErrors';
 
 interface QuestionCardProps {
   questionIdx: number;
@@ -69,11 +70,11 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
   };
 
   const handleEditChoice = (
-    idx: number,
+    questionIdx: number,
     choiceIdx: number,
     newValue: string,
   ) => {
-    editChoice(idx, choiceIdx, newValue);
+    editChoice(questionIdx, choiceIdx, newValue);
   };
 
   const handleValidateChoice = async (idx: number) => {
@@ -90,7 +91,18 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
       validateChoice(idx, '');
     } catch (error) {
       // const validationError = fromZodError(error as ZodError, {prefix: null});
-      validateChoice(idx, 'Please fill all four answers correctly.');
+      validateChoice(idx, 'Please fill all four choices correctly.');
+    }
+  };
+
+  const handleSelectAnswer = async (questionIdx: number, choiceIdx: number) => {
+    const answerSchema = z.number().min(0).max(3);
+    try {
+      await answerSchema.parseAsync(choiceIdx);
+      validateChoice(questionIdx, '');
+    } catch (error) {
+      // const validationError = fromZodError(error as ZodError, {prefix: null});
+      validateChoice(questionIdx, 'Invalid answer provided.');
     }
   };
 
@@ -148,6 +160,7 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
               className={`${idx === parseInt(answer) && 'bg-red-500'}`}
               onChange={e => handleEditChoice(questionIdx, idx, e.target.value)}
               onBlur={e => handleValidateChoice(questionIdx)}
+              onClick={e => handleSelectAnswer(questionIdx, idx)}
             />
           </li>
         ))}
@@ -185,24 +198,40 @@ const QuestionList = () => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    if (!isValidatePrize) {
-      toast({
-        variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'Incorrect prize amount.',
-        // action: <ToastAction altText="Try again">Try again</ToastAction>,
-      });
-      return;
-    }
+    // if (!isValidatePrize) {
+    //   toast({
+    //     variant: 'destructive',
+    //     title: 'Uh oh! Something went wrong.',
+    //     description: 'Incorrect prize amount.',
+    //     // action: <ToastAction altText="Try again">Try again</ToastAction>,
+    //   });
+    //   return;
+    // }
 
-    if (!isValidateQuestion) {
-      toast({
-        variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'Some questions have not been filled properly.',
-        // action: <ToastAction altText="Try again">Try again</ToastAction>,
+    // if (!isValidateQuestion) {
+    //   toast({
+    //     variant: 'destructive',
+    //     title: 'Uh oh! Something went wrong.',
+    //     description: 'Some questions have not been filled properly.',
+    //     // action: <ToastAction altText="Try again">Try again</ToastAction>,
+    //   });
+    //   return;
+    // }
+
+    const validationErrors = checkValidationErrors(isValidateQuestion);
+
+    if (validationErrors.length > 0) {
+      validationErrors.forEach(error => {
+        console.error(`Question ${error.index + 1} Errors:`);
+        console.error(error.error);
+        toast({
+          variant: 'destructive',
+          title: 'Uh oh! Something went wrong with your submission.',
+          description: `Error ${error.index}: ${JSON.stringify(error.error, null, '\t')}`,
+        });
       });
-      return;
+    } else {
+      console.log(questions);
     }
   };
 

@@ -42,14 +42,18 @@ const PrizeInput = () => {
           type="number"
           autoComplete="off"
           placeholder="Enter prize amount..."
-          value={prize === 0 ? "" : prize}
+          value={prize === 0 ? '' : prize}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             handleSetPrize(e.target.value)
           }
           onBlur={validatePrize}
-          onKeyDown={(e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()}
+          onKeyDown={e =>
+            ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()
+          }
         />
-      <p className="text-sm font-normal text-red-600 mt-1 select-none">{isValidatePrize === false && "Prize must be between $1 and $1000"}</p>
+        <p className="text-sm font-normal text-red-600 mt-1 select-none">
+          {isValidatePrize === false && 'Prize must be between $2 and $1000'}
+        </p>
       </div>
     </div>
   );

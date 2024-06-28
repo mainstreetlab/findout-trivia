@@ -19,9 +19,9 @@ const baseSepoliaPaymasterService = process.env.NEXT_PUBLIC_CDP_BASESEPOLIA_PAYM
 export const basePaymasterClient = createClient({
   chain: base,
   transport: http(basePaymasterService),
-}).extend(paymasterActionsEip7677({ entryPoint: ENTRYPOINT_ADDRESS_V06 }));
+}).extend(paymasterActionsEip7677(ENTRYPOINT_ADDRESS_V06));
 
 export const baseSepoliaPaymasterClient = createClient({
   chain: baseSepolia,
   transport: http(baseSepoliaPaymasterService),
-}).extend(paymasterActionsEip7677({ entryPoint: ENTRYPOINT_ADDRESS_V06 }));
+}).extend(paymasterActionsEip7677(ENTRYPOINT_ADDRESS_V06));
