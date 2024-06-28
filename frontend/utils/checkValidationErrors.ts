@@ -1,5 +1,11 @@
 import { QuizStore } from '@/hooks/useQuizStore';
 
+interface Error {
+  question?: string | null;
+  choices?: string | null;
+  answer?: string | null;
+}
+
 export default function checkValidationErrors(
   isValidateQuestion: QuizStore['isValidateQuestion'],
 ) {
@@ -7,17 +13,17 @@ export default function checkValidationErrors(
 
   for (let i = 0; i < isValidateQuestion.length; i++) {
     const question = isValidateQuestion[i];
-    const error: { question: string; choices: string; answer: string } = {
-      question: '',
-      choices: '',
-      answer: '',
+    const error: Error = {
+      // question: null,
+      // choices: null,
+      // answer: null,
     }; // Object to store individual question errors
 
-    if (!question.question) {
+    if (question.question) {
       error.question = 'Question text required';
     }
 
-    if (!question.choices) {
+    if (question.choices) {
       error.choices = 'Please fill all 4 choices correctly';
     }
 

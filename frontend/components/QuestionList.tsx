@@ -38,6 +38,7 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
     isValidateQuestion,
     validateQuestion,
     validateChoice,
+    editAnswer,
   } = useQuizStore<QuizStore>(state => {
     return {
       prize: state.prize,
@@ -49,6 +50,7 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
       validateQuestion: state.validateQuestion,
       editChoice: state.editChoice,
       validateChoice: state.validateChoice,
+      editAnswer: state.editAnswer,
     };
   });
 
@@ -99,10 +101,10 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
     const answerSchema = z.number().min(0).max(3);
     try {
       await answerSchema.parseAsync(choiceIdx);
-      validateChoice(questionIdx, '');
+      editAnswer(questionIdx, choiceIdx);
     } catch (error) {
       // const validationError = fromZodError(error as ZodError, {prefix: null});
-      validateChoice(questionIdx, 'Invalid answer provided.');
+      editAnswer(questionIdx, 0);
     }
   };
 
@@ -147,7 +149,10 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
       <ul
         className={`w-full flex flex-col items-center justify-center gap-4 px-2.5 py-3 rounded-md ${isValidateQuestion[questionIdx].choices && 'border border-red-600/70'}`}
       >
-        {choices.map((choice, idx) => (
+        <p className="text-md font-normal text-green-600 -mb-2 select-none self-start">
+          {answer !== null && `Selected answer is ${choices[answer].letter}`}
+        </p>
+        {choices.map((choice, idx: number) => (
           <li key={idx} className="w-full">
             <Input
               key={idx}
@@ -157,7 +162,7 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
               placeholder={`${choice.letter}.`}
               value={choice.value}
               autoComplete="off"
-              className={`${idx === parseInt(answer) && 'bg-red-500'}`}
+              className={`${typeof answer !== 'undefined' && idx === answer && 'bg-green-500 border border-green-500 text-white placeholder:text-white focus-visible:border-accent transition-all duration-700'}`}
               onChange={e => handleEditChoice(questionIdx, idx, e.target.value)}
               onBlur={e => handleValidateChoice(questionIdx)}
               onClick={e => handleSelectAnswer(questionIdx, idx)}
@@ -195,7 +200,7 @@ const QuestionList = () => {
   //   deleteQuestion(id);
   // };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     // if (!isValidatePrize) {
@@ -208,17 +213,9 @@ const QuestionList = () => {
     //   return;
     // }
 
-    // if (!isValidateQuestion) {
-    //   toast({
-    //     variant: 'destructive',
-    //     title: 'Uh oh! Something went wrong.',
-    //     description: 'Some questions have not been filled properly.',
-    //     // action: <ToastAction altText="Try again">Try again</ToastAction>,
-    //   });
-    //   return;
-    // }
-
     const validationErrors = checkValidationErrors(isValidateQuestion);
+
+    // console.log('isval', isValidateQuestion);
 
     if (validationErrors.length > 0) {
       validationErrors.forEach(error => {
@@ -231,7 +228,16 @@ const QuestionList = () => {
         });
       });
     } else {
-      console.log(questions);
+      let fetchData = {
+        method: 'POST',
+        body: JSON.stringify({ questions: questions }),
+        headers: new Headers({
+          'Content-Type': 'application/json; charset=UTF-8',
+        }),
+      };
+
+      const res = await fetch('/api/create', fetchData);
+      const data = await res.json();
     }
   };
 
