@@ -6,8 +6,8 @@ import { usePrivyWagmi } from "@privy-io/wagmi-connector"
 import { usePrivy, useWallets } from '@privy-io/react-auth';
 import { useCapabilities } from "wagmi/experimental";
 import { Button } from './ui/button';
-import { useTransact } from "./TransactOnchain";
-import { QuizliteABI } from "@/abi/QuizliteABI";
+import { useTransact } from "./SendTransaction";
+import { QuizliteABI, QuizliteAddress } from "@/abi/Quizlite";
 
 const CreateButton = () => {
   const { authenticated, login, user } = usePrivy();
@@ -28,7 +28,7 @@ const CreateButton = () => {
 
   useEffect(() => setActiveWallet(smartWallet), [smartWallet]);
 
-  //const account = useAccount();
+  const account = useAccount();
   const { data: availableCapabilities } = useCapabilities({
     account: smartWallet.address,
   });
@@ -50,7 +50,7 @@ const CreateButton = () => {
   }, [availableCapabilities, smartWallet.chainId]);
 
   const { callContract, status, displayText} = useTransact({
-    text: "Create Trivia"
+    text: "Create Trivia",
     contracts={[
       {
         address: QuizliteAddress,
@@ -65,14 +65,14 @@ const CreateButton = () => {
   return (
     <>
       {authenticated || user ? (
-            <Button type="submit" className="w-3/4 md:w-3/5 px-8" onClick={callContract} disabled={status == "pending"} >
-            {displayText}
-            </Button>
-          ) : (
-            <Button type='button' className="w-3/4 md:w-3/5 px-8" onClick={login}>
-              Login
-            </Button>
-          )}
+        <Button type="submit" className="w-3/4 md:w-3/5 px-8" onClick={callContract} disabled={status == "pending"}>
+          {displayText}
+        </Button>
+        ) : (
+        <Button type='button' className="w-3/4 md:w-3/5 px-8" onClick={login}>
+            Login
+        </Button>
+        )}
     </>
   )
 }
