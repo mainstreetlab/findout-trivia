@@ -1,8 +1,8 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
-import { useAccount, useWalletClient } from "wagmi"
-import { usePrivyWagmi } from "@privy-io/wagmi-connector"
+import { useEffect, useMemo, useState } from "react";
+import { useAccount, useWalletClient } from "wagmi";
+import { usePrivyWagmi } from "@privy-io/wagmi-connector";
 import { usePrivy, useWallets } from '@privy-io/react-auth';
 import { useCapabilities } from "wagmi/experimental";
 import { Button } from './ui/button';
@@ -10,16 +10,11 @@ import { useTransact } from "./SendTransaction";
 import { QuizliteABI, QuizliteAddress } from "@/abi/Quizlite";
 
 const CreateButton = () => {
-  const { authenticated, login, user } = usePrivy();
+  const { authenticated, login, user, connectWallet } = usePrivy();
   const { ready, wallets } = useWallets();
   const { data: walletClient } = useWalletClient();
   const { setActiveWallet } = usePrivyWagmi();
   const wallet = wallets[0];
-  
-  const embeddedWallet = useMemo(
-      () => wallets.find((wallet) => wallet.walletClientType === "privy"),
-      [wallets]
-  );
 
   const smartWallet = useMemo(
     () => wallets.find((wallet) => wallet.walletClientType === "coinbase_wallet"),
@@ -28,9 +23,10 @@ const CreateButton = () => {
 
   useEffect(() => setActiveWallet(smartWallet), [smartWallet]);
 
-  const account = useAccount();
+  //const wallaccount = useAccount();
+  //const wallet = wallets[0].address;
   const { data: availableCapabilities } = useCapabilities({
-    account: smartWallet.address,
+    account: wallet.address,
   });
   const capabilities = useMemo(() => {
     if (!availableCapabilities || !smartWallet.chainId) return;
@@ -58,18 +54,19 @@ const CreateButton = () => {
         functionName: "create",
         args: [account.address] [{ name: "answers", type: "uint256[5]", internalType: "uint256[5]" }],
       },
-    ]}
+    ]},
     capabilities={capabilities}
   });
 
   return (
     <>
       {authenticated || user ? (
-        <Button type="submit" className="w-3/4 md:w-3/5 px-8" onClick={callContract} disabled={status == "pending"}>
+        <Button type="submit" className="w-3/4 md:w-3/5 px-8" onClick={
+        () => {connectWallet, callContract}} disabled={status == "pending"}>
           {displayText}
         </Button>
         ) : (
-        <Button type='button' className="w-3/4 md:w-3/5 px-8" onClick={login}>
+        <Button type='button' className="w-3/4 md:w-3/5 px-8" onClick={login () => { wallets[0].loginOrLink() }}>
             Login
         </Button>
         )}

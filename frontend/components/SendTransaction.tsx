@@ -57,7 +57,7 @@ export function useTransact<
 
   return (
     <>
-      {call}
+      {call=() => writeContracts(rest)};
       {status}
       {displayText}
       {!id && error && <p>error: {error}</p>}
