@@ -49,7 +49,7 @@ const Submit = () => {
             ]}
             capabilities={capabilities}
       />
-      {stat, displayText}
+      {stat; displayText}
     </>
   )
 }
@@ -74,12 +74,11 @@ const CreateButton = () => {
   return (
     <>
       {authenticated || user ? (
-        <Button type="submit" className="w-3/4 md:w-3/5 px-8" onClick={() => {connectWallet, Submit()}}>  
-
-        Submit
+        <Button type="submit" className="w-3/4 md:w-3/5 px-8" onClick={() => {connectWallet; {(stat; displayedText) = Submit()}}} disabled={stat == "pending"}>  
+          Submit
         </Button>
         ) : (
-        <Button type='button' className="w-3/4 md:w-3/5 px-8" onClick={login () => { wallets[0].loginOrLink() }}>
+        <Button type='button' className="w-3/4 md:w-3/5 px-8" onClick={() => {login; wallets[0].loginOrLink()}}>
             Login
         </Button>
         )}
