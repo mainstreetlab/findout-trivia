@@ -17,7 +17,7 @@ export type TransactButtonProps<
   mutation?: UseSendCallsParameters<config, context>["mutation"];
 } & { text: string };
 
-export function useTransact<
+export function Transact<
   config extends Config = ResolvedRegister["config"],
   context = unknown,
 >({ mutation, text, ...rest }: TransactButtonProps<config, context>) {
@@ -53,11 +53,11 @@ export function useTransact<
     return text;
   }, [status, error]);
 
-  const call = () => writeContracts(rest);
+  //const call = () => writeContracts(rest);
 
   return (
     <>
-      {call=() => writeContracts(rest)};
+      {() => writeContracts(rest)};
       {status}
       {displayText}
       {!id && error && <p>error: {error}</p>}
