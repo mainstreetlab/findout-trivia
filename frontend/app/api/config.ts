@@ -13,8 +13,8 @@ export const baseSepoliaClient = createPublicClient({
   transport: http(),
 });
 
-const basePaymasterService = process.env.NEXT_PUBLIC_CDP_BASE_PAYMASTER_RPC_HOST!;
-const baseSepoliaPaymasterService = process.env.NEXT_PUBLIC_CDP_BASESEPOLIA_PAYMASTER_RPC_HOST!;
+const basePaymasterService = process.env.CDP_BASE_PAYMASTER_RPC_HOST!;
+const baseSepoliaPaymasterService = process.env.CDP_BASESEPOLIA_PAYMASTER_RPC_HOST!;
 
 export const basePaymasterClient = createClient({
   chain: base,
