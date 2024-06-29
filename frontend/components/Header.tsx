@@ -22,7 +22,7 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 py-8 xl:py-12 bg-white text-primary  z-50 transition-shadow duration-400 ${top ? "border-b border-accent/15" : `shadow-md`}`}
+      className={`fixed top-0 left-0 right-0 py-8 xl:py-12 bg-white text-primary z-10 transition-shadow duration-400 ${top ? "border-b border-accent/15" : "shadow-md"}`}
     >
       {pathName.includes("/create") ? (
         <div
