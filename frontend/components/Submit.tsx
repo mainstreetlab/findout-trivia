@@ -1,10 +1,10 @@
 "use client"
 
 import { useMemo} from "react";
-import { useAccount } from "wagmi";
-import {base, baseSepolia} from "viem/chains";
+import { useAccount } from "@privy-io/wagmi";
+import { base, baseSepolia} from "viem/chains";
 import { useCapabilities } from "wagmi/experimental";
-import { Transact } from "./SendTransaction";
+import { TransactButton } from "./SendTransaction";
 import { QuizliteABI, QuizliteAddress } from '@/abi/Quizlite';
 
 //TO DO:
@@ -50,7 +50,7 @@ const Submit = () => {
   
   return (
     <>
-      <Transact
+      <TransactButton
         text = "Submit" //tx title 
         contracts={[  //contracts params
           {

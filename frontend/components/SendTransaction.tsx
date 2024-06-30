@@ -9,6 +9,8 @@ import { useMemo, useState } from "react";
 import { WriteContractsErrorType } from "viem/experimental";
 import { TransactionExecutionError } from "viem";
 import { CallStatus } from "./CallStatus";
+import { usePrivy, useWallets } from '@privy-io/react-auth';
+import { Button } from './ui/button';
 
 export type TransactButtonProps<
   config extends Config = Config,
@@ -17,7 +19,7 @@ export type TransactButtonProps<
   mutation?: UseSendCallsParameters<config, context>["mutation"];
 } & { text: string };
 
-export function Transact<
+export function TransactButton<
   config extends Config = ResolvedRegister["config"],
   context = unknown,
 >({ mutation, text, ...rest }: TransactButtonProps<config, context>) {
@@ -53,13 +55,34 @@ export function Transact<
     return text;
   }, [status, error]);
 
-  //const call = () => writeContracts(rest);
-  writeContracts(rest);
+  const { authenticated, login, user, connectWallet } = usePrivy();
+  const { ready, wallets } = useWallets();
+  
 
   return (
     <>
-      {status}
-      {displayText};
+      {authenticated || user ? (
+        <Button
+          type="submit"
+          className="w-3/4 md:w-3/5 px-8"
+          onClick={() => writeContracts(rest)}
+          disabled={status == "pending"}
+        >
+          {displayText}
+        </Button>
+      ) : (
+        <Button
+          type="button"
+          className="w-3/4 md:w-3/5 px-8"
+          onClick={() => {
+            login();
+            wallets[0].loginOrLink();
+          }}
+        >
+          Login
+        </Button>
+      )}
+
       {!id && error && <p>error: {error}</p>}
       {id && <CallStatus id={id} />}
     </>

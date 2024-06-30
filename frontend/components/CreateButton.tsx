@@ -1,22 +1,15 @@
-"use client"
+'use client';
 
-import { useEffect, useMemo } from "react";
-import { useAccount, useWalletClient } from "wagmi";
+import { useEffect, useMemo } from 'react';
+//import { useAccount, useWalletClient } from "privy-io/wagmi";
 // wagmi connector is deprecated, update all the deps
-import { usePrivyWagmi } from "@privy-io/wagmi-connector";
-import { usePrivy, useWallets } from '@privy-io/react-auth';
-import { Button } from './ui/button';
+import { usePrivyWagmi } from '@privy-io/wagmi';
+import { useWallets } from '@privy-io/react-auth';
 import Submit from './Submit';
 
 const CreateButton = () => {
-  const { authenticated, login, user, connectWallet } = usePrivy();
-  const { ready, wallets } = useWallets();
-  //  const { data: walletClient } = useWalletClient();
-  // const { setActiveWallet } = usePrivyWagmi();
-  //const wallet = wallets[0];
-
-  // connectWallet();
-
+  const setActiveWallet = usePrivyWagmi();
+  const wallets = useWallets();
   const smartWallet = useMemo(
     () => wallets.find(wallet => wallet.walletClientType === 'coinbase_wallet'),
     [wallets],
@@ -24,43 +17,15 @@ const CreateButton = () => {
 
   // useEffect(() => setActiveWallet(smartWallet), [smartWallet]);
 
+  //TO DO:
+  // Submit funtion in return should take in parameters like:
+  // smart contract parameters
+  // dynamic inputs of the component: Transact
   return (
     <>
-      {authenticated || user ? (
-        <Button type="submit" className="w-3/4 md:w-3/5 px-8">
-          Create Trivia
-        </Button>
-      ) : (
-        <Button type="button" className="w-3/4 md:w-3/5 px-8" onClick={login}>
-          Login
-        </Button>
-      )}
-
-      {/* commented out until fixed */}
-      {/* {authenticated || user ? 
-      (
-        <Button
-          type="submit"
-          className="w-3/4 md:w-3/5 px-8"
-          // onClick={}
-          // leaving this out till logic is clear
-        >
-          Submit
-        </Button>
-      ) : (
-        <Button
-          type="button"
-          className="w-3/4 md:w-3/5 px-8"
-          onClick={() => {
-            login();
-            wallets[0].loginOrLink();
-          }}
-        >
-          Login
-        </Button>
-      )} */}
+      <Submit />
     </>
   );
-}
+};
 
-export default CreateButton
+export default CreateButton;
