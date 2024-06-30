@@ -50,7 +50,7 @@ const Submit = () => {
   
   return (
     <>
-      <Transact
+      <TransactButton
         text = "Submit" //tx title 
         contracts={[  //contracts params
           {
