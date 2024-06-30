@@ -14,14 +14,14 @@ export const wagmiConfig = createConfig({
   multiInjectedProviderDiscovery: false,
   connectors: [
     coinbaseWallet({
-      appName: "Wagmi Smart Wallet",
-      preference: "smartWalletOnly",
+      appName: 'Wagmi Smart Wallet',
+      preference: 'smartWalletOnly',
     }),
   ],
   ssr: true,
   transports: {
-    [base.id]: process.env.BASE_RPC_URL!,
-    [baseSepolia.id]: process.env.BASE_SEPOLIA_RPC_URL!,
+    [base.id]: http(process.env.BASE_RPC_URL!),
+    [baseSepolia.id]: http(process.env.BASE_SEPOLIA_RPC_URL!),
   },
 });
 
