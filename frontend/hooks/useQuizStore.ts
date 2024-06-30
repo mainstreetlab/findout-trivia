@@ -28,14 +28,14 @@ export interface QuizStore {
 
   // Answer setters and getters
   editAnswer: (idx: number, choiceIdx: number) => void;
-  getAnswers: () => number;
+  getAnswers: () => number[];
 }
 
 export interface Question {
   id: number;
   questionText: string;
   choices: Choice[];
-  answer: number | null;
+  answer: number;
 }
 
 interface Choice {
@@ -288,10 +288,15 @@ const useQuizStore = create<QuizStore>()(
           state.isValidateQuestion[idx].answer = choiceIdx;
         }),
       ),
-    getAnswers: () => get().prize,
-    get Answers() {
-      return !!get().questions;
+    getAnswers: () => {
+      const answers: number[] = [];
+      get().questions.forEach(question => answers.push(question.answer));
+
+      return answers;
     },
+    // get Answers() {
+    //   return !!get().questions;
+    // },
   })),
 );
 

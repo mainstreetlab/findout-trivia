@@ -236,8 +236,8 @@ const QuestionList = () => {
         });
       });
     } else {
-      const answer = getAnswers();
-      console.log('get answers gdfg', answer);
+      const answers = getAnswers();
+
       if (user) {
         let fetchData = {
           method: 'POST',
