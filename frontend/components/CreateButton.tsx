@@ -12,21 +12,33 @@ const CreateButton = () => {
   const { authenticated, login, user, connectWallet } = usePrivy();
   const { ready, wallets } = useWallets();
   //  const { data: walletClient } = useWalletClient();
-  const { setActiveWallet } = usePrivyWagmi();
+  // const { setActiveWallet } = usePrivyWagmi();
   //const wallet = wallets[0];
 
-  connectWallet();
+  // connectWallet();
 
   const smartWallet = useMemo(
     () => wallets.find(wallet => wallet.walletClientType === 'coinbase_wallet'),
     [wallets],
   );
 
-  useEffect(() => setActiveWallet(smartWallet), [smartWallet]);
+  // useEffect(() => setActiveWallet(smartWallet), [smartWallet]);
 
   return (
     <>
       {authenticated || user ? (
+        <Button type="submit" className="w-3/4 md:w-3/5 px-8">
+          Create Trivia
+        </Button>
+      ) : (
+        <Button type="button" className="w-3/4 md:w-3/5 px-8" onClick={login}>
+          Login
+        </Button>
+      )}
+
+      {/* commented out until fixed */}
+      {/* {authenticated || user ? 
+      (
         <Button
           type="submit"
           className="w-3/4 md:w-3/5 px-8"
@@ -46,9 +58,9 @@ const CreateButton = () => {
         >
           Login
         </Button>
-      )}
+      )} */}
     </>
   );
-};
+}
 
 export default CreateButton
