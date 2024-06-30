@@ -102,10 +102,15 @@ QuestionSchema.pre<Question>("validate", function (next) {
 });
 
 interface Trivia {
+  triviaId: string;
   questions: Question[];
 }
 
 const triviaSchema = new Schema<Trivia>({
+  triviaId: {
+    type: String,
+    required: true
+  },
   questions: {
     type: [QuestionSchema],
     required: true,

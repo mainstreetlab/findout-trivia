@@ -6,6 +6,8 @@ import { getAndValidateRequestData } from "@/utils/getAndValidateRequestData";
 import { z } from "zod";
 import Trivia from "@/models/trivia";
 
+import { nanoid } from 'nanoid'
+
 export const POST = async (req: Request) => {
   const questionSchema = z.object({
     questionText: z.string().min(5).max(255),
@@ -22,6 +24,7 @@ export const POST = async (req: Request) => {
   });
 
   const triviaSchema = z.object({
+    triviaId: z.string().length(10).optional(),
     questions: questionSchema.array().length(5), // Make sure there are 5 questions
   });
 
@@ -41,13 +44,20 @@ export const POST = async (req: Request) => {
     }
 
     await connectDB();
-    const newTrivia = new Trivia(data);
+    const nanoId = await nanoid(10) //=> "V1StGXR8_Z5jdHi6B-myT"
+
+    const FormData = {
+      ...data,
+      triviaId: nanoId
+    }
+
+    const newTrivia = new Trivia(FormData);
     await newTrivia.save();
 
     return NextResponse.json(
       {
         message: 'Question created successfully!',
-        data: newTrivia,
+        data: newTrivia.triviaId,
       },
       { status: 201 },
     );
