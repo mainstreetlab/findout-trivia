@@ -19,6 +19,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { useAccount, useDisconnect, useWalletClient } from "wagmi"
 import { usePublicClient } from "wagmi"
+// loader does not exist
 import { Loader } from "@/components/loader"
 import {
     SmartAccount,
@@ -34,13 +35,17 @@ import {
     walletClientToCustomSigner
 } from "permissionless"
 import { createPimlicoPaymasterClient } from "permissionless/clients/pimlico"
+
 // file does not exist in the latest commit
-// import { DemoTransactionButton } from "@/components/demo-transaction"
+import { DemoTransactionButton } from "@/components/demo-transaction"
+
 // wagmi-connector is deprecated, configureChains was removed in v2
 import { PrivyWagmiConnector, usePrivyWagmi } from "@privy-io/wagmi-connector"
+
 // sepolia is imported from viem/chains
 import { WagmiConfig, createConfig, configureChains, sepolia } from "wagmi"
-// you're either using wagmi react or core
+
+// you're either using wagmi react or core, providers has been removed per migration docs, check the sc in chats 
 import { jsonRpcProvider } from "@wagmi/core/providers/jsonRpc"
 
 const configureChainsConfig = configureChains(
@@ -66,6 +71,8 @@ const pimlicoPaymaster = createPimlicoPaymasterClient({
     transport: http(process.env.NEXT_PUBLIC_PIMLICO_PAYMASTER_RPC_HOST!)
 })
 
+// wagmiconfig was replaced with wagmiprovider, which we have set up in the providers.tsx
+// also, why redeclare the provider in this file when there's a global providers.tsx
 export const PrivyFLowProvider = ({
     children
 }: { children: React.ReactNode }) => {
