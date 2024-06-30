@@ -26,8 +26,9 @@ export interface QuizStore {
   // Choices editing
   editChoice: (idx: number, choiceIdx: number, newValue: string) => void;
 
-  // Answer setting
+  // Answer setters and getters
   editAnswer: (idx: number, choiceIdx: number) => void;
+  getAnswers: () => number;
 }
 
 export interface Question {
@@ -70,7 +71,7 @@ const initialState = {
 };
 
 const useQuizStore = create<QuizStore>()(
-  immer(set => ({
+  immer((set, get) => ({
     // prize state
     prize: 0,
     setPrize: (prize: number) =>
@@ -287,6 +288,10 @@ const useQuizStore = create<QuizStore>()(
           state.isValidateQuestion[idx].answer = choiceIdx;
         }),
       ),
+    getAnswers: () => get().prize,
+    get Answers() {
+      return !!get().questions;
+    },
   })),
 );
 

@@ -13,18 +13,22 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { Input } from './ui/input';
+import { useToast } from '@/components/ui/use-toast';
 
 import useQuizStore, { QuizStore } from '@/hooks/useQuizStore';
 
-import PrizeInput from '@/components/PrizeInput';
+import { FormEvent, useState } from 'react';
 
 import { z } from 'zod';
 import { ZodError, fromZodError } from 'zod-validation-error';
-import { FormEvent } from 'react';
-
-import { useToast } from '@/components/ui/use-toast';
 import checkValidationErrors from '@/utils/checkValidationErrors';
-import CreateButton from './CreateButton';
+
+import PrizeInput from '@/components/PrizeInput';
+import CreateButton from '@/components/CreateButton';
+
+import { usePrivy } from '@privy-io/react-auth';
+import { TriviaCreatedDialog } from './TriviaCreatedDialog';
+import { useDialog } from '@/hooks/useDialog';
 
 interface QuestionCardProps {
   questionIdx: number;
@@ -180,18 +184,21 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
 
 const QuestionList = () => {
   const { toast } = useToast();
+  const { user } = usePrivy();
 
-  const { questions, isValidatePrize, isValidateQuestion } = useQuizStore(
-    state => {
+  const { onOpen } = useDialog();
+
+  const { questions, isValidatePrize, isValidateQuestion, getAnswers } =
+    useQuizStore(state => {
       return {
         questions: state.questions,
         isValidatePrize: state.isValidatePrize,
         isValidateQuestion: state.isValidateQuestion,
         // addQuestion: state.addQuestion,
         // deleteQuestion: state.deleteQuestion,
+        getAnswers: state.getAnswers,
       };
-    },
-  );
+    });
 
   // const handleAddQuestion = () => {
   //   if (questions.length < 5) addQuestion();
@@ -229,29 +236,36 @@ const QuestionList = () => {
         });
       });
     } else {
-      let fetchData = {
-        method: 'POST',
-        body: JSON.stringify({ questions: questions }),
-        headers: new Headers({
-          'Content-Type': 'application/json; charset=UTF-8',
-        }),
-      };
+      const answer = getAnswers();
+      console.log('get answers gdfg', answer);
+      if (user) {
+        let fetchData = {
+          method: 'POST',
+          body: JSON.stringify({ questions: questions, owner: user.id }),
+          headers: new Headers({
+            'Content-Type': 'application/json; charset=UTF-8',
+          }),
+        };
 
-      const res = await fetch('/api/create', fetchData);
+        const res = await fetch('/api/create', fetchData);
 
-      if (!res.ok) {
-        toast({
-          variant: 'destructive',
-          title: 'Internal Server Error',
-          description: 'Could not create trivia. Try again.',
-        });
+        if (!res.ok) {
+          toast({
+            variant: 'destructive',
+            title: 'Internal Server Error',
+            description: 'Could not create trivia. Try again.',
+          });
+        } else {
+          const data = await res.json();
+          console.log('API data', data);
+          toast({
+            variant: 'default',
+            title: 'Action Successful',
+            description: JSON.stringify(data),
+          });
+          onOpen();
+        }
       }
-      const data = await res.json();
-      toast({
-        variant: 'default',
-        title: 'Success',
-        description: data.message,
-      });
     }
   };
 
@@ -272,6 +286,8 @@ const QuestionList = () => {
           <CreateButton />
         </div>
       </form>
+
+      <TriviaCreatedDialog triviaId="SJHGShjgdhGD" />
 
       {/* Add another question */}
       {/* {questions.length < 5 && (
