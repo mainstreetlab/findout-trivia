@@ -4,7 +4,7 @@ import { useMemo} from "react";
 import { useAccount } from "privy-io/wagmi";
 import { base, baseSepolia} from "viem/chains";
 import { useCapabilities } from "wagmi/experimental";
-import { Transact } from "./SendTransaction";
+import { TransactButton } from "./SendTransaction";
 import { QuizliteABI, QuizliteAddress } from '@/abi/Quizlite';
 
 //TO DO:
