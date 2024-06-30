@@ -5,7 +5,7 @@ import { useAccount } from "wagmi";
 import {base, baseSepolia} from "viem/chains";
 import { useCapabilities } from "wagmi/experimental";
 import { Transact } from "./SendTransaction";
-
+import { QuizliteABI, QuizliteAddress } from '@/abi/Quizlite';
 
 //TO DO:
 //Submit funtion should take in parameters like: 

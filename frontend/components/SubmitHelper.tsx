@@ -15,8 +15,7 @@
     };
  */
 
-
-    "use client"
+'use client';
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { useAccount, useDisconnect, useWalletClient } from "wagmi"
 import { usePublicClient } from "wagmi"
@@ -27,6 +26,7 @@ import {
 } from "permissionless/accounts"
 import { PrivyProvider, usePrivy, useWallets } from "@privy-io/react-auth"
 import { Address, Chain, Hash, Transport, http } from "viem"
+// file does not exist in the latest commit
 import { CustomSigner } from "./customSigner"
 import {
     SmartAccountClient,
@@ -34,9 +34,13 @@ import {
     walletClientToCustomSigner
 } from "permissionless"
 import { createPimlicoPaymasterClient } from "permissionless/clients/pimlico"
-import { DemoTransactionButton } from "@/components/demo-transaction"
+// file does not exist in the latest commit
+// import { DemoTransactionButton } from "@/components/demo-transaction"
+// wagmi-connector is deprecated, configureChains was removed in v2
 import { PrivyWagmiConnector, usePrivyWagmi } from "@privy-io/wagmi-connector"
+// sepolia is imported from viem/chains
 import { WagmiConfig, createConfig, configureChains, sepolia } from "wagmi"
+// you're either using wagmi react or core
 import { jsonRpcProvider } from "@wagmi/core/providers/jsonRpc"
 
 const configureChainsConfig = configureChains(
