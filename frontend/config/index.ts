@@ -1,6 +1,7 @@
-import { createConfig, http } from 'wagmi';
+import { http } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
+import { createConfig } from '@privy-io/wagmi';
 
 export const wagmiConfig = createConfig({
   chains: [base, baseSepolia],

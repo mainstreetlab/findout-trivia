@@ -14,9 +14,9 @@ importers:
       '@privy-io/react-auth':
         specifier: ^1.71.0
         version: 1.72.0(@babel/core@7.24.7)(@types/react@18.3.3)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react@18.3.1)(typescript@5.5.2)(utf-8-validate@5.0.10)
-      '@privy-io/wagmi-connector':
-        specifier: ^0.1.13
-        version: 0.1.13(fjmqm7fgnixumwfhpi3hqtbgay)
+      '@privy-io/wagmi':
+        specifier: ^0.2.10
+        version: 0.2.10(fjmqm7fgnixumwfhpi3hqtbgay)
       '@radix-ui/react-dialog':
         specifier: ^1.1.1
         version: 1.1.1(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1432,14 +1432,14 @@ packages:
       react: ^18
       react-dom: ^18
 
-  '@privy-io/wagmi-connector@0.1.13':
-    resolution: {integrity: sha512-dbel4pYvbJM+28m12DE7LvEKzJ8ni/rDkuHpF3RGwkph+HsgDNDxJy4OTgUjaKi6yJsjZ5nvhsZdNNVXbVFKkg==}
+  '@privy-io/wagmi@0.2.10':
+    resolution: {integrity: sha512-tU8ZMuLaGasvct8KmYpL/oPyvwiLh5n3FA2Se39BhGxKCK/OcFDGu1VxHdkc1WCx0DB0DCNNZJeJTimCke5Xpw==}
     peerDependencies:
-      '@privy-io/react-auth': ^1.33.0
+      '@privy-io/react-auth': ^1.64.1
       react: ^18
       react-dom: ^18
-      viem: '>=0.3.35'
-      wagmi: '>=1.4.12 <2'
+      viem: ^2
+      wagmi: ^2
 
   '@radix-ui/number@1.1.0':
     resolution: {integrity: sha512-V3gRzhVNU1ldS5XhAPTom1fOIo4ccrjjJgmE+LI2h/WaFpHmx0MQApT+KZHnx8abG6Avtfcz4WoEciMnpFT3HQ==}
@@ -7793,7 +7793,7 @@ snapshots:
       - uWebSockets.js
       - utf-8-validate
 
-  '@privy-io/wagmi-connector@0.1.13(fjmqm7fgnixumwfhpi3hqtbgay)':
+  '@privy-io/wagmi@0.2.10(fjmqm7fgnixumwfhpi3hqtbgay)':
     dependencies:
       '@privy-io/react-auth': 1.72.0(@babel/core@7.24.7)(@types/react@18.3.3)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react@18.3.1)(typescript@5.5.2)(utf-8-validate@5.0.10)
       react: 18.3.1
