@@ -2,13 +2,15 @@
 import { useState } from "react";
 import {base, baseSepolia} from "viem/chains";
 import { PrivyProvider } from "@privy-io/react-auth";
-import { WagmiProvider } from "wagmi";
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { PrivyWagmiConnector, usePrivyWagmi } from "@privy-io/wagmi-connector";
+import { WagmiProvider} from "wagmi";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import {wagmiConfig} from "@/config"
+import {wagmiConfig, configureChainsConfig} from "@/config"
+
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(() => new QueryClient()); 
 
   return (
     <WagmiProvider config={wagmiConfig}>
@@ -42,7 +44,9 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
           },
           }}
         >
-          {children}
+          <PrivyWagmiConnector wagmiChainsConfig={configureChainsConfig}>
+            {children}
+          </PrivyWagmiConnector>
         </PrivyProvider>
       </QueryClientProvider>
     </WagmiProvider>

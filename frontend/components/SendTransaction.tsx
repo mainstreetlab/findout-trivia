@@ -54,12 +54,12 @@ export function Transact<
   }, [status, error]);
 
   //const call = () => writeContracts(rest);
+  writeContracts(rest);
 
   return (
     <>
-      {() => writeContracts(rest)};
       {status}
-      {displayText}
+      {displayText};
       {!id && error && <p>error: {error}</p>}
       {id && <CallStatus id={id} />}
     </>
