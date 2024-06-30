@@ -5,16 +5,16 @@ import { paymasterActionsEip7677 } from "permissionless/experimental";
 
 export const baseClient = createPublicClient({
   chain: base,
-  transport: http(),
+  transport: process.env.BASE_RPC_URL!,
 });
 
 export const baseSepoliaClient = createPublicClient({
   chain: baseSepolia,
-  transport: http(),
+  transport: process.env.BASE_SEPOLIA_RPC_URL!,
 });
 
-const basePaymasterService = process.env.NEXT_PUBLIC_CDP_BASE_PAYMASTER_RPC_HOST!;
-const baseSepoliaPaymasterService = process.env.NEXT_PUBLIC_CDP_BASESEPOLIA_PAYMASTER_RPC_HOST!;
+const basePaymasterService = process.env.CDP_BASE_PAYMASTER_RPC_HOST!;
+const baseSepoliaPaymasterService = process.env.CDP_BASESEPOLIA_PAYMASTER_RPC_HOST!;
 
 export const basePaymasterClient = createClient({
   chain: base,

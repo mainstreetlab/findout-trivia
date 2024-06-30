@@ -14,8 +14,12 @@ import {
   coinbaseSmartWalletV1Implementation,
   erc1967ProxyImplementationSlot,
   magicSpendAddress,
+  usdcBaseAddress,
+  usdcBaseSepoliaAddress
 } from './constants';
 import { myNFTABI, myNFTAddress } from '@/abi/myNFT';
+import {QuizliteABI, QuizliteAddress} from '@/abi/Quizlite';
+//import {QuizABI, QuizAddress} from '@/abi/Quiz';
 
 export async function willSponsorBase({
   chainId,
@@ -69,7 +73,7 @@ export async function willSponsorBase({
       data: Hex;
     }[];
     // modify if want to allow batch calls to your contract
-    if (calls.length > 2) return false;
+    if (calls.length > 3) return false;
 
     let callToCheckIndex = 0;
     if (calls.length > 1) {
@@ -77,19 +81,26 @@ export async function willSponsorBase({
       if (calls[0].target.toLowerCase() !== magicSpendAddress.toLowerCase())
         return false;
       callToCheckIndex = 1;
+
+      //check if the second call is a call to the Quiz contract
+      if (calls[1].target.toLowerCase() !== QuizAddress.toLowerCase())
+        return false;
+      callToCheckIndex = 2;
     }
+
 
     if (
       calls[callToCheckIndex].target.toLowerCase() !==
-      myNFTAddress.toLowerCase()
+      usdcBaseAddress.toLowerCase()
     )
       return false;
 
     const innerCalldata = decodeFunctionData({
-      abi: myNFTABI,
-      data: calls[callToCheckIndex].data,
+      abi: QuizABI,
+      data: calls[1].data,
     });
-    if (innerCalldata.functionName !== 'safeMint') return false;
+
+    if (innerCalldata.functionName !== 'create' || innerCalldata.functionName !== 'play') return false;
 
     return true;
   } catch (e) {
@@ -164,15 +175,15 @@ export async function willSponsorBaseSepolia({
 
     if (
       calls[callToCheckIndex].target.toLowerCase() !==
-      myNFTAddress.toLowerCase()
+      QuizliteAddress.toLowerCase()
     )
       return false;
 
     const innerCalldata = decodeFunctionData({
-      abi: myNFTABI,
+      abi: QuizliteABI,
       data: calls[callToCheckIndex].data,
     });
-    if (innerCalldata.functionName !== 'safeMint') return false;
+    if (innerCalldata.functionName !== 'create' || innerCalldata.functionName !== 'play') return false;
 
     return true;
   } catch (e) {
