@@ -1,7 +1,7 @@
 "use client"
 
 import { useMemo} from "react";
-import { useAccount } from "@privy-io/wagmi";
+import { useAccount } from "wagmi";
 import { base, baseSepolia} from "viem/chains";
 import { useCapabilities } from "wagmi/experimental";
 import { TransactButton } from "./SendTransaction";
