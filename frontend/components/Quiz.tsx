@@ -7,13 +7,26 @@ import Link from 'next/link';
 import { FaCircleCheck } from 'react-icons/fa6';
 
 import { Progress } from '@/components/ui/progress';
-import useFetch from '@/hooks/useFetch';
+// import useFetch from '@/hooks/useFetch';
+import { ObjectId } from 'mongoose';
 
-type QuizProps = {
-  triviaId: string;
+type Question = {
+  questionText: string
+  choices: []
+  answer: number
 };
 
-const Quiz = ({ triviaId }: QuizProps) => {
+interface TriviaProps {
+  _id: ObjectId;
+  triviaId: string;
+  questions: Question[];
+}
+
+interface QuizProps {
+  trivia: TriviaProps
+}
+
+const Quiz = (trivia: QuizProps) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(-1);
   const [score, setScore] = useState(0);
@@ -57,45 +70,14 @@ const Quiz = ({ triviaId }: QuizProps) => {
     }
   }, [submitted, complete, currentQuestion]);
 
-  const url = `/api/trivia/${triviaId}`;
-  const [fetchedData, setFetchedData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await useFetch(url); // Await the promise
-        setFetchedData(response.data);
-        setLoading(false);
-      } catch (err: any) {
-        setError(JSON.stringify(err));
-        setLoading(false); // Set loading to false on error
-      }
-    };
-
-    fetchData();
-  }, [url]);
-
   const ProgressBar = () => {
     const progress = ((currentQuestion + 1) / quizData.length) * 100;
     return (
-      <div className="w-full flex justify-between items-center p-4 gap-2">
-        <div className="flex items-center flex-1 p-2">
+      <div className="w-[90%] flex justify-between items-center py-2 gap-2">
+        <div className="flex items-center flex-1 p-2 -ml-2">
           <Progress value={Math.round(progress)} />
-
-          {/* //     <div
-      //       style={{
-      //         width: `${progress}%`,
-      //       }}
-      //       className="h-3 flex items-center p-1 text-white bg-gradient-to-r from-pink-600/80 via-blue-600 to-indigo-600 w-full rounded-[4px] border border-primary/20"
-      //     ></div>
-      //   </div>
-      //   <div className="">
-      //     <FaCircleCheck
-      //       className={`${complete ? 'block' : 'hidden'} text-xl text-violet-700`}
-      //     /> */}
         </div>
+            <FaCircleCheck className={`${complete ? 'block' : 'hidden'} text-xl text-violet-700`} />
       </div>
     );
   };
