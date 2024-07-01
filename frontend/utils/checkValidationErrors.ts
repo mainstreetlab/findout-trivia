@@ -27,7 +27,7 @@ export default function checkValidationErrors(
       error.choices = 'Please fill all 4 choices correctly';
     }
 
-    if (question.answer < 0 || question.answer > 3) {
+    if (question.answer! < 0 || question.answer! > 3) {
       error.answer = 'Selected answer index out of range (0-3)';
     }
 
