@@ -10,6 +10,7 @@ import { Progress } from '@/components/ui/progress';
 // import useFetch from '@/hooks/useFetch';
 import { ObjectId } from 'mongoose';
 import { Question } from '@/models/trivia';
+import { cn } from '@/lib/utils';
 
 interface TriviaProps {
   _id: ObjectId;
@@ -66,11 +67,18 @@ const Quiz = ({ trivia: { questions } }: QuizProps) => {
   }, [submitted, complete, currentQuestion, questions.length]);
 
   const ProgressBar = () => {
-    const progress = ((currentQuestion + 1) / questions.length) * 100;
+    const progress = Math.round(
+      ((currentQuestion + 1) / questions.length) * 100,
+    );
+
     return (
-      <div className="w-[90%] flex justify-between items-center py-2 gap-2">
-        <div className="flex items-center flex-1 p-2 -ml-2">
-          <Progress value={Math.round(progress)} />
+      <div className="w-[90%] flex justify-between items-center gap-2">
+        <div
+          className={cn('flex items-center flex-1 p-2 -ml-2', {
+            '-mr-2': progress > 60 && !complete,
+          })}
+        >
+          <Progress value={progress} />
         </div>
         <FaCircleCheck
           className={`${complete ? 'block' : 'hidden'} text-xl text-violet-700`}
@@ -84,11 +92,13 @@ const Quiz = ({ trivia: { questions } }: QuizProps) => {
 
     return (
       <div className="w-[90%] gap-6 flex flex-col">
-        <div className="w-full h-[200px] flex flex-col items-center justify-center text-2xl text-center leading-normal bg-blue-600/90 mx-auto rounded-md text-white px-4 relative pt-4">
-          <span className="flex items-center justify-center rounded-full absolute top-6 text-xl font-bold text-blue-600/90 bg-white w-10 h-10">
-            {currentQuestion + 1}
-          </span>
-          {questionText}
+        <div className="w-full h-[200px] flex flex-col items-center justify-center text-center leading-normal gradient mx-auto rounded-md text-white p-4">
+          <div className="-mt-6 flex flex-col items-center justify-between gap-6">
+            <span className="flex items-center justify-center rounded-full text-2xl font-semibold text-blue-500/90 bg-white w-10 h-10">
+              {currentQuestion + 1}
+            </span>
+            <p className="text-xl text-wrap">{questionText}</p>
+          </div>
         </div>
         <ul className="flex flex-col gap-6 mx-auto w-full">
           {choices.map((choice, index) => (
@@ -151,7 +161,7 @@ const Quiz = ({ trivia: { questions } }: QuizProps) => {
   };
 
   return (
-    <div className="flex flex-col items-center bg-white rounded-md w-[420px] h-[95%] text-primary gap-8 overflow-y-auto pb-6">
+    <div className="flex flex-col items-center bg-white rounded-md w-[420px] h-[95%] text-primary gap-6 overflow-y-auto pb-6">
       {/* {loading && <p>Loading quiz...</p>}
       {error && <p>Error: {error}</p>} */}
       {questions && (
