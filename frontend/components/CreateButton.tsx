@@ -19,7 +19,7 @@ const CreateButton = () => {
 
   useEffect(() => {
     if (smartWallet) setActiveWallet(smartWallet);
-  }, [smartWallet?.address]);
+  }, [smartWallet, setActiveWallet]);
 
   //TO DO:
   // Submit funtion in return should take in parameters like:

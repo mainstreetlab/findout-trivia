@@ -45,13 +45,13 @@ export function TransactButton<
   });
 
   const displayText = useMemo(() => {
-    if (status == "pending") {
+    if (status == 'pending') {
       setError(undefined);
       setId(undefined);
-      return "Confirm in popup";
+      return 'Confirm in popup';
     }
     return text;
-  }, [status, error]);
+  }, [text, status]);
 
   return (
     <>

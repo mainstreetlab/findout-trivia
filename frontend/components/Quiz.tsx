@@ -63,7 +63,7 @@ const Quiz = ({ trivia: { questions } }: QuizProps) => {
     if (currentQuestion + 1 === questions.length && submitted) {
       setComplete(true);
     }
-  }, [submitted, complete, currentQuestion]);
+  }, [submitted, complete, currentQuestion, questions.length]);
 
   const ProgressBar = () => {
     const progress = ((currentQuestion + 1) / questions.length) * 100;

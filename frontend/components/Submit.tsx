@@ -23,28 +23,28 @@ const Submit = () => {
     if (!availableCapabilities || !account.chainId) return;
     const capabilitiesForChain = availableCapabilities[account.chainId];
     if (
-      capabilitiesForChain["paymasterService"] &&
-      capabilitiesForChain["paymasterService"].supported
+      capabilitiesForChain['paymasterService'] &&
+      capabilitiesForChain['paymasterService'].supported
     ) {
-        if(account.chain === base) {
-            return {
-                paymasterService: {
-                    url:
-                        process.env.CDP_BASE_PAYMASTER_RPC_HOST! ||
-                        `${document.location.origin}/api/(paymaster)`,
-                },
-            }
-        } else if(account.chain === baseSepolia) {
-            return {
-                paymasterService: {
-                    url:    
-                        process.env.CDP_BASESEPOLIA_PAYMASTER_RPC_HOST! || 
-                        `${document.location.origin}/api/(paymaster)`,
-                }, 
-            }
-      };
+      if (account.chain === base) {
+        return {
+          paymasterService: {
+            url:
+              process.env.CDP_BASE_PAYMASTER_RPC_HOST! ||
+              `${document.location.origin}/api/(paymaster)`,
+          },
+        };
+      } else if (account.chain === baseSepolia) {
+        return {
+          paymasterService: {
+            url:
+              process.env.CDP_BASESEPOLIA_PAYMASTER_RPC_HOST! ||
+              `${document.location.origin}/api/(paymaster)`,
+          },
+        };
+      }
     }
-  }, [availableCapabilities, account.chainId]);
+  }, [account.chain, availableCapabilities, account.chainId]);
 
   //where to assign smart contract function params
   const params = [1, 2, 3, 4, 5]; 
