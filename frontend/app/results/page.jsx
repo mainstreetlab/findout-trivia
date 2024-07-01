@@ -7,7 +7,7 @@ const ResultsPage = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   return (
-    <main className="h-screen">
+    <main className=" pt-28">
       <div className="container mx-auto flex flex-col justify-center h-full items-center">
         <Results id={id} />
       </div>
