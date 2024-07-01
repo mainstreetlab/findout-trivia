@@ -9,12 +9,7 @@ import { FaCircleCheck } from 'react-icons/fa6';
 import { Progress } from '@/components/ui/progress';
 // import useFetch from '@/hooks/useFetch';
 import { ObjectId } from 'mongoose';
-
-type Question = {
-  questionText: string
-  choices: []
-  answer: number
-};
+import { Question } from '@/models/trivia';
 
 interface TriviaProps {
   _id: ObjectId;
@@ -23,10 +18,10 @@ interface TriviaProps {
 }
 
 interface QuizProps {
-  trivia: TriviaProps
+  trivia: TriviaProps;
 }
 
-const Quiz = (trivia: QuizProps) => {
+const Quiz = ({ trivia: { questions } }: QuizProps) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(-1);
   const [score, setScore] = useState(0);
@@ -39,7 +34,7 @@ const Quiz = (trivia: QuizProps) => {
 
   const handleSubmitAnswer = () => {
     if (selectedAnswer >= 0) {
-      if (selectedAnswer === quizData[currentQuestion].answer) {
+      if (selectedAnswer === questions[currentQuestion].answer) {
         setScore(score + 1);
       }
       setSubmitted(true); // Mark question submitted
@@ -48,7 +43,7 @@ const Quiz = (trivia: QuizProps) => {
   };
 
   const handleNextQuestion = () => {
-    if (currentQuestion + 1 < quizData.length) {
+    if (currentQuestion + 1 < questions.length) {
       setCurrentQuestion(currentQuestion + 1);
       setSubmitted(false); // Reset submitted flag for next question
     }
@@ -65,25 +60,27 @@ const Quiz = (trivia: QuizProps) => {
   };
 
   useEffect(() => {
-    if (currentQuestion + 1 === quizData.length && submitted) {
+    if (currentQuestion + 1 === questions.length && submitted) {
       setComplete(true);
     }
   }, [submitted, complete, currentQuestion]);
 
   const ProgressBar = () => {
-    const progress = ((currentQuestion + 1) / quizData.length) * 100;
+    const progress = ((currentQuestion + 1) / questions.length) * 100;
     return (
       <div className="w-[90%] flex justify-between items-center py-2 gap-2">
         <div className="flex items-center flex-1 p-2 -ml-2">
           <Progress value={Math.round(progress)} />
         </div>
-            <FaCircleCheck className={`${complete ? 'block' : 'hidden'} text-xl text-violet-700`} />
+        <FaCircleCheck
+          className={`${complete ? 'block' : 'hidden'} text-xl text-violet-700`}
+        />
       </div>
     );
   };
 
   const QuestionContent = () => {
-    const question = quizData[currentQuestion];
+    const { questionText, choices, answer } = questions[currentQuestion];
 
     return (
       <div className="w-[90%] gap-6 flex flex-col">
@@ -91,10 +88,10 @@ const Quiz = (trivia: QuizProps) => {
           <span className="flex items-center justify-center rounded-full absolute top-6 text-xl font-bold text-blue-600/90 bg-white w-10 h-10">
             {currentQuestion + 1}
           </span>
-          {question.question}
+          {questionText}
         </div>
         <ul className="flex flex-col gap-6 mx-auto w-full">
-          {question.choices.map((choice, index) => (
+          {choices.map((choice, index) => (
             <li key={index} className="w-full">
               <button
                 className={`border border-primary/20 p-4 w-full rounded-md text-center text-lg 
@@ -109,7 +106,7 @@ const Quiz = (trivia: QuizProps) => {
                 `}
                 onClick={() => handleOptionChange(index)}
               >
-                {choice}
+                {choice.value}
               </button>
             </li>
           ))}
@@ -136,7 +133,7 @@ const Quiz = (trivia: QuizProps) => {
   };
 
   const FinalResults = () => {
-    if (currentQuestion + 1 === quizData.length && submitted) {
+    if (currentQuestion + 1 === questions.length && submitted) {
       return (
         <div className="w-[90%] rounded-md p-5 flex flex-col justify-center items-center bg-gradient-to-r from-blue-400 via-blue-700/80 to-violet-600/90 text-white gap-2">
           <h2 className="text-2xl font-semibold">🎉You finished the quiz!</h2>
@@ -157,7 +154,7 @@ const Quiz = (trivia: QuizProps) => {
     <div className="flex flex-col items-center bg-white rounded-md w-[420px] h-[95%] text-primary gap-8 overflow-y-auto pb-6">
       {/* {loading && <p>Loading quiz...</p>}
       {error && <p>Error: {error}</p>} */}
-      {quizData && (
+      {questions && (
         <>
           <ProgressBar />
           <QuestionContent />
