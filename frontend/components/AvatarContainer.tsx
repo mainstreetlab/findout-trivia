@@ -11,21 +11,32 @@ import {
   TooltipTrigger,
 } from "./ui/tooltip";
 
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+
 const AvatarContainer = () => {
-  const { ready, authenticated, login, user } = usePrivy();
+  const { ready, authenticated, login, logout, user } = usePrivy();
 
   // Disable login when Privy is not ready or the user is already authenticated
   const disableLogin = !ready || (ready && authenticated);
 
   return (
-    <div className="absolute top-0 right-0 flex gap-2 items-center justify-between px-4 py-3">
+    <div className="absolute top-2 right-2 flex gap-2 items-center justify-between px-2 py-2">
       {ready && authenticated ? (
-        <>
+        <Popover>
           <p className="text-sm font-semibold text-primary/80">0 OUT</p>
-          <div className="bg-gradient-to-bl from-purple-700 via-blue-700 to-purple-500 w-10 h-10 rounded-full text-lg font-semibold flex items-center justify-center text-white">
+          <PopoverTrigger className="bg-gradient-to-bl from-purple-700 via-blue-700 to-purple-500 w-10 h-10 rounded-full text-lg font-semibold flex items-center justify-center text-white border border-accent-hover">
             {user!.email?.address.slice(0, 2).toUpperCase()}
-          </div>
-        </>
+          </PopoverTrigger>
+          <PopoverContent className="w-24 p-1">
+            <Button variant="link" onClick={logout}>
+              Sign Out
+            </Button>
+          </PopoverContent>
+        </Popover>
       ) : (
         <TooltipProvider delayDuration={275}>
           <Tooltip>

@@ -1,31 +1,35 @@
-"use client"
+'use client';
 
-import { useEffect, useMemo } from "react";
-//import { useAccount, useWalletClient } from "privy-io/wagmi";
-// wagmi connector is deprecated, update all the deps
-import { usePrivyWagmi } from "@privy-io/wagmi";
+import { useEffect, useMemo } from 'react';
+
 import { useWallets } from '@privy-io/react-auth';
+import { useSetActiveWallet } from '@privy-io/wagmi';
+
 import Submit from './Submit';
 
 const CreateButton = () => {
-  const setActiveWallet = usePrivyWagmi();
-  const wallets = useWallets();
+  // destructure the hook's returned object
+  const { wallets } = useWallets();
+  const { setActiveWallet } = useSetActiveWallet();
+
   const smartWallet = useMemo(
     () => wallets.find(wallet => wallet.walletClientType === 'coinbase_wallet'),
     [wallets],
   );
 
-  useEffect(() => setActiveWallet(smartWallet), [smartWallet]);
+  useEffect(() => {
+    if (smartWallet) setActiveWallet(smartWallet);
+  }, [smartWallet?.address]);
 
   //TO DO:
-  // Submit funtion in return should take in parameters like: 
+  // Submit funtion in return should take in parameters like:
   // smart contract parameters
   // dynamic inputs of the component: Transact
   return (
     <>
-    <Submit />
+      <Submit />
     </>
   );
 };
 
-export default CreateButton
+export default CreateButton;
