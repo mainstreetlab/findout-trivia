@@ -1,12 +1,17 @@
-import connectDB from "@/lib/db";
+import connectDB from '@/lib/db';
+import { NextResponse } from 'next/server';
+import { getAndValidateRequestData } from '@/utils/getAndValidateRequestData';
 
-import { NextResponse } from "next/server";
-import { getAndValidateRequestData } from "@/utils/getAndValidateRequestData";
+import { z } from 'zod';
+import Trivia from '@/models/trivia';
 
-import { z } from "zod";
-import Trivia from "@/models/trivia";
+import { nanoid } from 'nanoid';
 
-import { nanoid } from 'nanoid'
+export const GET = async (req: Request) => {
+  await connectDB();
+  const trivia = await Trivia.find();
+  return NextResponse.json({ trivia });
+};
 
 export const POST = async (req: Request) => {
   const questionSchema = z.object({
@@ -16,7 +21,7 @@ export const POST = async (req: Request) => {
         z.object({
           value: z.string().min(3).max(65),
           // isCorrect: z.boolean().optional(),
-        })
+        }),
       )
       .length(4), // Validate choices length and value
     answer: z.number().min(0).max(3),
@@ -36,20 +41,20 @@ export const POST = async (req: Request) => {
       console.error(error);
       return NextResponse.json(
         {
-          error: "Error in creating question",
+          error: 'Error in creating question',
           message: error.message.toString(),
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     await connectDB();
-    const nanoId = await nanoid(10) //=> "V1StGXR8_Z5jdHi6B-myT"
+    const nanoId = await nanoid(10); //=> "V1StGXR8_Z5jdHi6B-myT"
 
     const FormData = {
       ...data,
-      triviaId: nanoId
-    }
+      triviaId: nanoId,
+    };
 
     const newTrivia = new Trivia(FormData);
     await newTrivia.save();
@@ -62,10 +67,10 @@ export const POST = async (req: Request) => {
       { status: 201 },
     );
   } catch (error) {
-    console.error("Error:", error);
+    console.error('Error:', error);
     return NextResponse.json(
-      { error: "Error in creating question", message: error },
-      { status: 500 }
+      { error: 'Error in creating question', message: error },
+      { status: 500 },
     );
   }
 };

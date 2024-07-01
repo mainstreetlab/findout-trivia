@@ -1,5 +1,5 @@
-import { basePaymasterClient, baseSepoliaPaymasterClient } from "../config";
-import { willSponsorBase, willSponsorBaseSepolia } from "../utils";
+import { basePaymasterClient, baseSepoliaPaymasterClient } from '../config';
+import { willSponsorBase, willSponsorBaseSepolia } from '../utils';
 
 export async function POST(r: Request) {
   const req = await r.json();
@@ -7,35 +7,37 @@ export async function POST(r: Request) {
   const [userOp, entrypoint, chainId] = req.params;
 
   if (!willSponsorBase({ chainId: parseInt(chainId), entrypoint, userOp })) {
-    return Response.json({ error: "Not a sponsorable operation" });
+    return Response.json({ error: 'Not a sponsorable operation' });
   }
 
-  if (!willSponsorBaseSepolia({ chainId: parseInt(chainId), entrypoint, userOp })) {
-    return Response.json({ error: "Not a sponsorable operation" });
+  if (
+    !willSponsorBaseSepolia({ chainId: parseInt(chainId), entrypoint, userOp })
+  ) {
+    return Response.json({ error: 'Not a sponsorable operation' });
   }
 
-  if (method === "pm_getPaymasterStubData") {
+  if (method === 'pm_getPaymasterStubData') {
     const result = await basePaymasterClient.getPaymasterStubData({
       userOperation: userOp,
     });
     return Response.json({ result });
-  } else if (method === "pm_getPaymasterData") {
+  } else if (method === 'pm_getPaymasterData') {
     const result = await basePaymasterClient.getPaymasterData({
       userOperation: userOp,
     });
     return Response.json({ result });
   }
 
-  if (method === "pm_getPaymasterStubData") {
+  if (method === 'pm_getPaymasterStubData') {
     const result = await baseSepoliaPaymasterClient.getPaymasterStubData({
       userOperation: userOp,
     });
     return Response.json({ result });
-  } else if (method === "pm_getPaymasterData") {
+  } else if (method === 'pm_getPaymasterData') {
     const result = await baseSepoliaPaymasterClient.getPaymasterData({
       userOperation: userOp,
     });
     return Response.json({ result });
   }
-  return Response.json({ error: "Method not found" });
+  return Response.json({ error: 'Method not found' });
 }
