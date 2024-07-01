@@ -16,7 +16,7 @@ export default async function Page({
   console.log(trivia);
 
   return (
-    <main className="h-screen pt-24">
+    <main className="h-screen pt-28">
       <div className="container mx-auto h-full bg-white md:max-w-md">
         <div className="flex flex-col items-center justify-center gap-2 py-4">
           <Quiz trivia={trivia} />
