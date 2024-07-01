@@ -83,7 +83,7 @@ export async function willSponsorBase({
       callToCheckIndex = 1;
 
       //check if the second call is a call to the Quiz contract
-      if (calls[1].target.toLowerCase() !== QuizAddress.toLowerCase())
+      if (calls[1].target.toLowerCase() !== QuizliteAddress.toLowerCase())
         return false;
       callToCheckIndex = 2;
     }
@@ -96,7 +96,7 @@ export async function willSponsorBase({
       return false;
 
     const innerCalldata = decodeFunctionData({
-      abi: QuizABI,
+      abi: QuizliteABI,
       data: calls[1].data,
     });
 
