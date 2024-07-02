@@ -18,7 +18,7 @@ export interface QuizStore {
   isValidateQuestion: {
     question: string | null;
     choices: string | null;
-    answer: number;
+    answer: number | null;
   }[];
   validateQuestion: (idx: number, validate: string) => void;
   validateChoice: (idx: number, validate: string) => void;
@@ -35,7 +35,7 @@ export interface Question {
   id: number;
   questionText: string;
   choices: Choice[];
-  answer: number;
+  answer: number | null;
 }
 
 interface Choice {
@@ -290,7 +290,7 @@ const useQuizStore = create<QuizStore>()(
       ),
     getAnswers: () => {
       const answers: number[] = [];
-      get().questions.forEach(question => answers.push(question.answer));
+      get().questions.forEach(question => answers.push(question.answer!));
 
       return answers;
     },

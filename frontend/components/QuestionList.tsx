@@ -24,7 +24,7 @@ import { ZodError, fromZodError } from 'zod-validation-error';
 import checkValidationErrors from '@/utils/checkValidationErrors';
 
 import PrizeInput from '@/components/PrizeInput';
-import CreateButton from '@/components/CreateButton';
+import Submit from '@/components/Submit';
 
 import { usePrivy } from '@privy-io/react-auth';
 import { TriviaCreatedDialog } from './TriviaCreatedDialog';
@@ -285,7 +285,13 @@ const QuestionList = () => {
           );
         })}
         <div className="flex flex-col items-center justify-center mt-10 mb-6">
-          <CreateButton />
+          <Submit 
+          //choices passed here 
+          { answers }
+
+          //is this a correct way of passing the prize value into submit
+          { state.value }
+          />
         </div>
       </form>
 

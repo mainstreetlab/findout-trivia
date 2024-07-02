@@ -15,11 +15,9 @@ import {
   erc1967ProxyImplementationSlot,
   magicSpendAddress,
   usdcBaseAddress,
-  usdcBaseSepoliaAddress
+  usdcBaseSepoliaAddress,
 } from './constants';
-import { myNFTABI, myNFTAddress } from '@/abi/myNFT';
-import {QuizliteABI, QuizliteAddress} from '@/abi/Quizlite';
-//import {QuizABI, QuizAddress} from '@/abi/Quiz';
+import { QuizliteABI, QuizliteAddress } from '@/abi/Quizlite';
 
 export async function willSponsorBase({
   chainId,
@@ -88,7 +86,6 @@ export async function willSponsorBase({
       callToCheckIndex = 2;
     }
 
-
     if (
       calls[callToCheckIndex].target.toLowerCase() !==
       usdcBaseAddress.toLowerCase()
@@ -100,7 +97,10 @@ export async function willSponsorBase({
       data: calls[1].data,
     });
 
-    if (innerCalldata.functionName !== 'create' && innerCalldata.functionName !== 'play')
+    if (
+      innerCalldata.functionName !== 'create' &&
+      innerCalldata.functionName !== 'play'
+    )
       return false;
 
     return true;
@@ -185,7 +185,10 @@ export async function willSponsorBaseSepolia({
       data: calls[callToCheckIndex].data,
     });
 
-    if (innerCalldata.functionName !== 'create' && innerCalldata.functionName !== 'play')
+    if (
+      innerCalldata.functionName !== 'create' &&
+      innerCalldata.functionName !== 'play'
+    )
       return false;
 
     return true;

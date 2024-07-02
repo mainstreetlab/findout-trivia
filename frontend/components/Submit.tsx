@@ -1,6 +1,8 @@
 "use client"
 
-import { useMemo} from "react";
+import { useEffect, useMemo } from 'react';
+import { useWallets } from '@privy-io/react-auth';
+import { useSetActiveWallet } from '@privy-io/wagmi';
 
 // import useAccount from wagmi not privy
 import { useAccount } from "wagmi";
@@ -13,7 +15,25 @@ import { QuizliteABI, QuizliteAddress } from '@/abi/Quizlite';
 //Submit funtion should take in parameters like: 
 // smart contract parameters
 // dynamic inputs of the component: Transact
-const Submit = () => {
+interface ParamsProps {
+  params: array[5];
+  prize: number;
+}
+
+const Submit = ({params, prize}: ParamsProps) => {
+  // destructure the hook's returned object
+  const { wallets } = useWallets();
+  const { setActiveWallet } = useSetActiveWallet();
+
+  const smartWallet = useMemo(
+    () => wallets.find(wallet => wallet.walletClientType === 'coinbase_wallet'),
+    [wallets],
+  );
+
+  useEffect(() => {
+    if (smartWallet) setActiveWallet(smartWallet);
+  }, [smartWallet, setActiveWallet]);
+
   const account = useAccount();
   const { data: availableCapabilities } = useCapabilities({
     account: account.address,
