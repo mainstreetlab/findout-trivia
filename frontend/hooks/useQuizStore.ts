@@ -5,7 +5,7 @@ import { immer } from "zustand/middleware/immer";
 
 export interface QuizStore {
   // Prize state
-  prize: number;
+  prize: number | null;
   setPrize: (amount: number) => void;
   isValidatePrize?: boolean | null;
   validatePrize?: () => void;
@@ -73,7 +73,7 @@ const initialState = {
 const useQuizStore = create<QuizStore>()(
   immer((set, get) => ({
     // prize state
-    prize: 0,
+    prize: null,
     setPrize: (prize: number) =>
       set(
         produce(state => {

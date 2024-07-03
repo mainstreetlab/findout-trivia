@@ -28,7 +28,7 @@ import PrizeInput from '@/components/PrizeInput';
 import { usePrivy } from '@privy-io/react-auth';
 import { TriviaCreatedDialog } from './TriviaCreatedDialog';
 import { useDialog } from '@/hooks/useDialog';
-import Submit from '@/components/Submit';
+import Submit from '@/components/CreateTrivia';
 
 interface QuestionCardProps {
   questionIdx: number;

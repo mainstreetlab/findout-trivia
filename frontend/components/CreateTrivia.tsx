@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import { useEffect, useMemo } from 'react';
 
@@ -16,11 +16,12 @@ import { useSetActiveWallet } from '@privy-io/wagmi';
 // smart contract parameters
 // dynamic inputs of the component: Transact
 
-interface SubmitProps {
+interface CreateTriviaProps {
+  prize?: number | null;
   answers: number[];
 }
 
-const Submit = ({ answers }: SubmitProps) => {
+const CreateTrivia = ({ prize, answers }: CreateTriviaProps) => {
   const { wallets } = useWallets();
   const account = useAccount();
   const { setActiveWallet } = useSetActiveWallet();
@@ -33,6 +34,8 @@ const Submit = ({ answers }: SubmitProps) => {
     () => wallets.find(wallet => wallet.walletClientType === 'coinbase_wallet'),
     [wallets],
   );
+
+  const 
 
   useEffect(() => {
     if (smartWallet) setActiveWallet(smartWallet);
@@ -67,10 +70,38 @@ const Submit = ({ answers }: SubmitProps) => {
 
   //where to assign smart contract function params
 
+  const chainId = useMemo(() => {
+    if (prize === null) {
+      return 84532;
+    } else {
+      return 8453;
+    }
+  }, [prize]);
+
+  const params = useMemo(()=> {
+    if (prize === null) {
+      return {
+        address: QuizliteAddress,
+        abi: QuizliteABI,
+        functionName: 'create',
+        args: answers,
+      }
+    } else {
+      // no price is set, won't trigger during test
+      return null
+      // {
+      //   address: QuizAddress,
+      //   abi: QuizABI,
+      //   functionName: 'create',
+      //   args: [answers, amount],
+      // }
+    }
+  }, [prize])
+
   return (
     <>
       <TransactButton
-        text="Submit" //tx title
+        text="Create Trivia" //tx title
         contracts={[
           //contracts params
           {
@@ -82,9 +113,10 @@ const Submit = ({ answers }: SubmitProps) => {
         ]}
         capabilities={capabilities}
         params={{ prize, answers }}
+        chain={chainId}
       />
     </>
   );
 };
 
-export default Submit
+export default CreateTrivia;
