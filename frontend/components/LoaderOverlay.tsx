@@ -14,11 +14,12 @@ const LoaderOverlay = ({ children }:LoaderProps) => {
   return (
     <div
       className={cn({
-        "h-screen w-screen fixed bg-white top-0 pointer-events-none flex flex-col items-center justify-center":
+        'h-screen w-screen fixed bg-white top-0 pointer-events-none flex flex-col items-center justify-center':
           !ready,
       })}
     >
-      {!ready ? <CgSpinnerAlt className="animate-spin w-8 h-8" /> : children}
+      {/* {!ready ? <CgSpinnerAlt className="animate-spin w-8 h-8" /> : children} */}
+      {children}
     </div>
   );
 };

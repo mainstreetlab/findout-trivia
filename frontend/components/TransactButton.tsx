@@ -11,18 +11,24 @@ import { TransactionExecutionError } from "viem";
 import { CallStatus } from "./CallStatus";
 import { usePrivy, useWallets } from '@privy-io/react-auth';
 import { Button } from './ui/button';
+import { config } from '@/config';
 
 export type TransactButtonProps<
   config extends Config = Config,
   context = unknown,
 > = UseSendCallsReturnType<config, context>['sendCalls']['arguments'] & {
   mutation?: UseSendCallsParameters<config, context>['mutation'];
-} & { text: string; params: { prize?: number; answers: number[] } };
+} & { text: string };
 
 export function TransactButton<
   config extends Config = ResolvedRegister['config'],
   context = unknown,
->({ mutation, text, ...rest }: TransactButtonProps<config, context>) {
+>({
+  mutation,
+  text,
+  contracts,
+  ...rest
+}: TransactButtonProps<config, context>) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [id, setId] = useState<string | undefined>(undefined);
   const { writeContracts, status } = useWriteContracts({
@@ -64,7 +70,7 @@ export function TransactButton<
         <Button
           type="submit"
           className="w-3/4 md:w-3/5 px-8"
-          onClick={() => writeContracts(...rest)}
+          onClick={() => writeContracts(rest)}
           disabled={status == 'pending'}
         >
           {displayText}

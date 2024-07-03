@@ -7,47 +7,10 @@ import Trivia from '@/models/trivia';
 
 import { nanoid } from 'nanoid';
 
-// export const GET = async (req: Request) => {
-//   await connectDB();
-//   const trivia = await Trivia.find();
-//   return NextResponse.json({ trivia });
-// };
-
-export const GET = async (
-  request: Request,
-  { params }: { params: { triviaId: string } },
-) => {
-  // Extract triviaId from the request URL
-  const { triviaId } = params;
-  await connectDB(); // Replace with your actual database connection logic
-
-  // Handle missing triviaId or invalid format
-  if (!triviaId) {
-    return NextResponse.json(
-      { message: 'Missing trivia ID in request URL' },
-      {
-        status: 400,
-      },
-    );
-  }
-
-  // Replace with your logic to retrieve trivia based on triviaId
-  // (e.g., database query, in-memory storage)
-  const triviaData = await getTriviaById(triviaId); // Replace with your retrieval function
-
-  // Handle cases where trivia is not found
-  if (!triviaData) {
-    return NextResponse.json({ message: 'Trivia not found' }, { status: 404 });
-  }
-
-  // Convert to JSON and return response
-  const data = JSON.stringify(triviaData);
-  return NextResponse.json(
-    { triviaData },
-    {
-      headers: { 'Content-Type': 'application/json' },
-    },
-  );
+export const GET = async (req: Request) => {
+  await connectDB();
+  const trivia = await Trivia.find();
+  return NextResponse.json({ trivia });
 };
 
 // Replace this function with your actual trivia retrieval logic

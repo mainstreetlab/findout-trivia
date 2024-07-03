@@ -3,17 +3,15 @@ import useFetch from '@/hooks/useFetch';
 
 const getData = async (slug: string) => {
   const res = await fetch(`http://localhost:3000/api/trivia/${slug}`);
-  return res.json();
+  const data = await res.json();
+  console.log(data);
+  return data;
 };
 
-export default async function Page({
-  params: { id },
-}: {
-  params: { id: string };
-}) {
-  const { data } = await getData(id);
+const TriviaPage = async ({ params: { id } }: { params: { id: string } }) => {
+  const response = await getData(id);
+  const { responseBody: data } = response;
   const trivia = JSON.parse(data);
-  console.log(trivia);
 
   return (
     <main className="h-screen pt-28">
@@ -24,4 +22,6 @@ export default async function Page({
       </div>
     </main>
   );
-}
+};
+
+export default TriviaPage;

@@ -35,8 +35,6 @@ const CreateTrivia = ({ prize, answers }: CreateTriviaProps) => {
     [wallets],
   );
 
-  const 
-
   useEffect(() => {
     if (smartWallet) setActiveWallet(smartWallet);
   }, [smartWallet, setActiveWallet]);
@@ -78,25 +76,25 @@ const CreateTrivia = ({ prize, answers }: CreateTriviaProps) => {
     }
   }, [prize]);
 
-  const params = useMemo(()=> {
-    if (prize === null) {
-      return {
-        address: QuizliteAddress,
-        abi: QuizliteABI,
-        functionName: 'create',
-        args: answers,
-      }
-    } else {
-      // no price is set, won't trigger during test
-      return null
-      // {
-      //   address: QuizAddress,
-      //   abi: QuizABI,
-      //   functionName: 'create',
-      //   args: [answers, amount],
-      // }
-    }
-  }, [prize])
+  // const params = useMemo(()=> {
+  //   if (prize === null) {
+  //     return {
+  //       address: QuizliteAddress,
+  //       abi: QuizliteABI,
+  //       functionName: 'create',
+  //       args: answers,
+  //     }
+  //   } else {
+  //     // no price is set, won't trigger during test
+  //     return null
+  //     // {
+  //     //   address: QuizAddress,
+  //     //   abi: QuizABI,
+  //     //   functionName: 'create',
+  //     //   args: [answers, amount],
+  //     // }
+  //   }
+  // }, [prize])
 
   return (
     <>
@@ -112,8 +110,7 @@ const CreateTrivia = ({ prize, answers }: CreateTriviaProps) => {
           },
         ]}
         capabilities={capabilities}
-        params={{ prize, answers }}
-        chain={chainId}
+        chainId={chainId}
       />
     </>
   );

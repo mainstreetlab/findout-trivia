@@ -238,9 +238,6 @@ const QuestionList = () => {
         });
       });
     } else {
-      const answers = getAnswers();
-      alert(answers);
-
       if (user) {
         let fetchData = {
           method: 'POST',
@@ -250,7 +247,7 @@ const QuestionList = () => {
           }),
         };
 
-        const res = await fetch('/api/create', fetchData);
+        const res = await fetch('/api/trivia', fetchData);
 
         if (!res.ok) {
           toast({
@@ -290,7 +287,7 @@ const QuestionList = () => {
         </div>
       </form>
 
-      <TriviaCreatedDialog triviaId="SJHGShjgdhGD" />
+      <TriviaCreatedDialog triviaId="Nl8Op6WN6z" />
 
       {/* Add another question */}
       {/* {questions.length < 5 && (

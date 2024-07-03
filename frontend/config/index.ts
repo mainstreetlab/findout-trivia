@@ -3,12 +3,6 @@ import { base, baseSepolia } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
 import { createConfig } from '@privy-io/wagmi';
 
-declare module 'wagmi' {
-  interface Register {
-    config: typeof config;
-  }
-}
-
 export const config = createConfig({
   chains: [base, baseSepolia],
   // turn off injected provider discovery
@@ -28,4 +22,8 @@ export const config = createConfig({
   },
 });
 
-
+declare module 'wagmi' {
+  interface Register {
+    config: typeof config;
+  }
+}
