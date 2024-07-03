@@ -24,7 +24,6 @@ import { ZodError, fromZodError } from 'zod-validation-error';
 import checkValidationErrors from '@/utils/checkValidationErrors';
 
 import PrizeInput from '@/components/PrizeInput';
-import CreateButton from '@/components/CreateButton';
 
 import { usePrivy } from '@privy-io/react-auth';
 import { TriviaCreatedDialog } from './TriviaCreatedDialog';
