@@ -11,16 +11,17 @@ import { useCapabilities } from "wagmi/experimental";
 import { TransactButton } from "./SendTransaction";
 import { QuizliteABI, QuizliteAddress } from '@/abi/Quizlite';
 
+interface SubmitProps {
+  answers: number[];
+  prize: number | null;
+}
+
 //TO DO:
 //Submit funtion should take in parameters like: 
 // smart contract parameters
 // dynamic inputs of the component: Transact
-interface ParamsProps {
-  params: array[5];
-  prize: number;
-}
 
-const Submit = ({params, prize}: ParamsProps) => {
+const Submit = ({ answers }: SubmitProps) => {  
   // destructure the hook's returned object
   const { wallets } = useWallets();
   const { setActiveWallet } = useSetActiveWallet();
@@ -33,7 +34,6 @@ const Submit = ({params, prize}: ParamsProps) => {
   useEffect(() => {
     if (smartWallet) setActiveWallet(smartWallet);
   }, [smartWallet, setActiveWallet]);
-
   const account = useAccount();
   const { data: availableCapabilities } = useCapabilities({
     account: account.address,
@@ -67,25 +67,24 @@ const Submit = ({params, prize}: ParamsProps) => {
   }, [account.chain, availableCapabilities, account.chainId]);
 
   //where to assign smart contract function params
-  const params = [1, 2, 3, 4, 5]; 
-  
-  
+
   return (
     <>
       <TransactButton
-        text = "Submit" //tx title 
-        contracts={[  //contracts params
+        text="Submit" //tx title
+        contracts={[
+          //contracts params
           {
             address: QuizliteAddress,
             abi: QuizliteABI,
-            functionName: "create",
-            args: params,
+            functionName: 'create',
+            args: answers,
           },
         ]}
         capabilities={capabilities}
       />
     </>
-    )
-}
+  );
+};
 
 export default Submit
