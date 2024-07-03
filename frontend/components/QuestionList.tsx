@@ -29,6 +29,7 @@ import CreateButton from '@/components/CreateButton';
 import { usePrivy } from '@privy-io/react-auth';
 import { TriviaCreatedDialog } from './TriviaCreatedDialog';
 import { useDialog } from '@/hooks/useDialog';
+import Submit from '@/components/Submit';
 
 interface QuestionCardProps {
   questionIdx: number;
@@ -239,6 +240,7 @@ const QuestionList = () => {
       });
     } else {
       const answers = getAnswers();
+      alert(answers);
 
       if (user) {
         let fetchData = {
@@ -285,7 +287,7 @@ const QuestionList = () => {
           );
         })}
         <div className="flex flex-col items-center justify-center mt-10 mb-6">
-          <CreateButton />
+          <Submit answers={getAnswers()} />
         </div>
       </form>
 

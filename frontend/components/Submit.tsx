@@ -13,7 +13,12 @@ import { QuizliteABI, QuizliteAddress } from '@/abi/Quizlite';
 //Submit funtion should take in parameters like: 
 // smart contract parameters
 // dynamic inputs of the component: Transact
-const Submit = () => {
+
+interface SubmitProps {
+  answers: number[];
+}
+
+const Submit = ({ answers }: SubmitProps) => {
   const account = useAccount();
   const { data: availableCapabilities } = useCapabilities({
     account: account.address,
@@ -47,25 +52,24 @@ const Submit = () => {
   }, [account.chain, availableCapabilities, account.chainId]);
 
   //where to assign smart contract function params
-  const params = [1, 2, 3, 4, 5]; 
-  
-  
+
   return (
     <>
       <TransactButton
-        text = "Submit" //tx title 
-        contracts={[  //contracts params
+        text="Submit" //tx title
+        contracts={[
+          //contracts params
           {
             address: QuizliteAddress,
             abi: QuizliteABI,
-            functionName: "create",
-            args: params,
+            functionName: 'create',
+            args: answers,
           },
         ]}
         capabilities={capabilities}
       />
     </>
-    )
-}
+  );
+};
 
 export default Submit
