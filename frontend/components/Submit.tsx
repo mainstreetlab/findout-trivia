@@ -15,25 +15,12 @@ import { QuizliteABI, QuizliteAddress } from '@/abi/Quizlite';
 //Submit funtion should take in parameters like: 
 // smart contract parameters
 // dynamic inputs of the component: Transact
-interface ParamsProps {
-  params: array[5];
-  prize: number;
+
+interface SubmitProps {
+  answers: number[];
 }
 
-const Submit = ({params, prize}: ParamsProps) => {
-  // destructure the hook's returned object
-  const { wallets } = useWallets();
-  const { setActiveWallet } = useSetActiveWallet();
-
-  const smartWallet = useMemo(
-    () => wallets.find(wallet => wallet.walletClientType === 'coinbase_wallet'),
-    [wallets],
-  );
-
-  useEffect(() => {
-    if (smartWallet) setActiveWallet(smartWallet);
-  }, [smartWallet, setActiveWallet]);
-
+const Submit = ({ answers }: SubmitProps) => {
   const account = useAccount();
   const { data: availableCapabilities } = useCapabilities({
     account: account.address,
@@ -66,26 +53,23 @@ const Submit = ({params, prize}: ParamsProps) => {
     }
   }, [account.chain, availableCapabilities, account.chainId]);
 
-  //where to assign smart contract function params
-  const params = [1, 2, 3, 4, 5]; 
-  
-  
   return (
     <>
       <TransactButton
-        text = "Submit" //tx title 
-        contracts={[  //contracts params
+        text="Submit" //tx title
+        contracts={[
+          //contracts params
           {
             address: QuizliteAddress,
             abi: QuizliteABI,
-            functionName: "create",
-            args: params,
+            functionName: 'create',
+            args: answers,
           },
         ]}
         capabilities={capabilities}
       />
     </>
-    )
-}
+  );
+};
 
 export default Submit
