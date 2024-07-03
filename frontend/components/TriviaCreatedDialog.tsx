@@ -1,4 +1,5 @@
 'use client';
+
 // Imports here
 import { Button } from './ui/button';
 import {
@@ -24,7 +25,7 @@ interface CreatedDialogProps {
   // setTriviaCreated: () => void;
 }
 
-export function TriviaCreatedDialog({
+export default function TriviaCreatedDialog({
   triviaId,
   // triviaCreated,
   // setTriviaCreated,

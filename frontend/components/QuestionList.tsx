@@ -23,12 +23,20 @@ import { z } from 'zod';
 import { ZodError, fromZodError } from 'zod-validation-error';
 import checkValidationErrors from '@/utils/checkValidationErrors';
 
+import dynamic from 'next/dynamic';
+
 import PrizeInput from '@/components/PrizeInput';
+import Submit from '@/components/CreateTrivia';
+const TriviaCreatedDialog = dynamic(
+  () => import('@/components/TriviaCreatedDialog'),
+  {
+    ssr: false,
+    loading: () => <p>Loading...</p>,
+  },
+);
 
 import { usePrivy } from '@privy-io/react-auth';
-import { TriviaCreatedDialog } from './TriviaCreatedDialog';
 import { useDialog } from '@/hooks/useDialog';
-import Submit from '@/components/CreateTrivia';
 
 interface QuestionCardProps {
   questionIdx: number;
