@@ -73,7 +73,7 @@ const initialState = {
 const useQuizStore = create<QuizStore>()(
   immer((set, get) => ({
     // prize state
-    prize: undefined,
+    prize: 0,
     setPrize: (prize: number) =>
       set(
         produce(state => {
