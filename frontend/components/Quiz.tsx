@@ -92,29 +92,33 @@ const Quiz = ({ trivia: { questions } }: QuizProps) => {
 
     return (
       <div className="w-[90%] gap-6 flex flex-col">
-        <div className="w-full h-[200px] flex flex-col items-center justify-center text-center leading-normal gradient mx-auto rounded-md text-white p-4">
-          <div className="-mt-6 flex flex-col items-center justify-between gap-6">
-            <span className="flex items-center justify-center rounded-full text-2xl font-semibold text-blue-500/90 bg-white w-10 h-10">
-              {currentQuestion + 1}
-            </span>
-            <p className="text-xl text-wrap">{questionText}</p>
+        <div className="w-full h-[200px] flex flex-col items-center justify-center text-center leading-normal gradient-question-card mx-auto rounded-md text-white p-4 relative overflow-clip">
+          <div className="flex flex-col items-center justify-center gap-6 ">
+            <span className="flex items-center justify-center rounded-full text-4xl font-normal text-blue-500/90 opacity-80 gradient-question-number w-14 h-14 absolute top-6 -left-3.5"></span>
+            <p className="text-xl font-semibold text-wrap mt-8">
+              {questionText}
+            </p>
+            <span className="flex items-center justify-center rounded-full text-4xl font-normal text-blue-500/90 gradient-question-number w-20 h-20 absolute -bottom-10 right-12 opacity-75 rotate-120"></span>
           </div>
         </div>
         <ul className="flex flex-col gap-6 mx-auto w-full">
           {choices.map((choice, index) => (
             <li key={index} className="w-full">
               <button
-                className={`border border-primary/20 p-4 w-full rounded-md text-center text-lg 
-                ${submitted ? 'pointer-events-none cursor-not-allowed' : 'cursor-pointer'}
-                ${
+                className={cn(
+                  'border border-accent/20 px-2 py-2.5 w-full h-20 rounded-md text-center text-lg select-none text-primary',
+                  submitted
+                    ? 'pointer-events-none cursor-not-allowed'
+                    : 'cursor-pointer',
                   selectedAnswer === index
-                    ? 'bg-blue-500 text-white'
+                    ? 'bg-gradient-to-r from-fuchsia-600 to-indigo-500 text-white'
                     : submitted
-                      ? 'bg-neutral-500/20'
-                      : 'bg-blue-500/20'
-                }
-                `}
+                      ? 'bg-neutral-500/20 text-opacity-25'
+                      : 'bg-fuchsia-200/10',
+                )}
                 onClick={() => handleOptionChange(index)}
+                title={choice.value}
+                style={{ overflowWrap: 'break-word' }}
               >
                 {choice.value}
               </button>
@@ -122,7 +126,7 @@ const Quiz = ({ trivia: { questions } }: QuizProps) => {
           ))}
         </ul>
         <button
-          className={`p-4 rounded-md text-white text-lg ${submitted ? 'bg-violet-500' : 'bg-blue-500'} hover:bg-opacity-90 disabled:bg-neutral-500/20 disabled:cursor-not-allowed`}
+          className={`p-4 rounded-md text-white text-lg ${submitted ? 'bg-accent' : 'bg-violet-700'} hover:bg-opacity-90 disabled:bg-neutral-500/20 disabled:cursor-not-allowed disabled:text-white/90`}
           onClick={
             complete
               ? handleRestart

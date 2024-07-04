@@ -10,8 +10,8 @@ const getData = async (slug: string) => {
 
 const TriviaPage = async ({ params: { id } }: { params: { id: string } }) => {
   const response = await getData(id);
-  const { responseBody: data } = response;
-  const trivia = JSON.parse(data);
+  const { data: trivia } = response;
+  // const trivia = JSON.parse(data);
 
   return (
     <main className="h-screen pt-28">

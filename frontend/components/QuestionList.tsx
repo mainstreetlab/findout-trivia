@@ -26,7 +26,7 @@ import checkValidationErrors from '@/utils/checkValidationErrors';
 import dynamic from 'next/dynamic';
 
 import PrizeInput from '@/components/PrizeInput';
-import Submit from '@/components/CreateTrivia';
+
 const TriviaCreatedDialog = dynamic(
   () => import('@/components/TriviaCreatedDialog'),
   {
@@ -37,6 +37,7 @@ const TriviaCreatedDialog = dynamic(
 
 import { usePrivy } from '@privy-io/react-auth';
 import { useDialog } from '@/hooks/useDialog';
+import CreateTrivia from '@/components/CreateTrivia';
 
 interface QuestionCardProps {
   questionIdx: number;
@@ -217,6 +218,7 @@ const QuestionList = () => {
   // const handleDeleteQuestion = (id: number) => {
   //   deleteQuestion(id);
   // };
+  const [triviaId, setTriviaId] = useState(null);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -265,11 +267,13 @@ const QuestionList = () => {
           });
         } else {
           const data = await res.json();
+          setTriviaId(data.data);
           console.log('API data', data);
           toast({
             variant: 'default',
-            title: 'Action Successful',
-            description: JSON.stringify(data),
+            title: 'Success!',
+            description:
+              'Trivia created successfully. Start sharing your link to friends now.',
           });
           onOpen();
         }
@@ -290,12 +294,12 @@ const QuestionList = () => {
             />
           );
         })}
-        <div className="flex flex-col items-center justify-center mt-10 mb-6 fixed ">
-          <Submit answers={getAnswers()} />
+        <div className="flex flex-col items-center justify-center mt-10 sticky bottom-6 transition-all duration-700 ease-in-out">
+          <CreateTrivia prize={null} answers={getAnswers()} />
         </div>
       </form>
 
-      <TriviaCreatedDialog triviaId="Nl8Op6WN6z" />
+      <TriviaCreatedDialog triviaId={triviaId} />
 
       {/* Add another question */}
       {/* {questions.length < 5 && (
