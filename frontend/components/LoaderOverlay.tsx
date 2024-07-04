@@ -1,14 +1,14 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { usePrivy } from "@privy-io/react-auth"; 
-import { CgSpinnerAlt } from "react-icons/cg";
+import Loading from '@/app/loading';
+import { cn } from '@/lib/utils';
+import { usePrivy } from '@privy-io/react-auth';
 
-interface LoaderProps  { 
-  children: React.ReactNode
+interface LoaderProps {
+  children: React.ReactNode;
 }
 
-const LoaderOverlay = ({ children }:LoaderProps) => {
+const LoaderOverlay = ({ children }: LoaderProps) => {
   const { ready } = usePrivy();
 
   return (
@@ -18,8 +18,8 @@ const LoaderOverlay = ({ children }:LoaderProps) => {
           !ready,
       })}
     >
-      {/* {!ready ? <CgSpinnerAlt className="animate-spin w-8 h-8" /> : children} */}
-      {children}
+      {!ready ? <Loading /> : children}
+      {/* {children} */}
     </div>
   );
 };
