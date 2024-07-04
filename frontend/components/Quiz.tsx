@@ -81,7 +81,7 @@ const Quiz = ({ trivia: { questions } }: QuizProps) => {
           <Progress value={progress} />
         </div>
         <FaCircleCheck
-          className={`${complete ? 'block' : 'hidden'} text-xl text-violet-700`}
+          className={`${complete ? 'block' : 'hidden'} text-xl text-indigo-500`}
         />
       </div>
     );
@@ -95,7 +95,7 @@ const Quiz = ({ trivia: { questions } }: QuizProps) => {
         <div className="w-full h-[200px] flex flex-col items-center justify-center text-center leading-normal gradient-question-card mx-auto rounded-md text-white p-4 relative overflow-clip">
           <div className="flex flex-col items-center justify-center gap-6 ">
             <span className="flex items-center justify-center rounded-full text-4xl font-normal text-blue-500/90 opacity-80 gradient-question-number w-14 h-14 absolute top-6 -left-3.5"></span>
-            <p className="text-xl font-semibold text-wrap mt-8">
+            <p className="text-2xl font-medium text-wrap mt-8">
               {questionText}
             </p>
             <span className="flex items-center justify-center rounded-full text-4xl font-normal text-blue-500/90 gradient-question-number w-20 h-20 absolute -bottom-10 right-12 opacity-75 rotate-120"></span>
