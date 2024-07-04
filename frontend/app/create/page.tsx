@@ -11,7 +11,7 @@ const CreatePage = () => {
   //submit component should receive parameters of prizeInput and QuestionLink. 
   return (
     <main className="h-screen pt-28">
-      <div className="container mx-auto h-full bg-white md:max-w-md">
+      <div className="container mx-auto h-full bg-white md:max-w-md pt-10">
         <QuestionList />
       </div>
     </main>

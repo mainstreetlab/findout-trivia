@@ -124,7 +124,7 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-start gap-4 my-10">
+    <div className="flex flex-col justify-center items-start gap-4 my-4">
       <div className="w-full px-0 flex flex-col gap-4">
         <div className="flex justify-between items-center">
           <Label
@@ -290,7 +290,7 @@ const QuestionList = () => {
             />
           );
         })}
-        <div className="flex flex-col items-center justify-center mt-10 mb-6">
+        <div className="flex flex-col items-center justify-center mt-10 mb-6 fixed ">
           <Submit answers={getAnswers()} />
         </div>
       </form>
