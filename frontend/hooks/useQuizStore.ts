@@ -5,7 +5,7 @@ import { immer } from "zustand/middleware/immer";
 
 export interface QuizStore {
   // Prize state
-  prize: number;
+  prize: number | undefined | string;
   setPrize: (amount: number) => void;
   isValidatePrize?: boolean | null;
   validatePrize?: () => void;

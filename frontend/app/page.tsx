@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main className="h-screen pt-28">
-      <div className="container mx-auto h-full bg-white md:max-w-md pt-4">
+      <div className="container mx-auto h-full bg-white md:max-w-md pt-8">
         <div className="flex flex-col items-center justify-between">
           <div className="text-center flex  flex-col items-center gap-6">
             <h1 className="text-6xl font-black  to-violet-700 from-purple-400 via-blue-600 bg-gradient-to-r bg-clip-text text-transparent">
@@ -20,9 +20,9 @@ export default function Home() {
             {/* CTA and socials */}
             <Link
               className={buttonVariants({
-                variant: "outline",
-                size: "lg",
-                className: "mb-6",
+                variant: 'outline',
+                size: 'lg',
+                className: 'mb-6',
               })}
               href="/create"
             >
@@ -61,9 +61,9 @@ export default function Home() {
           {/* CTA and socials */}
           <Link
             className={buttonVariants({
-              variant: "default",
-              size: "lg",
-              className: "my-6",
+              variant: 'default',
+              size: 'lg',
+              className: 'my-6',
             })}
             href="/create"
           >

@@ -13,7 +13,7 @@ const MobileNav = () => {
       <SheetTrigger className="flex justify-center items-center">
         <CgMenuRightAlt
           fontWeight="bold"
-          className="text-[42px] text-violet-600"
+          className="text-[48px] text-violet-600"
         />
       </SheetTrigger>
 

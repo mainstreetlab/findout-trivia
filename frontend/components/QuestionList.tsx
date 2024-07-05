@@ -23,13 +23,21 @@ import { z } from 'zod';
 import { ZodError, fromZodError } from 'zod-validation-error';
 import checkValidationErrors from '@/utils/checkValidationErrors';
 
+import dynamic from 'next/dynamic';
+
 import PrizeInput from '@/components/PrizeInput';
-import Submit from '@/components/Submit';
+
+const TriviaCreatedDialog = dynamic(
+  () => import('@/components/TriviaCreatedDialog'),
+  {
+    ssr: false,
+    loading: () => <p>Loading...</p>,
+  },
+);
 
 import { usePrivy } from '@privy-io/react-auth';
-import { TriviaCreatedDialog } from './TriviaCreatedDialog';
 import { useDialog } from '@/hooks/useDialog';
-import Submit from '@/components/Submit';
+import CreateTrivia from '@/components/CreateTrivia';
 
 interface QuestionCardProps {
   questionIdx: number;
@@ -117,7 +125,7 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-start gap-4 my-10">
+    <div className="flex flex-col justify-center items-start gap-4 my-4">
       <div className="w-full px-0 flex flex-col gap-4">
         <div className="flex justify-between items-center">
           <Label
@@ -210,6 +218,7 @@ const QuestionList = () => {
   // const handleDeleteQuestion = (id: number) => {
   //   deleteQuestion(id);
   // };
+  const [triviaId, setTriviaId] = useState(null);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -239,9 +248,6 @@ const QuestionList = () => {
         });
       });
     } else {
-      const answers = getAnswers();
-      alert(answers);
-
       if (user) {
         let fetchData = {
           method: 'POST',
@@ -251,7 +257,7 @@ const QuestionList = () => {
           }),
         };
 
-        const res = await fetch('/api/create', fetchData);
+        const res = await fetch('/api/trivia', fetchData);
 
         if (!res.ok) {
           toast({
@@ -261,11 +267,13 @@ const QuestionList = () => {
           });
         } else {
           const data = await res.json();
+          setTriviaId(data.data);
           console.log('API data', data);
           toast({
             variant: 'default',
-            title: 'Action Successful',
-            description: JSON.stringify(data),
+            title: 'Success!',
+            description:
+              'Trivia created successfully. Start sharing your link to friends now.',
           });
           onOpen();
         }
@@ -286,12 +294,12 @@ const QuestionList = () => {
             />
           );
         })}
-        <div className="flex flex-col items-center justify-center mt-10 mb-6">
-          <Submit answers={getAnswers()} />
+        <div className="flex flex-col items-center justify-center mt-10 sticky bottom-6 transition-all duration-700 ease-in-out">
+          <CreateTrivia prize={null} answers={getAnswers()} />
         </div>
       </form>
 
-      <TriviaCreatedDialog triviaId="SJHGShjgdhGD" />
+      <TriviaCreatedDialog triviaId={triviaId} />
 
       {/* Add another question */}
       {/* {questions.length < 5 && (

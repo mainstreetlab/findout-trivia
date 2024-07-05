@@ -9,35 +9,43 @@ import { useMemo, useState } from "react";
 import { WriteContractsErrorType } from "viem/experimental";
 import { TransactionExecutionError } from "viem";
 import { CallStatus } from "./CallStatus";
+import { usePrivy, useWallets } from '@privy-io/react-auth';
+import { Button } from './ui/button';
+import { config } from '@/config';
 
 export type TransactButtonProps<
   config extends Config = Config,
   context = unknown,
-> = UseSendCallsReturnType<config, context>["sendCalls"]["arguments"] & {
-  mutation?: UseSendCallsParameters<config, context>["mutation"];
+> = UseSendCallsReturnType<config, context>['sendCalls']['arguments'] & {
+  mutation?: UseSendCallsParameters<config, context>['mutation'];
 } & { text: string };
 
 export function TransactButton<
-  config extends Config = ResolvedRegister["config"],
+  config extends Config = ResolvedRegister['config'],
   context = unknown,
->({ mutation, text, ...rest }: TransactButtonProps<config, context>) {
+>({
+  mutation,
+  text,
+  contracts,
+  ...rest
+}: TransactButtonProps<config, context>) {
   const [error, setError] = useState<string | undefined>(undefined);
   const [id, setId] = useState<string | undefined>(undefined);
   const { writeContracts, status } = useWriteContracts({
     mutation: {
       ...mutation,
-      onError: (e) => {
+      onError: e => {
         if (
           (e as TransactionExecutionError).cause.name ==
-          "UserRejectedRequestError"
+          'UserRejectedRequestError'
         ) {
-          setError("User rejected request");
+          setError('User rejected request');
         } else {
           setError(e.message);
         }
         mutation.onError(error);
       },
-      onSuccess: (id) => {
+      onSuccess: id => {
         setId(id);
         mutation.onSuccess(id);
       },
@@ -53,14 +61,36 @@ export function TransactButton<
     return text;
   }, [text, status]);
 
+  const { authenticated, login, user, connectWallet } = usePrivy();
+  const { ready, wallets } = useWallets();
+
   return (
     <>
-      <button
-        onClick={() => writeContracts(rest)}
-        disabled={status == "pending"}
-      >
-        {displayText}
-      </button>
+      {authenticated || user ? (
+        <Button
+          type="submit"
+          className="w-3/4 md:w-3/5 px-8"
+          onClick={() => {
+            connectWallet();
+            writeContracts(rest);
+          }}
+          disabled={status == 'pending'}
+        >
+          {displayText}
+        </Button>
+      ) : (
+        <Button
+          type="button"
+          className="w-3/4 md:w-3/5 px-8"
+          onClick={() => {
+            login();
+            wallets[0].loginOrLink();
+          }}
+        >
+          Login
+        </Button>
+      )}
+
       {!id && error && <p>error: {error}</p>}
       {id && <CallStatus id={id} />}
     </>

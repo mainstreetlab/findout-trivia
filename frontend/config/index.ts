@@ -3,7 +3,7 @@ import { base, baseSepolia } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
 import { createConfig } from '@privy-io/wagmi';
 
-export const wagmiConfig = createConfig({
+export const config = createConfig({
   chains: [base, baseSepolia],
   // turn off injected provider discovery
   multiInjectedProviderDiscovery: false,
@@ -15,13 +15,15 @@ export const wagmiConfig = createConfig({
   ],
   ssr: true,
   transports: {
-    [base.id]: http(process.env.BASE_RPC_URL!),
-    [baseSepolia.id]: http(process.env.BASE_SEPOLIA_RPC_URL!),
+    // [base.id]: http(process.env.BASE_RPC_URL!),
+    // [baseSepolia.id]: http(process.env.BASE_SEPOLIA_RPC_URL!),
+    [base.id]: http(),
+    [baseSepolia.id]: http(),
   },
 });
 
 declare module 'wagmi' {
   interface Register {
-    wagmiConfig: typeof wagmiConfig;
+    config: typeof config;
   }
 }
