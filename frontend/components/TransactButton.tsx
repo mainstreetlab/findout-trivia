@@ -62,7 +62,26 @@ export function TransactButton<
   }, [text, status]);
 
   const { authenticated, login, user, connectWallet } = usePrivy();
-  const { ready, wallets } = useWallets();
+  const { wallets } = useWallets();
+
+  const handleClick = () => {
+    if (!user) {
+      login();
+    }
+
+    if (user) {
+      if (!wallets) {
+        console.log('wallets', wallets);
+        connectWallet();
+      } else {
+        if (!wallets[0].linked) {
+          wallets[0].loginOrLink();
+        }
+      }
+    }
+    // wallets[0].loginOrLink();
+    console.log('wallets', wallets);
+  };
 
   return (
     <>
@@ -70,10 +89,7 @@ export function TransactButton<
         <Button
           type="submit"
           className="w-3/4 md:w-3/5 px-8"
-          onClick={() => {
-            connectWallet();
-            writeContracts(rest);
-          }}
+          onClick={handleClick}
           disabled={status == 'pending'}
         >
           {displayText}
@@ -82,10 +98,7 @@ export function TransactButton<
         <Button
           type="button"
           className="w-3/4 md:w-3/5 px-8"
-          onClick={() => {
-            login();
-            wallets[0].loginOrLink();
-          }}
+          onClick={handleClick}
         >
           Login
         </Button>

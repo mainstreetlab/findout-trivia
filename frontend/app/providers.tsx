@@ -28,9 +28,9 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
         loginMethods: ['email', 'wallet', 'google', 'apple'],
 
         // Create embedded wallets for users who don't have a wallet - we might have to delay the use of embedded wallet to concentrate our calls through coinbase smart wallet at the moment
-        embeddedWallets: {
-          createOnLogin: 'users-without-wallets',
-        },
+        // embeddedWallets: {
+        //   createOnLogin: 'users-without-wallets',
+        // },
 
         externalWallets: {
           coinbaseWallet: {

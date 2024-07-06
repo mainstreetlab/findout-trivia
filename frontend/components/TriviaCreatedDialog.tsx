@@ -36,6 +36,8 @@ export default function TriviaCreatedDialog({
     process.env.NODE_ENV === 'development'
       ? 'localhost:3000'
       : window.location.hostname;
+  
+  console.log('hostname', hostname);
 
   const triviaUrl = `${hostname}/trivia/${triviaId}`;
 
