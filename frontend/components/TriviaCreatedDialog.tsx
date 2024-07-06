@@ -32,7 +32,12 @@ export default function TriviaCreatedDialog({
 }: CreatedDialogProps) {
   const { isOpen, onClose } = useDialog();
 
-  const triviaUrl = `${window.location.hostname}:${window.location.port}/trivia/${triviaId}`;
+  const hostname =
+    process.env.NODE_ENV === 'development'
+      ? 'localhost:3000'
+      : window.location.hostname;
+
+  const triviaUrl = `${hostname}/trivia/${triviaId}`;
 
   return (
     triviaId && (
