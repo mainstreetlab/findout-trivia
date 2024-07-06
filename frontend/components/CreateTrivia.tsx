@@ -7,6 +7,7 @@ import { useAccount } from 'wagmi';
 import { base, baseSepolia } from 'viem/chains';
 import { useCapabilities } from 'wagmi/experimental';
 import { TransactButton } from './TransactButton';
+//import { QuizABI, QuizAddress } from '@/abi/Quiz'; 
 import { QuizliteABI, QuizliteAddress } from '@/abi/Quizlite';
 import { useWallets } from '@privy-io/react-auth';
 import { useSetActiveWallet } from '@privy-io/wagmi';

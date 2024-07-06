@@ -37,7 +37,7 @@ export async function willSponsorBase({
 
   try {
     // check the userOp.sender is a proxy with the expected bytecode
-    const code = await baseClient.getBytecode({ address: userOp.sender });
+    const code = await baseClient.getCode({ address: userOp.sender });
     if (code != coinbaseSmartWalletProxyBytecode) return false;
 
     // check that userOp.sender proxies to expected implementation
@@ -128,7 +128,7 @@ export async function willSponsorBaseSepolia({
 
   try {
     // check the userOp.sender is a proxy with the expected bytecode
-    const code = await baseSepoliaClient.getBytecode({
+    const code = await baseSepoliaClient.getCode({
       address: userOp.sender,
     });
     if (code != coinbaseSmartWalletProxyBytecode) return false;
@@ -184,6 +184,7 @@ export async function willSponsorBaseSepolia({
       abi: QuizliteABI,
       data: calls[callToCheckIndex].data,
     });
+
     if (
       innerCalldata.functionName !== 'create' &&
       innerCalldata.functionName !== 'play'

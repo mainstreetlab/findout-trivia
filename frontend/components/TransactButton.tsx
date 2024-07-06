@@ -70,7 +70,10 @@ export function TransactButton<
         <Button
           type="submit"
           className="w-3/4 md:w-3/5 px-8"
-          onClick={() => writeContracts(rest)}
+          onClick={() => {
+            connectWallet();
+            writeContracts(rest);
+          }}
           disabled={status == 'pending'}
         >
           {displayText}
