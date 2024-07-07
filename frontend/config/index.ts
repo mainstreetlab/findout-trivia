@@ -24,11 +24,6 @@ export const config = createConfig({
   },
 });
 
-export const hostnameConfig =
-  process.env.NODE_ENV === 'development'
-    ? 'localhost:3000'
-    : window.location.hostname;
-
 declare module 'wagmi' {
   interface Register {
     config: typeof config;
