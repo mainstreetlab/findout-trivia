@@ -18,6 +18,7 @@ import { Label } from './ui/label';
 import { LuCopy as Copy } from 'react-icons/lu';
 import { useDialog } from '@/hooks/useDialog';
 import CopyToClipboard from './CopyToClipboard';
+import { hostnameConfig } from '@/config';
 
 interface CreatedDialogProps {
   triviaId: string | null;
@@ -32,14 +33,9 @@ export default function TriviaCreatedDialog({
 }: CreatedDialogProps) {
   const { isOpen, onClose } = useDialog();
 
-  const hostname =
-    process.env.NODE_ENV === 'development'
-      ? 'localhost:3000'
-      : window.location.hostname;
-  
-  console.log('hostname', hostname);
+  console.log('hostname', hostnameConfig);
 
-  const triviaUrl = `${hostname}/trivia/${triviaId}`;
+  const triviaUrl = `${hostnameConfig}/trivia/${triviaId}`;
 
   return (
     triviaId && (

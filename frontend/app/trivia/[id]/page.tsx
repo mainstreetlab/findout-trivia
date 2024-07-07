@@ -1,8 +1,9 @@
 import Quiz from '@/components/Quiz';
+import { hostnameConfig } from '@/config';
 import useFetch from '@/hooks/useFetch';
 
 const getData = async (slug: string) => {
-  const res = await fetch(`http://localhost:3000/api/trivia/${slug}`);
+  const res = await fetch(`${hostnameConfig}/api/trivia/${slug}`);
   const data = await res.json();
   console.log(data);
   return data;
