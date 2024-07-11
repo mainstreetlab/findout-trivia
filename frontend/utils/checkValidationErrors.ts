@@ -1,4 +1,4 @@
-import { QuizStore } from '@/hooks/useQuizStore';
+import { CreateQuizStore } from '@/hooks/useCreateQuizStore';
 
 interface Error {
   question?: string | null;
@@ -7,7 +7,7 @@ interface Error {
 }
 
 export default function checkValidationErrors(
-  isValidateQuestion: QuizStore['isValidateQuestion'],
+  isValidateQuestion: CreateQuizStore['isValidateQuestion'],
 ) {
   const errors = []; // Array to store errors per question
 

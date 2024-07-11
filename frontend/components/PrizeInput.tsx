@@ -4,22 +4,25 @@ import React from "react";
 import CustomSlider from "@/components/CustomSlider";
 import { Input } from "@/components/ui/input";
 
-import useQuizStore, { QuizStore } from "@/hooks/useQuizStore";
+import useCreateQuizStore, {
+  CreateQuizStore,
+} from '@/hooks/useCreateQuizStore';
 
 const PrizeInput = () => {
-  const { prize, setPrize, isValidatePrize, validatePrize } = useQuizStore((state: QuizStore) => {
-    return {
-      prize: state.prize,
-      setPrize: state.setPrize,
-      isValidatePrize: state.isValidatePrize,
-      validatePrize: state.validatePrize
-    };
-  });
+  const { prize, setPrize, isValidatePrize, validatePrize } =
+    useCreateQuizStore((state: CreateQuizStore) => {
+      return {
+        prize: state.prize,
+        setPrize: state.setPrize,
+        isValidatePrize: state.isValidatePrize,
+        validatePrize: state.validatePrize,
+      };
+    });
 
   const handleSetPrize = (strAmount: string) => {
     const parsedAmt = Math.max(Number(strAmount), 0);
 
-    //a wagmi/viem hook here, to parse prize in USDC decimals(1e6)
+    // a wagmi/viem hook here, to parse prize in USDC decimals(1e6)
 
     setPrize(parsedAmt);
   };
