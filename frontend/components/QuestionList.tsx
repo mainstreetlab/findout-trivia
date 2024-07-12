@@ -56,7 +56,7 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
     validateChoice,
     editAnswer,
     getAnswers,
-  } = useCreateQuizStore<QuizStore>(state => {
+  } = useCreateQuizStore<CreateQuizStore>(state => {
     return {
       prize: state.prize,
       setPrize: state.setPrize,
