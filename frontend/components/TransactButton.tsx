@@ -5,13 +5,14 @@ import {
   useWriteContracts,
   useCallsStatus,
 } from "wagmi/experimental";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { WriteContractsErrorType } from "viem/experimental";
 import { TransactionExecutionError } from "viem";
 import { CallStatus } from "./CallStatus";
 import { usePrivy, useWallets } from '@privy-io/react-auth';
 import { Button } from './ui/button';
 import { config } from '@/config';
+import { useSetActiveWallet } from '@privy-io/wagmi';
 
 export type TransactButtonProps<
   config extends Config = Config,
@@ -63,6 +64,17 @@ export function TransactButton<
 
   const { authenticated, login, user, connectWallet } = usePrivy();
   const { wallets } = useWallets();
+  const { setActiveWallet } = useSetActiveWallet();
+
+  const smartWallet = useMemo(
+    () => wallets.find(wallet => wallet.walletClientType === 'coinbase_wallet'),
+    [wallets],
+  );
+
+  //useEffect(() => {
+  //  if (smartWallet) setActiveWallet(smartWallet);
+  //}, [smartWallet, setActiveWallet]); 
+
 
   const handleClick = () => {
     if (!user) {
@@ -70,17 +82,36 @@ export function TransactButton<
     }
 
     if (user) {
-      if (!wallets) {
+      if (!wallets[0]) {
         console.log('wallets', wallets);
         connectWallet();
-      } else {
-        if (!wallets[0].linked) {
-          wallets[0].loginOrLink();
-        }
-      }
+
+        //const smartWallet = useMemo(
+        //  () => wallets.find(wallet => wallet.walletClientType === 'coinbase_wallet'),
+        //  [wallets],
+        //);
+
+        useEffect(() => {
+          if (smartWallet) setActiveWallet(smartWallet);
+        }, [smartWallet, setActiveWallet]); 
+      } //else {
+ //       const smartWallet = useMemo(
+ //         () => wallets.find(wallet => wallet.walletClientType === 'coinbase_wallet'),
+ //         [wallets],
+  //      );
+
+  //      if (!wallets[0] === smartWallet) {
+  //         useEffect(() => {
+  //            if (smartWallet) setActiveWallet(smartWallet);
+  //          }, [smartWallet, setActiveWallet]);
+  
+  //        wallets[0].loginOrLink();
+        //}
+      //}
     }
     // wallets[0].loginOrLink();
     console.log('wallets', wallets);
+    writeContracts(rest);
   };
 
   return (

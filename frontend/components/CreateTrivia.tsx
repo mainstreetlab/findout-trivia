@@ -38,7 +38,7 @@ const CreateTrivia = ({ prize, answers }: CreateTriviaProps) => {
 
   useEffect(() => {
     if (smartWallet) setActiveWallet(smartWallet);
-  }, [smartWallet, setActiveWallet]);
+  }, [smartWallet, setActiveWallet]); 
 
   const capabilities = useMemo(() => {
     if (!availableCapabilities || !account.chainId) return;
