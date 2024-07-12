@@ -1,9 +1,9 @@
-import { produce } from "immer";
-import { z } from "zod";
-import { create } from "zustand";
-import { immer } from "zustand/middleware/immer";
+import { produce } from 'immer';
+import { z } from 'zod';
+import { create } from 'zustand';
+import { immer } from 'zustand/middleware/immer';
 
-export interface QuizStore {
+export interface CreateQuizStore {
   // Prize state
   prize: number | undefined | string;
   setPrize: (amount: number) => void;
@@ -70,7 +70,7 @@ const initialState = {
   ],
 };
 
-const useQuizStore = create<QuizStore>()(
+const useCreateQuizStore = create<CreateQuizStore>()(
   immer((set, get) => ({
     // prize state
     prize: 0,
@@ -303,4 +303,4 @@ const useQuizStore = create<QuizStore>()(
 //should have a function that return just the answers to each questions
 //const Answers = QuizStore(state);  state.questions[idx].a
 
-export default useQuizStore;
+export default useCreateQuizStore;

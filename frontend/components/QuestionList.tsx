@@ -15,7 +15,9 @@ import {
 import { Input } from './ui/input';
 import { useToast } from '@/components/ui/use-toast';
 
-import useQuizStore, { QuizStore } from '@/hooks/useQuizStore';
+import useCreateQuizStore, {
+  CreateQuizStore,
+} from '@/hooks/useCreateQuizStore';
 
 import { FormEvent, useState } from 'react';
 
@@ -54,7 +56,7 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
     validateChoice,
     editAnswer,
     getAnswers,
-  } = useQuizStore<QuizStore>(state => {
+  } = useCreateQuizStore<CreateQuizStore>(state => {
     return {
       prize: state.prize,
       setPrize: state.setPrize,
@@ -200,7 +202,7 @@ const QuestionList = () => {
   const { onOpen } = useDialog();
 
   const { questions, isValidatePrize, isValidateQuestion, getAnswers } =
-    useQuizStore(state => {
+    useCreateQuizStore(state => {
       return {
         questions: state.questions,
         isValidatePrize: state.isValidatePrize,
