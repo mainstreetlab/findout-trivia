@@ -15,7 +15,9 @@ import {
 import { Input } from './ui/input';
 import { useToast } from '@/components/ui/use-toast';
 
-import useCreateQuizStore, { QuizStore } from '@/hooks/useCreateQuizStore';
+import useCreateQuizStore, {
+  CreateQuizStore,
+} from '@/hooks/useCreateQuizStore';
 
 import { FormEvent, useState } from 'react';
 
