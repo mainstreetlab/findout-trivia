@@ -71,9 +71,9 @@ export function TransactButton<
     [wallets],
   );
 
-  //useEffect(() => {
-  //  if (smartWallet) setActiveWallet(smartWallet);
-  //}, [smartWallet, setActiveWallet]); 
+  useEffect(() => {
+    if (smartWallet) setActiveWallet(smartWallet);
+  }, [smartWallet, setActiveWallet]); 
 
 
   const handleClick = () => {
@@ -91,9 +91,9 @@ export function TransactButton<
         //  [wallets],
         //);
 
-        useEffect(() => {
-          if (smartWallet) setActiveWallet(smartWallet);
-        }, [smartWallet, setActiveWallet]); 
+      //  useEffect(() => {
+      //    if (smartWallet) setActiveWallet(smartWallet);
+      //  }, [smartWallet, setActiveWallet]); 
       } //else {
  //       const smartWallet = useMemo(
  //         () => wallets.find(wallet => wallet.walletClientType === 'coinbase_wallet'),
