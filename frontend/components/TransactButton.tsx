@@ -91,22 +91,12 @@ export function TransactButton<
         //  [wallets],
         //);
 
-      //  useEffect(() => {
-      //    if (smartWallet) setActiveWallet(smartWallet);
-      //  }, [smartWallet, setActiveWallet]); 
+        //  useEffect(() => {
+        //    if (smartWallet) setActiveWallet(smartWallet);
+        //  }, [smartWallet, setActiveWallet]);
       } //else {
- //       const smartWallet = useMemo(
- //         () => wallets.find(wallet => wallet.walletClientType === 'coinbase_wallet'),
- //         [wallets],
-  //      );
-
-  //      if (!wallets[0] === smartWallet) {
-  //         useEffect(() => {
-  //            if (smartWallet) setActiveWallet(smartWallet);
-  //          }, [smartWallet, setActiveWallet]);
-  
-  //        wallets[0].loginOrLink();
-        //}
+      //        wallets[0].loginOrLink();
+      //}
       //}
     }
     // wallets[0].loginOrLink();
@@ -119,18 +109,14 @@ export function TransactButton<
       {authenticated || user ? (
         <Button
           type="submit"
-          className="w-3/4 md:w-3/5 px-8"
+          className="w-3/5 md:w-4/5"
           onClick={handleClick}
           disabled={status == 'pending'}
         >
           {displayText}
         </Button>
       ) : (
-        <Button
-          type="button"
-          className="w-3/4 md:w-3/5 px-8"
-          onClick={handleClick}
-        >
+        <Button type="button" className="w-3/5 md:w-4/5" onClick={handleClick}>
           Login
         </Button>
       )}
