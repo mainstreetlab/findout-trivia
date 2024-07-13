@@ -27,7 +27,7 @@ export function TransactButton<
 >({
   mutation,
   text,
-  contracts,
+  //contracts,
   ...rest
 }: TransactButtonProps<config, context>) {
   const [error, setError] = useState<string | undefined>(undefined);
@@ -85,31 +85,12 @@ export function TransactButton<
       if (!wallets[0]) {
         console.log('wallets', wallets);
         connectWallet();
-
-        //const smartWallet = useMemo(
-        //  () => wallets.find(wallet => wallet.walletClientType === 'coinbase_wallet'),
-        //  [wallets],
-        //);
-
-      //  useEffect(() => {
-      //    if (smartWallet) setActiveWallet(smartWallet);
-      //  }, [smartWallet, setActiveWallet]); 
-      } //else {
- //       const smartWallet = useMemo(
- //         () => wallets.find(wallet => wallet.walletClientType === 'coinbase_wallet'),
- //         [wallets],
-  //      );
-
-  //      if (!wallets[0] === smartWallet) {
-  //         useEffect(() => {
-  //            if (smartWallet) setActiveWallet(smartWallet);
-  //          }, [smartWallet, setActiveWallet]);
-  
-  //        wallets[0].loginOrLink();
-        //}
+      }
+      //if (!wallets[0] === smartWallet) {  
+      //     wallets[0].loginOrLink();
       //}
     }
-    // wallets[0].loginOrLink();
+    
     console.log('wallets', wallets);
     writeContracts(rest);
   };
