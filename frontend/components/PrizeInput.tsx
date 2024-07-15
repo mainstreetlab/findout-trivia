@@ -21,10 +21,11 @@ const PrizeInput = () => {
 
   const handleSetPrize = (strAmount: string) => {
     const parsedAmt = Math.max(Number(strAmount), 0);
+-(
+  // TODO a wagmi/viem hook here, to parse prize in USDC decimals(1e6)
 
-    // a wagmi/viem hook here, to parse prize in USDC decimals(1e6)
-
-    setPrize(parsedAmt);
+  setPrize(parsedAmt)
+);
   };
 
   return (
