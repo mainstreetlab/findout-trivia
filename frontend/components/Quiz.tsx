@@ -11,6 +11,7 @@ import { Progress } from '@/components/ui/progress';
 import { ObjectId } from 'mongoose';
 import { Question } from '@/models/trivia';
 import { cn } from '@/lib/utils';
+import useAnswerQuizStore from '@/hooks/useAnswerQuizStore';
 
 interface TriviaProps {
   _id: ObjectId;
@@ -23,18 +24,44 @@ interface QuizProps {
 }
 
 const Quiz = ({ trivia: { questions } }: QuizProps) => {
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState(-1);
-  const [score, setScore] = useState(0);
-  const [submitted, setSubmitted] = useState(false); // Track if question submitted
-  const [complete, setComplete] = useState(false);
+  // const [currentQuestion, setCurrentQuestion] = useState(0);
+  // const [selectedAnswer, setSelectedAnswer] = useState(-1);
+  // const [score, setScore] = useState(0);
+  // const [submitted, setSubmitted] = useState(false); // Track if question submitted
+  // const [complete, setComplete] = useState(false);
+
+  const {
+    currentQuestion,
+    setCurrentQuestion,
+    selectedAnswer,
+    setSelectedAnswer,
+    score,
+    setScore,
+    submitted,
+    setSubmitted,
+    complete,
+    setComplete,
+  } = useAnswerQuizStore(state => {
+    return {
+      currentQuestion: state.currentQuestion,
+      setCurrentQuestion: state.setCurrentQuestion,
+      selectedAnswer: state.selectedAnswer,
+      setSelectedAnswer: state.setSelectedAnswer,
+      score: state.score,
+      setScore: state.setScore,
+      submitted: state.submitted,
+      setSubmitted: state.setSubmitted,
+      complete: state.complete,
+      setComplete: state.setComplete,
+    };
+  });
 
   const handleOptionChange = (index: number) => {
     setSelectedAnswer(index);
   };
 
   const handleSubmitAnswer = () => {
-    if (selectedAnswer >= 0) {
+    if (selectedAnswer! >= 0) {
       if (selectedAnswer === questions[currentQuestion].answer) {
         setScore(score + 1);
       }
@@ -48,9 +75,6 @@ const Quiz = ({ trivia: { questions } }: QuizProps) => {
       setCurrentQuestion(currentQuestion + 1);
       setSubmitted(false); // Reset submitted flag for next question
     }
-    // console.log(currentQuestion);
-    // console.log(submitted);
-    // console.log(quizData.length);
   };
 
   const handleRestart = () => {
@@ -135,7 +159,7 @@ const Quiz = ({ trivia: { questions } }: QuizProps) => {
                 ? handleNextQuestion
                 : handleSubmitAnswer
           }
-          disabled={selectedAnswer < 0 && !submitted}
+          disabled={selectedAnswer! < 0 && !submitted}
         >
           {complete
             ? 'Restart Quiz'

@@ -3,18 +3,20 @@ import { produce } from 'immer';
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
-export interface CreateQuizStore {
+export interface AnswerQuizStore {
   currentQuestion: number;
   setCurrentQuestion: (value: number) => void;
   selectedAnswer: number | null;
   setSelectedAnswer: (value: number) => void;
+  score: number;
+  setScore: (score: number) => void;
   submitted: boolean;
-  setSubmitted: () => void;
+  setSubmitted: (isSubmitted: boolean) => void;
   complete: boolean;
-  setComplete: () => void;
+  setComplete: (isComplete: boolean) => void;
 }
 
-const useAnswerQuizStore = create()(
+const useAnswerQuizStore = create<AnswerQuizStore>()(
   immer(set => ({
     currentQuestion: 0,
     setCurrentQuestion: (value: number) => {
@@ -32,21 +34,27 @@ const useAnswerQuizStore = create()(
         }),
       );
     },
-    // score: 0
-    // setScore: () => {},
-    submitted: false,
-    setSubmitted: () => {
+    score: 0,
+    setScore: (score: number) => {
       set(
         produce(state => {
-          state.submitted = !state.submitted;
+          state.score = score;
+        }),
+      );
+    },
+    submitted: false,
+    setSubmitted: (isSubmitted: boolean) => {
+      set(
+        produce(state => {
+          state.submitted = isSubmitted;
         }),
       );
     },
     complete: false,
-    setComplete: () => {
+    setComplete: (isComplete: boolean) => {
       set(
         produce(state => {
-          state.complete = !state.complete;
+          state.complete = isComplete;
         }),
       );
     },
