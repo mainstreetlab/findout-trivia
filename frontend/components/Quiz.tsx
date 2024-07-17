@@ -24,12 +24,6 @@ interface QuizProps {
 }
 
 const Quiz = ({ trivia: { questions } }: QuizProps) => {
-  // const [currentQuestion, setCurrentQuestion] = useState(0);
-  // const [selectedAnswer, setSelectedAnswer] = useState(-1);
-  // const [score, setScore] = useState(0);
-  // const [submitted, setSubmitted] = useState(false); // Track if question submitted
-  // const [complete, setComplete] = useState(false);
-
   const {
     currentQuestion,
     setCurrentQuestion,
@@ -66,7 +60,7 @@ const Quiz = ({ trivia: { questions } }: QuizProps) => {
         setScore(score + 1);
       }
       setSubmitted(true); // Mark question submitted
-      setSelectedAnswer(-1); // Reset selected answer
+      setSelectedAnswer(null); // Reset selected answer
     }
   };
 
