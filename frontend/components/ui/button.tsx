@@ -18,7 +18,7 @@ const buttonVariants = cva(
         link: 'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-primary underline-offset-4 hover:underline hover:text-accent-hover h-10 px-1 py-1.5',
       },
       size: {
-        default: 'h-[44px] px-6',
+        default: 'h-[48px] px-4',
         sm: 'h-8 w-8',
         md: 'h-[48px] w-[48px] p-1',
         lg: 'h-[56px] px-8 text-sm uppercase tracking-[2px]',
