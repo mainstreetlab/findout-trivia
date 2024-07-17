@@ -22,12 +22,7 @@ function CopyToClipboard({ text }: CopyProps) {
   };
 
   return (
-    <Button
-      onClick={handleCopy}
-      type="submit"
-      size="default"
-      className="px-3.5"
-    >
+    <Button onClick={handleCopy} type="submit" size="default" className="px-4">
       <span className="sr-only">Copy</span>
       {copied ? <Done className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
     </Button>
