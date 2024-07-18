@@ -7,7 +7,7 @@ export interface AnswerQuizStore {
   currentQuestion: number;
   setCurrentQuestion: (value: number) => void;
   selectedAnswer: number | null;
-  setSelectedAnswer: (value: number) => void;
+  setSelectedAnswer: (value: number | null) => void;
   score: number;
   setScore: (score: number) => void;
   submitted: boolean;
@@ -27,7 +27,7 @@ const useAnswerQuizStore = create<AnswerQuizStore>()(
       );
     },
     selectedAnswer: null,
-    setSelectedAnswer: (value: number) => {
+    setSelectedAnswer: (value: number | null) => {
       set(
         produce(state => {
           state.selectedAnswer = value;

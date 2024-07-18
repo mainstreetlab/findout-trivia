@@ -65,7 +65,7 @@ export function TransactButton<
 
   const { authenticated, login, user, connectWallet } = usePrivy();
   const { wallets } = useWallets();
-  const { account } = useAccount();
+  const account = useAccount();
   const { setActiveWallet } = useSetActiveWallet();
 
   const smartWallet = useMemo(
@@ -88,11 +88,12 @@ export function TransactButton<
         connectWallet();
         //<Permit2 chainId={account.chainId!}/>
       }
-      //if (!wallets[0] === smartWallet) {  
+      //if (!wallets[0] === smartWallet) {
       //     wallets[0].loginOrLink();
       //}
     }
-    <Permit2 chainId={account.chainId!}/>
+    // JSX component can't be in conditional or func. logic
+    <Permit2 chainId={account.chainId!} />;
     console.log('wallets', wallets);
     writeContracts(rest);
   };
