@@ -59,7 +59,7 @@ const Header = () => {
             </h1>
           </Link>
 
-          <h2 className="text-xl font-medium">Ask Questions, Share Rewards</h2>
+          <h2 className="text-xl font-medium">Ask Anything</h2>
 
           <AvatarContainer />
         </div>

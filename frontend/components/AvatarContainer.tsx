@@ -27,7 +27,7 @@ const AvatarContainer = () => {
     <div className="absolute top-2 right-2 flex gap-2 items-center justify-between px-2 py-2">
       {ready && authenticated ? (
         <Popover>
-          <p className="text-sm font-semibold text-primary/80">0 OUT</p>
+          <p className="text-sm font-semibold text-primary/80">$0</p>
           <PopoverTrigger className="bg-gradient-to-bl from-purple-700 via-blue-700 to-purple-500 w-10 h-10 rounded-full text-lg font-semibold flex items-center justify-center text-white border border-accent-hover">
             {user!.email?.address.slice(0, 2).toUpperCase()}
           </PopoverTrigger>

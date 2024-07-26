@@ -1,19 +1,20 @@
-import { useAccount, ResolvedRegister, type Config } from "wagmi";
+import { useAccount, ResolvedRegister, type Config } from 'wagmi';
 import {
   UseSendCallsParameters,
   UseSendCallsReturnType,
   useWriteContracts,
   useCallsStatus,
-} from "wagmi/experimental";
-import { useMemo, useState, useEffect } from "react";
-import { WriteContractsErrorType } from "viem/experimental";
-import { TransactionExecutionError } from "viem";
-import { CallStatus } from "./CallStatus";
-import { Permit2 } from "./Permit2";
+} from 'wagmi/experimental';
+import { useMemo, useState, useEffect } from 'react';
+import { WriteContractsErrorType } from 'viem/experimental';
+import { TransactionExecutionError } from 'viem';
+import { CallStatus } from './CallStatus';
+//import { Permit2 } from "./Permit2";
 import { usePrivy, useWallets } from '@privy-io/react-auth';
 import { Button } from './ui/button';
 //import { config } from '@/config';
 import { useSetActiveWallet } from '@privy-io/wagmi';
+import { usePermit2 } from '@/hooks/usePermit2';
 
 export type TransactButtonProps<
   config extends Config = Config,
@@ -66,6 +67,7 @@ export function TransactButton<
   const { authenticated, login, user, connectWallet } = usePrivy();
   const { wallets } = useWallets();
   const account = useAccount();
+  const { handleSignAndSubmit, result } = usePermit2(account.chainId!);
   const { setActiveWallet } = useSetActiveWallet();
 
   const smartWallet = useMemo(
@@ -86,13 +88,13 @@ export function TransactButton<
       if (!wallets[0]) {
         console.log('wallets', wallets);
         connectWallet();
-        //<Permit2 chainId={account.chainId!}/>
+        handleSignAndSubmit();
       }
+      handleSignAndSubmit();
       //if (!wallets[0] === smartWallet) {
       //     wallets[0].loginOrLink();
       //}
     }
-    // JSX component can't be in conditional or func. logic
     console.log('wallets', wallets);
     writeContracts(rest);
   };

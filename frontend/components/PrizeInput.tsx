@@ -30,7 +30,7 @@ const PrizeInput = () => {
 
   return (
     <div className="flex flex-col items-center justify-center gap-2 py-4">
-      <h2 className="my-2 text-2xl font-bold">Set Your Prize</h2>
+      <h2 className="my-2 text-2xl font-bold">Set Winner Prize</h2>
       {/* <CustomSlider
         defaultValue={[0]}
         step={1}

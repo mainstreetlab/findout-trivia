@@ -13,8 +13,7 @@ export default function Home() {
               Findout<span className="text-accent inline-flex">.</span>
             </h1>
             <p className="text-lg md:text-xl font-normal max-w-[320px] md:max-w-full">
-              Findout is a trivia app that allows you to create quizzes and
-              share them with friends to earn token rewards.
+              Findout allows you to create quizzes, set a prize in USDC and share them with your friends - whoever gets it all, wins!
             </p>
 
             {/* CTA and socials */}
