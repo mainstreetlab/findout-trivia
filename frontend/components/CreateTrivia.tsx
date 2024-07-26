@@ -11,6 +11,7 @@ import { TransactButton } from './TransactButton';
 import { QuizliteABI, QuizliteAddress } from '@/abi/Quizlite';
 import { useWallets } from '@privy-io/react-auth';
 import { useSetActiveWallet } from '@privy-io/wagmi';
+import { Permit2 } from './Permit2';
 
 //TO DO:
 //Submit funtion should take in parameters like:
@@ -38,7 +39,7 @@ const CreateTrivia = ({ prize, answers }: CreateTriviaProps) => {
 
   useEffect(() => {
     if (smartWallet) setActiveWallet(smartWallet);
-  }, [smartWallet, setActiveWallet]); 
+  }, [smartWallet, setActiveWallet]);
 
   const capabilities = useMemo(() => {
     if (!availableCapabilities || !account.chainId) return;
@@ -99,6 +100,11 @@ const CreateTrivia = ({ prize, answers }: CreateTriviaProps) => {
 
   return (
     <>
+      {/* TODO Define logic to check if permit is signed and set TransactButtton disabled state based on that */}
+
+      {/* ignore the two-button design for now, we'llmerge once we figure out the TODO above */}
+      <Permit2 chainId={account.chainId!} />
+
       <TransactButton
         text="Create Trivia" //tx title
         contracts={[

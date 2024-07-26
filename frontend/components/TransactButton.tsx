@@ -93,7 +93,6 @@ export function TransactButton<
       //}
     }
     // JSX component can't be in conditional or func. logic
-    <Permit2 chainId={account.chainId!} />;
     console.log('wallets', wallets);
     writeContracts(rest);
   };
