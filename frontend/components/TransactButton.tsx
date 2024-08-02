@@ -67,7 +67,7 @@ export function TransactButton<
   const { authenticated, login, user, connectWallet } = usePrivy();
   const { wallets } = useWallets();
   const account = useAccount();
-  const { handleSignAndSubmit, result } = usePermit2(account.chainId!);
+  const { handleSignAndSubmit } = usePermit2(account.chainId!);
   const { setActiveWallet } = useSetActiveWallet();
 
   const smartWallet = useMemo(

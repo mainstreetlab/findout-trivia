@@ -41,7 +41,7 @@ import {
                 { name: "token", internalType: "address", type: "address" },
                 { name: "amount", internalType: "uint160", type: "uint160" },
                 { name: "expiration", internalType: "uint48", type: "uint48" },
-                { name: "nonce", internalType: "uint48", type: "uint48" },
+                { name: "nonce", internalType: "uint48", type: "uint48" }, 
               ],
             },
             { name: "spender", internalType: "address", type: "address" },

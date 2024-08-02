@@ -19,7 +19,7 @@ const quickSand = Quicksand({
 export const metadata: Metadata = {
   title: "Findout Trivia",
   description:
-    "Findout is a trivia app that allows you to create quizzes and share them with friends to win prizes.",
+    "Findout is a trivia app that allows you to create quizzes and share the links to friends to receive answers.",
 };
 
 export default function RootLayout({

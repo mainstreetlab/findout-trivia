@@ -101,7 +101,7 @@ export function Permit2({ chainId }: { chainId: number }) {
     };
   }, [allowance]);
 
-  const permitData = useMemo(() => {
+  const permitData = useMemo(() => { 
     if (!permit) return;
     return AllowanceTransfer.getPermitData(permit, PERMIT2_ADDRESS, chainId);
   }, [permit, chainId]);
