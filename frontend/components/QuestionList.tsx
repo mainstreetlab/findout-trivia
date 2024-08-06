@@ -147,7 +147,7 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
 
         <div className="w-full my-2">
           <Textarea
-            placeholder="Type your question here..."
+            placeholder="Who is reading your mind today? :)"
             id={questionIdx.toString()}
             value={questionText}
             onChange={e => {
@@ -275,7 +275,7 @@ const QuestionList = () => {
             variant: 'default',
             title: 'Success!',
             description:
-              'Trivia created successfully. Start sharing your link to friends now.',
+              'You just made a trivia. Start sharing your link to friends now.',
           });
           onOpen();
         }

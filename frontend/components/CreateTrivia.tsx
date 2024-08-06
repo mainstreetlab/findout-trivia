@@ -117,30 +117,28 @@ const CreateTrivia = ({ prize, answers }: CreateTriviaProps) => {
 
   return (
     <>
-      {/* TODO Define logic to check if permit is signed and set TransactButtton disabled state based on that */}
-
-      {/* ignore the two-button design for now, we'llmerge once we figure out the TODO above */}
-
-      <TransactButton
-        text="Create Trivia" //tx title
-        contracts={[
-          //contracts params
-          {
-            address: "0x000000000022D473030F116dDEE9F6B43aC78BA3",
-            abi: abi,
-            functionName: 'permit',
-            args: [account.address, permitData!.values, parsedSignature],
-          },
-          {
-            address: QuizliteAddress,
-            abi: QuizliteABI,
-            functionName: 'create',
-            args: answers,
-          },
-        ]}
-        capabilities={capabilities}
-        chainId={chainId}
-      />
+      {permitData && (
+        <TransactButton
+          text="Submit" //tx title
+          contracts={[
+            //contracts params
+            {
+              address: "0x000000000022D473030F116dDEE9F6B43aC78BA3",
+              abi: abi,
+              functionName: 'permit',
+              args: [account.address, permitData.values, parsedSignature],
+            },
+            {
+              address: QuizliteAddress,
+              abi: QuizliteABI,
+              functionName: 'create',
+              args: answers,
+            },
+          ]}
+          capabilities={capabilities}
+          chainId={chainId}
+        />
+      )}
     </>
   );
 };

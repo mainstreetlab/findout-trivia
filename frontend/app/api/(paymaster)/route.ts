@@ -6,7 +6,7 @@ export async function POST(r: Request) {
   const method = req.method;
   const [userOp, entrypoint, chainId] = req.params;
 
-  if (!willSponsorPermit({ chainId: parseInt(chainId), entrypoint, userOp })) 
+  if (!willSponsorPermit({ chainId: parseInt(chainId), entrypoint, userOp })) {
     if (!willSponsorBase({ chainId: parseInt(chainId), entrypoint, userOp })) {
       if (!willSponsorBaseSepolia({ chainId: parseInt(chainId), entrypoint, userOp }){
         return Response.json({ error: 'Not a sponsorable operation' });
@@ -14,7 +14,7 @@ export async function POST(r: Request) {
     }
   }
 
-  /*
+  /** 
   if (
     !willSponsorBaseSepolia({ chainId: parseInt(chainId), entrypoint, userOp })
   ) {
@@ -35,7 +35,7 @@ export async function POST(r: Request) {
       return Response.json({ result });
     }
   }
-
+ 
   if (willSponsorBase({ chainId: parseInt(chainId), entrypoint, userOp })) {
     if (method === 'pm_getPaymasterStubData') {
       const result = await basePaymasterClient.getPaymasterStubData({

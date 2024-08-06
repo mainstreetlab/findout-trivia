@@ -1,15 +1,13 @@
 import { useState, useMemo, useCallback } from 'react';
 import { createPermit, createPermitData, parseSignature, abi, allowanceTransferContract } from '@/utils/permit2Utils';
 import { useAccount, useReadContract, useSignTypedData } from 'wagmi';
-//import { useWriteContracts } from 'wagmi/experimental';
+import { useWriteContracts } from 'wagmi/experimental';
 import type { Hex } from 'viem';
-//import { base, baseSepolia } from 'viem/chains';
-//import { useCapabilities } from 'wagmi/experimental';
-
 
 export const usePermit2 = (chainId: number) => {
   const account = useAccount();
   const [signature, setSignature] = useState<Hex | undefined>(undefined);
+  const [result, setResult] = useState<any>(null);
 
   const { data: allowance } = useReadContract({
     abi,
@@ -27,18 +25,34 @@ export const usePermit2 = (chainId: number) => {
 
   const parsedSignature = useMemo(() => parseSignature(signature), [signature]);
 
+  const { writeContracts } = useWriteContracts();
+
   const handleSignAndSubmit = useCallback(async () => {
     if (!permitData) return;
-    
+
     if (!signature) {
-      await signTypedData({
-        domain: permitData.domain as Record<string, unknown>,
-        types: permitData.types,
-        message: permitData.values as any,
-        primaryType: "PermitSingle",
-      });
+    signTypedData({
+      domain: permitData.domain as Record<string, unknown>,
+      types: permitData.types,
+      message: permitData.values as any,
+      primaryType: "PermitSingle",
+    });
     }
-  }, [permitData, signTypedData, signature]);
-  //const value!= permitData.values as any;
-  return { handleSignAndSubmit, abi, permitData, parsedSignature };
+
+    /*
+      const result = await writeContracts({
+        contracts: [
+          {
+            address: "0x000000000022D473030F116dDEE9F6B43aC78BA3",
+            abi,
+            functionName: "permit",
+            args: [account.address, permitData.values, parsedSignature],
+          },
+        ],
+      });
+      setResult(result);
+    }*/
+  }, [permitData, signTypedData, signature, account.address, parsedSignature]);
+
+  return { handleSignAndSubmit, parsedSignature, signature, signTypedData, permitData};
 };

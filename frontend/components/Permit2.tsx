@@ -5,7 +5,7 @@ import {
     type PermitSingle,
   } from "@uniswap/permit2-sdk";
   import ms from "ms";
-  import { useMemo, useState } from "react";
+  import { useMemo, useState, useCallback } from "react";
   import type { Hex } from "viem";
   import { parseErc6492Signature } from "viem";
   import { useAccount, useReadContract, useSignTypedData } from "wagmi";
@@ -131,7 +131,7 @@ export function Permit2({ chainId }: { chainId: number }) {
 
             signTypedData({
               domain: permitData.domain as Record<string, unknown>,
-              types: permitData?.types,
+              types: permitData?.types, 
               message: permitData.values as any,
               primaryType: 'PermitSingle',
             });
