@@ -131,7 +131,7 @@ export function Permit2({ chainId }: { chainId: number }) {
 
             signTypedData({
               domain: permitData.domain as Record<string, unknown>,
-              types: permitData?.types, 
+              types: permitData?.types,
               message: permitData.values as any,
               primaryType: 'PermitSingle',
             });
