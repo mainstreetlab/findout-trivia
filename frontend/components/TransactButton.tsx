@@ -5,7 +5,7 @@ import {
   useWriteContracts,
   useCallsStatus,
 } from 'wagmi/experimental';
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect, useCallback } from 'react';
 import { WriteContractsErrorType } from 'viem/experimental';
 import { TransactionExecutionError } from 'viem';
 import { CallStatus } from './CallStatus';
@@ -95,7 +95,7 @@ export function TransactButton<
       });
       setResult(result);
     }*/
-  }, [permitData, signTypedData, signature, account.address, parsedSignature]);
+  }, [permitData, signTypedData, signature]); //, account.address, parsedSignature]);
 
 
   const displayText = useMemo(() => {
@@ -118,13 +118,9 @@ export function TransactButton<
       if (!wallets[0]) {
         console.log('wallets', wallets);
         connectWallet();
-        if(!signature) {
-          handleSignAndSubmit();
-        }
-      }
-      if(!signature) {
         handleSignAndSubmit();
       }
+      handleSignAndSubmit();
       //if (!wallets[0] === smartWallet) {
       //     wallets[0].loginOrLink();
       //}
