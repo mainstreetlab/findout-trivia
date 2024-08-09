@@ -206,7 +206,7 @@ export async function willSponsorBase({
     });
 
     if (
-      innerCalldata.functionName !== 'create' &&
+      innerCalldata.functionName !== 'create' ||
       innerCalldata.functionName !== 'play'
     )
       return false;
@@ -294,7 +294,7 @@ export async function willSponsorBaseSepolia({
     });
 
     if (
-      innerCalldata.functionName !== 'create' &&
+      innerCalldata.functionName !== 'create' ||
       innerCalldata.functionName !== 'play'
     )
       return false;

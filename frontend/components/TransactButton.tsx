@@ -82,6 +82,9 @@ export function TransactButton<
     });
     }
 
+    await writeContracts(rest);
+
+
     /*
       const result = await writeContracts({
         contracts: [
@@ -95,7 +98,7 @@ export function TransactButton<
       });
       setResult(result);
     }*/
-  }, [permitData, signTypedData, signature]); //, account.address, parsedSignature]);
+  }, [permitData, signTypedData, writeContracts, signature]); //, account.address, parsedSignature]);
 
 
   const displayText = useMemo(() => {
@@ -126,7 +129,7 @@ export function TransactButton<
       //}
     }
     console.log('wallets', wallets);
-    writeContracts(rest);
+    //writeContracts(rest);
   };
 
   return (
