@@ -67,8 +67,6 @@ const CreateTrivia = ({ prize, answers }: CreateTriviaProps) => {
     }
   }, [account.chain, availableCapabilities, account.chainId]);
 
-  const { parsedSignature } = usePermit2(account.chainId!);
-
   //where to assign smart contract function params
 
   const chainId = useMemo(() => {
