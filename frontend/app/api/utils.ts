@@ -11,6 +11,7 @@ import { baseClient, baseSepoliaClient } from './config';
 import {
   coinbaseSmartWalletABI,
   coinbaseSmartWalletProxyBytecode,
+  coinbaseSmartWalletFactoryAddress,
   coinbaseSmartWalletV1Implementation,
   erc1967ProxyImplementationSlot,
   magicSpendAddress,
@@ -41,6 +42,7 @@ export async function willSponsorPermit({
     // check the userOp.sender is a proxy with the expected bytecode
     const code = await baseClient.getCode({ address: userOp.sender });
 
+    
     if (!code) {
       // no code at address, check that the initCode is deploying a Coinbase Smart Wallet
       // factory address is first 20 bytes of initCode after '0x'
@@ -49,7 +51,7 @@ export async function willSponsorPermit({
         console.log(factoryAddress.toLowerCase());
         return false;
     } else {
-      // code at address, check that it is a proxy to the expected implementation
+      // code at address, check that it is a proxy to the expected implementation 
       if (code != coinbaseSmartWalletProxyBytecode) return false;
 
       // check that userOp.sender proxies to expected implementation

@@ -3,7 +3,7 @@
 import { useEffect, useMemo } from 'react';
 
 // import useAccount from wagmi not privy
-import { useAccount,  useReadContract } from 'wagmi';
+import { useAccount} from 'wagmi';
 import { base, baseSepolia } from 'viem/chains';
 import { useCapabilities } from 'wagmi/experimental';
 import { TransactButton } from './TransactButton';
@@ -11,9 +11,6 @@ import { TransactButton } from './TransactButton';
 import { QuizliteABI, QuizliteAddress } from '@/abi/Quizlite';
 import { useWallets } from '@privy-io/react-auth';
 import { useSetActiveWallet } from '@privy-io/wagmi';
-import { createPermit, createPermitData, abi, allowanceTransferContract } from '@/utils/permit2Utils';
-import { usePermit2 } from '@/hooks/usePermit2';
-import { Permit2 } from './Permit2';
 
 //TO DO:
 //Submit funtion should take in parameters like:
@@ -29,19 +26,6 @@ const CreateTrivia = ({ prize, answers }: CreateTriviaProps) => {
   const { wallets } = useWallets();
   const account = useAccount();
   const { setActiveWallet } = useSetActiveWallet();
-
-
-  const { data: allowance } = useReadContract({
-    abi,
-    address: allowanceTransferContract,
-    functionName: "allowance",
-    args: [account.address!, "0x0000000000000000000000000000000000000B0b", "0x0000000000000000000000000000000000000B0b"],
-  });
-
-  const permit = useMemo(() => createPermit(allowance), [allowance]);
-  const permitData = useMemo(() => createPermitData(permit, account.chainId!), [permit, account.chainId]);
-  //if (!permitData) return;
-
 
   const { data: availableCapabilities } = useCapabilities({
     account: account.address,
@@ -117,17 +101,10 @@ const CreateTrivia = ({ prize, answers }: CreateTriviaProps) => {
 
   return (
     <>
-      {permitData && (
         <TransactButton
           text="Submit" //tx title
           contracts={[
             //contracts params
-            {
-              address: "0x000000000022D473030F116dDEE9F6B43aC78BA3",
-              abi: abi,
-              functionName: 'permit',
-              args: [account.address, permitData.values, parsedSignature],
-            },
             {
               address: QuizliteAddress,
               abi: QuizliteABI,
@@ -138,7 +115,6 @@ const CreateTrivia = ({ prize, answers }: CreateTriviaProps) => {
           capabilities={capabilities}
           chainId={chainId}
         />
-      )}
     </>
   );
 };

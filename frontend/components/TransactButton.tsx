@@ -5,7 +5,7 @@ import {
   useWriteContracts,
   useCallsStatus,
 } from 'wagmi/experimental';
-import { useMemo, useState, useEffect, useCallback } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { WriteContractsErrorType } from 'viem/experimental';
 import { TransactionExecutionError } from 'viem';
 import { CallStatus } from './CallStatus';
@@ -55,10 +55,10 @@ export function TransactButton<
     },
   });
 
-  const { authenticated, login, user, connectWallet } = usePrivy();
+  const { authenticated, login, user, connectWallet } = usePrivy(); 
   const { wallets } = useWallets();
   const account = useAccount();
-  const { signature, signTypedData, permitData } = usePermit2(account.chainId!);
+  const { handleSignAndSubmit, signature } = usePermit2(account.chainId!);
   const { setActiveWallet } = useSetActiveWallet();
 
   const smartWallet = useMemo(
@@ -69,37 +69,6 @@ export function TransactButton<
   useEffect(() => {
     if (smartWallet) setActiveWallet(smartWallet);
   }, [smartWallet, setActiveWallet]);
-
-  const handleSignAndSubmit = useCallback(async () => {
-    if (!permitData) return;
-
-    if (!signature) {
-    signTypedData({
-      domain: permitData.domain as Record<string, unknown>,
-      types: permitData.types,
-      message: permitData.values as any,
-      primaryType: "PermitSingle",
-    });
-    }
-
-    await writeContracts(rest);
-
-
-    /*
-      const result = await writeContracts({
-        contracts: [
-          {
-            address: "0x000000000022D473030F116dDEE9F6B43aC78BA3",
-            abi,
-            functionName: "permit",
-            args: [account.address, permitData.values, parsedSignature],
-          },
-        ],
-      });
-      setResult(result);
-    }*/
-  }, [permitData, signTypedData, writeContracts, signature]); //, account.address, parsedSignature]);
-
 
   const displayText = useMemo(() => {
     if (status == 'pending') {
@@ -121,15 +90,17 @@ export function TransactButton<
       if (!wallets[0]) {
         console.log('wallets', wallets);
         connectWallet();
+        if (!signature) {
         handleSignAndSubmit();
+        }
       }
       handleSignAndSubmit();
       //if (!wallets[0] === smartWallet) {
       //     wallets[0].loginOrLink();
       //}
     }
-    console.log('wallets', wallets);
-    //writeContracts(rest);
+    //console.log('wallets', wallets);
+    writeContracts(rest);
   };
 
   return (
