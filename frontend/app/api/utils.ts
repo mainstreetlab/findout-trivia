@@ -207,11 +207,10 @@ export async function willSponsorBase({
       data: calls[1].data,
     });
 
-    if (
-      innerCalldata.functionName !== 'create' ||
-      innerCalldata.functionName !== 'play'
-    )
-      return false;
+    if (innerCalldata.functionName !== 'create'){
+        if (innerCalldata.functionName !== 'play')
+        return false;
+      } 
 
     return true;
   } catch (e) {
@@ -295,11 +294,10 @@ export async function willSponsorBaseSepolia({
       data: calls[callToCheckIndex].data,
     });
 
-    if (
-      innerCalldata.functionName !== 'create' ||
-      innerCalldata.functionName !== 'play'
-    )
-      return false;
+    if (innerCalldata.functionName !== 'create'){
+        if (innerCalldata.functionName !== 'play')
+        return false;
+      } 
 
     return true;
   } catch (e) {
