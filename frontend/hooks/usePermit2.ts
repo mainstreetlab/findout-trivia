@@ -7,7 +7,7 @@ import type { Hex } from 'viem';
 export const usePermit2 = (chainId: number) => {
   const account = useAccount();
   const [signature, setSignature] = useState<Hex | undefined>(undefined);
-  const [result, setResult] = useState<any>(null);
+  //const [result, setResult] = useState<any>(null);
 
   const { data: allowance } = useReadContract({
     abi,
@@ -39,20 +39,20 @@ export const usePermit2 = (chainId: number) => {
     });
     }
 
-    /*
-      const result = await writeContracts({
-        contracts: [
-          {
-            address: "0x000000000022D473030F116dDEE9F6B43aC78BA3",
-            abi,
-            functionName: "permit",
-            args: [account.address, permitData.values, parsedSignature],
-          },
-        ],
-      });
-      setResult(result);
-    }*/
-  }, [permitData, signTypedData, signature, account.address, parsedSignature]);
+    //const result = 
+    await writeContracts({
+      contracts: [
+        {
+          address: "0x000000000022D473030F116dDEE9F6B43aC78BA3",
+          abi,
+          functionName: "permit",
+          args: [account.address, permitData.values, parsedSignature],
+        },
+      ],
+    });
+    //setResult(result);
+    
+  }, [permitData, signTypedData, signature, writeContracts, account.address, parsedSignature]);
 
-  return { handleSignAndSubmit, parsedSignature, signature, signTypedData, permitData};
+  return { handleSignAndSubmit, signature};
 };

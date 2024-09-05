@@ -189,6 +189,3 @@ export const QuizABI = [
 ]
 
     export const QuizAddress = "0x750D07C9F003EC1B44d368d352aA8b15B31C8343";
-
-
-
