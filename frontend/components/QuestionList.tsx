@@ -131,7 +131,7 @@ const QuestionCard = ({ questionIdx, onDelete }: QuestionCardProps) => {
       <div className="w-full px-0 flex flex-col gap-4">
         <div className="flex justify-between items-center">
           <Label
-            htmlFor={`ques-${questionIdx + 1}`}
+            htmlFor={questionIdx.toString()}
             className="text-lg font-medium"
           >
             Question {questionIdx + 1}
