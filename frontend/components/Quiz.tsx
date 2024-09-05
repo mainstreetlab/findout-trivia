@@ -1,17 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import quizData from '@/data/quizData';
 import Link from 'next/link';
-
-import { FaCircleCheck } from 'react-icons/fa6';
-
-import { Progress } from '@/components/ui/progress';
-// import useFetch from '@/hooks/useFetch';
+import ProgressBar from '@/components/ProgressBar';
 import { ObjectId } from 'mongoose';
 import { Question } from '@/models/trivia';
 import { cn } from '@/lib/utils';
 import useAnswerQuizStore from '@/hooks/useAnswerQuizStore';
+import { useState } from 'react';
+import Lottie from 'lottie-react';
+import tickAnimation from '@/animations/tick-animation.json';
 
 interface TriviaProps {
   _id: ObjectId;
@@ -29,84 +26,39 @@ const Quiz = ({ trivia: { questions } }: QuizProps) => {
     setCurrentQuestion,
     selectedAnswer,
     setSelectedAnswer,
-    score,
-    setScore,
-    submitted,
-    setSubmitted,
     complete,
     setComplete,
-  } = useAnswerQuizStore(state => {
-    return {
-      currentQuestion: state.currentQuestion,
-      setCurrentQuestion: state.setCurrentQuestion,
-      selectedAnswer: state.selectedAnswer,
-      setSelectedAnswer: state.setSelectedAnswer,
-      score: state.score,
-      setScore: state.setScore,
-      submitted: state.submitted,
-      setSubmitted: state.setSubmitted,
-      complete: state.complete,
-      setComplete: state.setComplete,
-    };
-  });
+    addAnswer,
+  } = useAnswerQuizStore(state => ({
+    currentQuestion: state.currentQuestion,
+    setCurrentQuestion: state.setCurrentQuestion,
+    selectedAnswer: state.selectedAnswer,
+    setSelectedAnswer: state.setSelectedAnswer,
+    complete: state.complete,
+    setComplete: state.setComplete,
+    addAnswer: state.addAnswer,
+  }));
 
-  const handleOptionChange = (index: number) => {
+  const handleOptionSelect = (index: number) => {
     setSelectedAnswer(index);
   };
 
-  const handleSubmitAnswer = () => {
-    if (selectedAnswer! >= 0) {
-      if (selectedAnswer === questions[currentQuestion].answer) {
-        setScore(score + 1);
+  const handleConfirmAnswer = () => {
+    if (selectedAnswer !== null) {
+      addAnswer(selectedAnswer);
+      if (currentQuestion + 1 < questions.length) {
+        setCurrentQuestion(currentQuestion + 1);
+        setSelectedAnswer(null);
+      } else {
+        setComplete(true);
+        // Here you would submit the answers to your backend or smart contract
+        // For example: await submitAnswersToContract(trivia._id, answers);
       }
-      setSubmitted(true); // Mark question submitted
-      setSelectedAnswer(null); // Reset selected answer
     }
-  };
-
-  const handleNextQuestion = () => {
-    if (currentQuestion + 1 < questions.length) {
-      setCurrentQuestion(currentQuestion + 1);
-      setSubmitted(false); // Reset submitted flag for next question
-    }
-  };
-
-  const handleRestart = () => {
-    setCurrentQuestion(0);
-    setScore(0);
-    setSubmitted(false);
-    setComplete(false);
-  };
-
-  useEffect(() => {
-    if (currentQuestion + 1 === questions.length && submitted) {
-      setComplete(true);
-    }
-  }, [submitted, complete, currentQuestion, questions.length]);
-
-  const ProgressBar = () => {
-    const progress = Math.round(
-      ((currentQuestion + 1) / questions.length) * 100,
-    );
-
-    return (
-      <div className="w-[90%] flex justify-between items-center gap-2">
-        <div
-          className={cn('flex items-center flex-1 p-2 -ml-2', {
-            '-mr-2': progress > 60 && !complete,
-          })}
-        >
-          <Progress value={progress} />
-        </div>
-        <FaCircleCheck
-          className={`${complete ? 'block' : 'hidden'} text-xl text-indigo-500`}
-        />
-      </div>
-    );
   };
 
   const QuestionContent = () => {
-    const { questionText, choices, answer } = questions[currentQuestion];
+    const { questionText, choices } = questions[currentQuestion];
 
     return (
       <div className="w-[90%] gap-6 flex flex-col">
@@ -126,16 +78,12 @@ const Quiz = ({ trivia: { questions } }: QuizProps) => {
               <button
                 className={cn(
                   'border border-accent/20 px-2 py-2.5 w-full h-20 rounded-md text-center text-lg select-none text-primary',
-                  submitted
-                    ? 'pointer-events-none cursor-not-allowed'
-                    : 'cursor-pointer',
+                  'cursor-pointer',
                   selectedAnswer === index
                     ? 'bg-gradient-to-r from-fuchsia-600 to-indigo-500 text-white'
-                    : submitted
-                      ? 'bg-neutral-500/20 text-opacity-25'
-                      : 'bg-fuchsia-200/10',
+                    : 'bg-fuchsia-200/10 hover:bg-fuchsia-200/20',
                 )}
-                onClick={() => handleOptionChange(index)}
+                onClick={() => handleOptionSelect(index)}
                 title={choice.value}
                 style={{ overflowWrap: 'break-word' }}
               >
@@ -145,52 +93,77 @@ const Quiz = ({ trivia: { questions } }: QuizProps) => {
           ))}
         </ul>
         <button
-          className={`p-4 rounded-md text-white text-lg ${submitted ? 'bg-accent' : 'bg-violet-700'} hover:bg-opacity-90 disabled:bg-neutral-500/20 disabled:cursor-not-allowed disabled:text-white/90`}
-          onClick={
-            complete
-              ? handleRestart
-              : submitted
-                ? handleNextQuestion
-                : handleSubmitAnswer
-          }
-          disabled={selectedAnswer! < 0 && !submitted}
+          className={`p-4 rounded-md text-white text-lg ${
+            selectedAnswer !== null ? 'bg-violet-700' : 'bg-neutral-500/20'
+          } hover:bg-opacity-90 disabled:cursor-not-allowed disabled:text-white/90`}
+          onClick={handleConfirmAnswer}
+          disabled={selectedAnswer === null}
         >
-          {complete
-            ? 'Restart Quiz'
-            : submitted
-              ? 'Next Question'
-              : 'Submit Answer'}
+          {currentQuestion + 1 === questions.length
+            ? 'Finish Quiz'
+            : 'Next Question'}
         </button>
       </div>
     );
   };
 
   const FinalResults = () => {
-    if (currentQuestion + 1 === questions.length && submitted) {
+    const [animationComplete, setAnimationComplete] = useState(false);
+
+    if (complete) {
       return (
-        <div className="w-[90%] rounded-md p-5 flex flex-col justify-center items-center bg-gradient-to-r from-blue-400 via-blue-700/80 to-violet-600/90 text-white gap-2">
-          <h2 className="text-2xl font-semibold">🎉You finished the quiz!</h2>
-          <p>
-            You scored <span className="text-xl font-semibold">{score}</span>{' '}
-            out of{' '}
-            <span className="text-xl font-semibold">{quizData.length}</span>
+        <div
+          className="w-[90%] rounded-md p-8 flex flex-col justify-center items-center bg-gradient-to-r from-blue-400 via-blue-700/80 to-violet-600/90 text-white gap-6"
+          style={{ height: '680px' }}
+        >
+          <div className="w-48 h-48 bg-white rounded-full flex items-center justify-center">
+            <div className="w-42 h-42">
+              <Lottie
+                animationData={tickAnimation}
+                loop={false}
+                onComplete={() => setAnimationComplete(true)}
+              />
+            </div>
+          </div>
+          <h2 className="text-2xl font-semibold text-center">
+            🎉 You finished the quiz!
+          </h2>
+          <p className="text-center">
+            You've completed all questions. Your answers have been submitted.
           </p>
-          <Link href={'/results?id=abcdef'} className="text-sm ">
-            Review your answers
-          </Link>
+          <div className="h-[52px] flex items-center justify-center">
+            {' '}
+            {/* Fixed height container */}
+            <Link
+              href={'/results?id=abcdef'}
+              className={`mt-4 px-6 py-3 bg-indigo-500 text-white rounded-full font-semibold shadow-lg hover:bg-indigo-600 transition-all duration-300 ${
+                animationComplete
+                  ? 'opacity-100 visible'
+                  : 'opacity-0 invisible'
+              }`}
+            >
+              View Results
+            </Link>
+          </div>
         </div>
       );
     }
+    return null;
   };
 
   return (
     <div className="flex flex-col items-center bg-white rounded-md w-[420px] h-[95%] text-primary gap-6 overflow-y-auto pb-6">
-      {/* {loading && <p>Loading quiz...</p>}
-      {error && <p>Error: {error}</p>} */}
       {questions && (
         <>
-          <ProgressBar />
-          <QuestionContent />
+          {!complete && (
+            <ProgressBar
+              progress={Math.round(
+                ((currentQuestion + 1) / questions.length) * 100,
+              )}
+              complete={complete}
+            />
+          )}
+          {!complete && <QuestionContent />}
           <FinalResults />
         </>
       )}
