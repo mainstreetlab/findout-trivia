@@ -94,7 +94,7 @@ export function TransactButton<
         handleSignAndSubmit();
         }
       }
-      handleSignAndSubmit();
+      //handleSignAndSubmit();
       //if (!wallets[0] === smartWallet) {
       //     wallets[0].loginOrLink();
       //}
