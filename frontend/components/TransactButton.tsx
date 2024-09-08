@@ -98,9 +98,10 @@ export function TransactButton<
       //if (!wallets[0] === smartWallet) {
       //     wallets[0].loginOrLink();
       //}
+      writeContracts(rest);
     }
     //console.log('wallets', wallets);
-    writeContracts(rest);
+    //writeContracts(rest);
   };
 
   return (
