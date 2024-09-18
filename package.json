@@ -1,7 +1,7 @@
 {
-  "name": "solidity-template",
+  "name": "findout-trivia",
   "version": "1.0.0",
-  "description": "Solidity smart contracts template ",
+  "description": "A playground for crypto circles",
   "main": "index.js",
   "author": "Mainstreet Labs",
   "license": "MIT",
@@ -10,10 +10,12 @@
     "mainstreet_labs"
   ],
   "homepage": "https://...",
-  "bugs": "https://github.com/mainstreetlab/findout-trivia/issues",
+  "bugs": {
+    "url": "https://github.com/mainstreetlab/findout-trivia/issues"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mainstreetlab/findout-trivia.git"
+    "url": "git+https://github.com/mainstreetlab/findout-trivia.git"
   },
   "scripts": {
     "compile": "hardhat compile",
@@ -21,7 +23,7 @@
     "format:check": "npx prettier prettier-plugin-solidity --check '**/*.{js,jsx,ts,tsx,sol,json,yaml,md}'",
     "format:write": "npx prettier prettier-plugin-solidity --write '**/*.{js,jsx,ts,tsx,sol,json,yaml,md}'",
     "lint": "eslint '**/*.{js,jsx,ts,tsx}'",
-    "preinstall": "npx only-allow pnpm",
+    "preinstall": "npx only-allow npm",
     "prepare": "husky install",
     "create-hook": "husky add .husky/pre-commit \"pnpm test\"",
     "test": "hardhat test",
@@ -29,9 +31,17 @@
     "test:forge": "forge test",
     "test:coverage": "hardhat coverage && hardhat compile --force"
   },
+  "dependencies": {
+    "@coinbase/onchainkit": "^0.32.0",
+    "@openzeppelin/contracts": "^5.0.2",
+    "hardhat": "^2.22.6"
+  },
   "devDependencies": {
     "@commitlint/cli": "^16.2.3",
     "@commitlint/config-conventional": "^16.2.1",
+    "@nomicfoundation/hardhat-foundry": "^1.1.2",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@nomicfoundation/hardhat-toolbox-viem": "^3.0.0",
     "@nomiclabs/hardhat-ethers": "^2.0.6",
     "@nomiclabs/hardhat-etherscan": "^3.0.3",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
@@ -67,9 +77,8 @@
     "typechain": "^5.1.2",
     "typescript": "^4.5.0"
   },
-  "dependencies": {
-    "@chainlink/contracts": "^0.6.1",
-    "@nomicfoundation/hardhat-viem": "^2.0.2",
-    "@openzeppelin/contracts": "^5.0.2"
+  "directories": {
+    "lib": "lib",
+    "test": "test"
   }
 }

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import {SingleWin} from "../src/SingleWin.sol";
+import {Quiz} from "../src/Quiz.sol";
 //import {SimpleHelper} from './SimpleHelper.sol';
 //import {WETH} from "@solmate/tokens/WETH.sol";
 //import {SafeTransferLib} from "@solmate/utils/SafeTransferLib.sol";
@@ -9,11 +9,11 @@ import {SingleWin} from "../src/SingleWin.sol";
 import {HelperEvents} from "./HelperEvents.sol";
 import "lib/forge-std/Test.sol";
 
-contract SingleWinTest is Test, HelperEvents {
+contract QuizTest is Test, HelperEvents {
     //using SafeTransferLib for WETH;
     using SafeTransferLib for address;
 
-    SingleWin public singlewin;
+    Quiz public quiz;
     //Cheats internal constant cheats = Cheats(HEVM_ADDRESS);
 
     ERC20 immutable usdc = 0x036CbD53842c5426634e7929541eC2318f3dCF7e;
@@ -31,34 +31,40 @@ contract SingleWinTest is Test, HelperEvents {
     address Tess = address(0x192);
 
     function setUp() public {
-        singlewin = new SingleWin;
+        quiz = new Quiz;
         maker = msg.sender;
     }
 
-    function testCanCreate(uint256 a, uint256 b, uint256 c, uint256 d, uint256 e, uint256 amount) public {
-        amount = 5e6
+    function testCanCreate() public {
+        uint256 amount = 5e6;
         assertGt(amount, PRIZE_LIMIT);
 
-        uint256 amountinSingleDecimal = amount / DECIMAL;
-        assertGt(amountinSingleDecimal, 9e5);
+        uint256[5] answers = [4,2,1,3,0];
 
-        uint256 fee = amountinSingleDecimal * FEE_RATE;
-        assertTrue(fee != 0);
+        vm.prank(Bob);
+        quiz.create(answers, amount);
 
-        uint256 bounty = amount - fee;
-
-        bool success = usdc.transferFrom(msg.sender, address(this), amount);
-        assertTrue(success);
-        feeBalance += fee;
-        record [i] = 
-    
-    //struct answer(uint2 a, uint256 b, uint256 c, uint256 d, uint256 e, msg.sender, bounty, 1); all the answers and beneficiary
-
-        abi.encode(uint a, uint b, uint c, uint d, uint e, msg.sender, bounty, 1);
+       // bool success = usdc.transferFrom(msg.sender, address(this), amount);
+       // assertTrue(success);
 
         vm.expectEmit(true, true, false, true, address(msg.sender));
         emit Open (msg.sender, amount);
-        ++i;
+  }
+
+  function fuzztestCanCreate(uint256[5] calldata answers, uint256 amount) public {
+        uint256 amount = 5e6;
+        assertGt(amount, PRIZE_LIMIT);
+
+        uint256[5] answers = [4,2,1,3,0];
+
+        vm.prank(Bob);
+        quiz.create(answers, amount);
+
+        bool success = usdc.transferFrom(msg.sender, address(this), amount);
+        assertTrue(success);
+
+        vm.expectEmit(true, true, false, true, address(msg.sender));
+        emit Open (msg.sender, amount);
   }
 
   /*

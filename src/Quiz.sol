@@ -6,9 +6,9 @@ import {ERC20} from "lib/solmate/src/tokens/ERC20.sol";
 contract Quiz {
 
   //PRIZE CONFIG
-  //BASE MAINNET ADDRESS - 0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913
-  //BASE SEPOLIA TESTNET 
-  ERC20 immutable usdc = ERC20(0x036CbD53842c5426634e7929541eC2318f3dCF7e);
+  //BASE SEPOLIA TESTNET - (0x036CbD53842c5426634e7929541eC2318f3dCF7e)
+  //BASE MAINNET 
+  ERC20 immutable usdc = ERC20(0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913);
   uint256 constant DECIMAL = 1e6;
   uint256 constant PRIZE_LIMIT = 2e6;
 
@@ -32,6 +32,7 @@ contract Quiz {
   event W(address indexed winner);
   event TryAnother(address indexed player);
   event Withdrawn(address indexed maker, uint256 indexed amount);
+  event OwnerChange(address indexed newOwner);
   event RateUpdate(uint256 indexed rate);
   
   constructor () {
@@ -110,6 +111,13 @@ contract Quiz {
     bool pulled = usdc.transfer(to, amount);
     require(pulled);
     emit Withdrawn(msg.sender, amount);
+  }
+
+  function changeOwner(address newOwner) public {
+    require(msg.sender == maker, "not the maker");
+    require(newOwner != address(0), "invalid");
+    maker = newOwner;
+    emit OwnerChange(msg.sender);
   }
 
   function configFee(uint256 oldAmount, uint256 newAmount) public {

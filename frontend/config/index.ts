@@ -11,8 +11,9 @@ export const config = createConfig({
   multiInjectedProviderDiscovery: false,
   connectors: [
     coinbaseWallet({
-      appName: 'Wagmi Smart Wallet',
+      appName: 'Findout Trivia',
       preference: 'smartWalletOnly',
+      version: '4',
     }),
   ],
   ssr: true,
