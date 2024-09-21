@@ -3,6 +3,7 @@ import { useState } from "react";
 import { base, baseSepolia} from "viem/chains";
 import { PrivyProvider } from '@privy-io/react-auth';
 import { WagmiProvider } from '@privy-io/wagmi';
+import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { config } from '@/config';
@@ -41,7 +42,11 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
       }}
     >
       <QueryClientProvider client={queryClient}>
-        <WagmiProvider config={config}>{children}</WagmiProvider>
+        <WagmiProvider config={config}>
+        <OnchainKitProvider apiKey={process.env.NEXT_PUBLIC_CDP_API_KEY} chain={base}>
+          {children} 
+        </OnchainKitProvider>
+        </WagmiProvider>
       </QueryClientProvider>
     </PrivyProvider>
   );
