@@ -10,6 +10,7 @@
     "pre-install": "npx only-allow pnpm"
   },
   "dependencies": {
+    "@rainbow-me/rainbowkit": "2.1.7",
     "@coinbase/onchainkit": "^0.32.0",
     "@coinbase/wallet-sdk": "^4.0.3",
     "@privy-io/react-auth": "^1.71.0",

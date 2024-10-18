@@ -1,19 +1,25 @@
 "use client";
-import { useState } from "react";
-import { base, baseSepolia} from "viem/chains";
-import { PrivyProvider } from '@privy-io/react-auth';
-import { WagmiProvider } from '@privy-io/wagmi';
+"use client";
 import { OnchainKitProvider } from '@coinbase/onchainkit';
+import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactNode } from 'react';
+import { PrivyProvider } from "@privy-io/react-auth";
+import { base, baseSepolia } from 'viem/chains';
+import { WagmiProvider } from '@privy-io/wagmi';
+import { NEXT_PUBLIC_CDP_API_KEY, NEXT_PUBLIC_PRIVY_APP_ID } from '../config';
+import { useWagmiConfig } from '../wagmi';
 
-import { config } from '@/config';
+type Props = { children: ReactNode };
 
-const Providers = ({ children }: { children: React.ReactNode }) => {
-  const [queryClient] = useState(() => new QueryClient());
+const queryClient = new QueryClient();
+
+function Providers({ children }: Props) {
+  const wagmiConfig = useWagmiConfig();
 
   return (
     <PrivyProvider
-      appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID!}
+      appId={NEXT_PUBLIC_PRIVY_APP_ID!}
       config={{
         // Customize Privy's appearance in your app
         appearance: {
@@ -41,13 +47,15 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
         },
       }}
     >
-      <QueryClientProvider client={queryClient}>
-        <WagmiProvider config={config}>
-        <OnchainKitProvider apiKey={process.env.NEXT_PUBLIC_CDP_API_KEY} chain={base}>
-          {children} 
-        </OnchainKitProvider>
-        </WagmiProvider>
-      </QueryClientProvider>
+      <WagmiProvider config={wagmiConfig}>
+        <QueryClientProvider client={queryClient}>
+          <OnchainKitProvider apiKey={NEXT_PUBLIC_CDP_API_KEY} chain={base}>
+            <RainbowKitProvider modalSize="compact">
+              {children}
+            </RainbowKitProvider>
+          </OnchainKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
     </PrivyProvider>
   );
 };
