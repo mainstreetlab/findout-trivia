@@ -173,7 +173,7 @@ const CreateTrivia = ({ prize, answers }: CreateTriviaProps) => {
           <TransactionButton
             className="w-3/5 md:w-4/5"
             disabled={'pending'}
-            text="submit"
+            text="Submit"
            // onClick={handleClick}
            />
           <TransactionStatus>
