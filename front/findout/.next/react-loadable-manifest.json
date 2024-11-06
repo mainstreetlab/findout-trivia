@@ -1,0 +1,70 @@
+{
+  "components/QuestionList.tsx -> @/components/TriviaCreatedDialog": {
+    "id": "components/QuestionList.tsx -> @/components/TriviaCreatedDialog",
+    "files": [
+      "static/chunks/_app-pages-browser_components_TriviaCreatedDialog_tsx.js"
+    ]
+  },
+  "node_modules/.pnpm/@privy-io+react-auth@1.92.6_@solana+web3.js@1.95.4_bufferutil@4.0.8_encoding@0.1.13_utf-8-val_hmrfnvj7gfdj4jpaifry3i4nuu/node_modules/@privy-io/react-auth/dist/esm/index.mjs -> @simplewebauthn/browser": {
+    "id": "node_modules/.pnpm/@privy-io+react-auth@1.92.6_@solana+web3.js@1.95.4_bufferutil@4.0.8_encoding@0.1.13_utf-8-val_hmrfnvj7gfdj4jpaifry3i4nuu/node_modules/@privy-io/react-auth/dist/esm/index.mjs -> @simplewebauthn/browser",
+    "files": []
+  },
+  "node_modules/.pnpm/@privy-io+react-auth@1.92.6_@solana+web3.js@1.95.4_bufferutil@4.0.8_encoding@0.1.13_utf-8-val_hmrfnvj7gfdj4jpaifry3i4nuu/node_modules/@privy-io/react-auth/dist/esm/index.mjs -> @solana/web3.js": {
+    "id": "node_modules/.pnpm/@privy-io+react-auth@1.92.6_@solana+web3.js@1.95.4_bufferutil@4.0.8_encoding@0.1.13_utf-8-val_hmrfnvj7gfdj4jpaifry3i4nuu/node_modules/@privy-io/react-auth/dist/esm/index.mjs -> @solana/web3.js",
+    "files": []
+  },
+  "node_modules/.pnpm/@privy-io+react-auth@1.92.6_@solana+web3.js@1.95.4_bufferutil@4.0.8_encoding@0.1.13_utf-8-val_hmrfnvj7gfdj4jpaifry3i4nuu/node_modules/@privy-io/react-auth/dist/esm/index.mjs -> @walletconnect/modal": {
+    "id": "node_modules/.pnpm/@privy-io+react-auth@1.92.6_@solana+web3.js@1.95.4_bufferutil@4.0.8_encoding@0.1.13_utf-8-val_hmrfnvj7gfdj4jpaifry3i4nuu/node_modules/@privy-io/react-auth/dist/esm/index.mjs -> @walletconnect/modal",
+    "files": []
+  },
+  "node_modules/.pnpm/@wagmi+connectors@5.3.3_@types+react@18.3.12_@wagmi+core@2.14.1_@tanstack+query-core@5.59.16__z4p34eij7kdqrzqwqui6xidcjm/node_modules/@wagmi/connectors/dist/esm/coinbaseWallet.js -> @coinbase/wallet-sdk": {
+    "id": "node_modules/.pnpm/@wagmi+connectors@5.3.3_@types+react@18.3.12_@wagmi+core@2.14.1_@tanstack+query-core@5.59.16__z4p34eij7kdqrzqwqui6xidcjm/node_modules/@wagmi/connectors/dist/esm/coinbaseWallet.js -> @coinbase/wallet-sdk",
+    "files": [
+      "static/chunks/_app-pages-browser_node_modules_pnpm_coinbase_wallet-sdk_4_1_0_node_modules_coinbase_wallet-s-beb2ff.js"
+    ]
+  },
+  "node_modules/.pnpm/@wagmi+connectors@5.3.3_@types+react@18.3.12_@wagmi+core@2.14.1_@tanstack+query-core@5.59.16__z4p34eij7kdqrzqwqui6xidcjm/node_modules/@wagmi/connectors/dist/esm/coinbaseWallet.js -> cbw-sdk": {
+    "id": "node_modules/.pnpm/@wagmi+connectors@5.3.3_@types+react@18.3.12_@wagmi+core@2.14.1_@tanstack+query-core@5.59.16__z4p34eij7kdqrzqwqui6xidcjm/node_modules/@wagmi/connectors/dist/esm/coinbaseWallet.js -> cbw-sdk",
+    "files": [
+      "static/chunks/_app-pages-browser_node_modules_pnpm_coinbase_wallet-sdk_3_9_3_node_modules_coinbase_wallet-s-69e4fa.js"
+    ]
+  },
+  "node_modules/.pnpm/@wagmi+connectors@5.3.3_@types+react@18.3.12_@wagmi+core@2.14.1_@tanstack+query-core@5.59.16__z4p34eij7kdqrzqwqui6xidcjm/node_modules/@wagmi/connectors/dist/esm/metaMask.js -> @metamask/sdk": {
+    "id": "node_modules/.pnpm/@wagmi+connectors@5.3.3_@types+react@18.3.12_@wagmi+core@2.14.1_@tanstack+query-core@5.59.16__z4p34eij7kdqrzqwqui6xidcjm/node_modules/@wagmi/connectors/dist/esm/metaMask.js -> @metamask/sdk",
+    "files": []
+  },
+  "node_modules/.pnpm/@wagmi+connectors@5.3.3_@types+react@18.3.12_@wagmi+core@2.14.1_@tanstack+query-core@5.59.16__z4p34eij7kdqrzqwqui6xidcjm/node_modules/@wagmi/connectors/dist/esm/safe.js -> @safe-global/safe-apps-provider": {
+    "id": "node_modules/.pnpm/@wagmi+connectors@5.3.3_@types+react@18.3.12_@wagmi+core@2.14.1_@tanstack+query-core@5.59.16__z4p34eij7kdqrzqwqui6xidcjm/node_modules/@wagmi/connectors/dist/esm/safe.js -> @safe-global/safe-apps-provider",
+    "files": []
+  },
+  "node_modules/.pnpm/@wagmi+connectors@5.3.3_@types+react@18.3.12_@wagmi+core@2.14.1_@tanstack+query-core@5.59.16__z4p34eij7kdqrzqwqui6xidcjm/node_modules/@wagmi/connectors/dist/esm/safe.js -> @safe-global/safe-apps-sdk": {
+    "id": "node_modules/.pnpm/@wagmi+connectors@5.3.3_@types+react@18.3.12_@wagmi+core@2.14.1_@tanstack+query-core@5.59.16__z4p34eij7kdqrzqwqui6xidcjm/node_modules/@wagmi/connectors/dist/esm/safe.js -> @safe-global/safe-apps-sdk",
+    "files": []
+  },
+  "node_modules/.pnpm/@wagmi+connectors@5.3.3_@types+react@18.3.12_@wagmi+core@2.14.1_@tanstack+query-core@5.59.16__z4p34eij7kdqrzqwqui6xidcjm/node_modules/@wagmi/connectors/dist/esm/walletConnect.js -> @walletconnect/ethereum-provider": {
+    "id": "node_modules/.pnpm/@wagmi+connectors@5.3.3_@types+react@18.3.12_@wagmi+core@2.14.1_@tanstack+query-core@5.59.16__z4p34eij7kdqrzqwqui6xidcjm/node_modules/@wagmi/connectors/dist/esm/walletConnect.js -> @walletconnect/ethereum-provider",
+    "files": []
+  },
+  "node_modules/.pnpm/@walletconnect+ethereum-provider@2.17.0_@types+react@18.3.12_bufferutil@4.0.8_encoding@0.1.13_yrcyox2oongnm2opdjkx5q6qxu/node_modules/@walletconnect/ethereum-provider/dist/index.es.js -> @walletconnect/modal": {
+    "id": "node_modules/.pnpm/@walletconnect+ethereum-provider@2.17.0_@types+react@18.3.12_bufferutil@4.0.8_encoding@0.1.13_yrcyox2oongnm2opdjkx5q6qxu/node_modules/@walletconnect/ethereum-provider/dist/index.es.js -> @walletconnect/modal",
+    "files": []
+  },
+  "node_modules/.pnpm/@walletconnect+modal@2.7.0_@types+react@18.3.12_react@18.3.1/node_modules/@walletconnect/modal/dist/index.js -> @walletconnect/modal-ui": {
+    "id": "node_modules/.pnpm/@walletconnect+modal@2.7.0_@types+react@18.3.12_react@18.3.1/node_modules/@walletconnect/modal/dist/index.js -> @walletconnect/modal-ui",
+    "files": []
+  },
+  "node_modules/.pnpm/viem@2.21.37_bufferutil@4.0.8_typescript@5.6.3_utf-8-validate@5.0.10_zod@3.23.8/node_modules/viem/_esm/actions/public/call.js -> ../../utils/ccip.js": {
+    "id": "node_modules/.pnpm/viem@2.21.37_bufferutil@4.0.8_typescript@5.6.3_utf-8-validate@5.0.10_zod@3.23.8/node_modules/viem/_esm/actions/public/call.js -> ../../utils/ccip.js",
+    "files": [
+      "static/chunks/_app-pages-browser_node_modules_pnpm_viem_2_21_37_bufferutil_4_0_8_typescript_5_6_3_utf-8-val-750e00.js"
+    ]
+  },
+  "node_modules/.pnpm/viem@2.21.37_bufferutil@4.0.8_typescript@5.6.3_utf-8-validate@5.0.10_zod@3.23.8/node_modules/viem/_esm/utils/rpc/webSocket.js -> isows": {
+    "id": "node_modules/.pnpm/viem@2.21.37_bufferutil@4.0.8_typescript@5.6.3_utf-8-validate@5.0.10_zod@3.23.8/node_modules/viem/_esm/utils/rpc/webSocket.js -> isows",
+    "files": []
+  },
+  "node_modules/.pnpm/viem@2.21.37_bufferutil@4.0.8_typescript@5.6.3_utf-8-validate@5.0.10_zod@3.23.8/node_modules/viem/_esm/utils/signature/recoverPublicKey.js -> @noble/curves/secp256k1": {
+    "id": "node_modules/.pnpm/viem@2.21.37_bufferutil@4.0.8_typescript@5.6.3_utf-8-validate@5.0.10_zod@3.23.8/node_modules/viem/_esm/utils/signature/recoverPublicKey.js -> @noble/curves/secp256k1",
+    "files": []
+  }
+}
