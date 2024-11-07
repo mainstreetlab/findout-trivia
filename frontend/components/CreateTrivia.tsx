@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useCallback } from 'react';
 import {
   Transaction,
   TransactionButton,
@@ -11,6 +11,7 @@ import {
 import type {
   TransactionError,
   TransactionResponse,
+  LifecycleStatus,
 } from '@coinbase/onchainkit/transaction';
 // import useAccount from wagmi not privy
 import { useAccount} from 'wagmi';
@@ -127,6 +128,10 @@ const CreateTrivia = ({ prize, answers }: CreateTriviaProps) => {
     console.log('Transaction successful', response);
   };
 
+  const handleOnStatus = useCallback((status: LifecycleStatus) => {
+    console.log('LifecycleStatus', status);
+  }, []);
+
   const handleClick = () => {
     if (!user) {
       login();
@@ -166,15 +171,16 @@ const CreateTrivia = ({ prize, answers }: CreateTriviaProps) => {
           className="w-[450px]"
          // capabilities={capabilities}
           chainId={chainId}
+          onStatus={handleOnStatus}
           onError={handleError}
           onSuccess={handleSuccess} 
 
         >
           <TransactionButton
             className="w-3/5 md:w-4/5"
-            disabled={'pending'}
+            //disabled={'pending'}
             text="Submit"
-           // onClick={handleClick}
+            //onClick={handleClick}
            />
           <TransactionStatus>
             <TransactionStatusLabel />
