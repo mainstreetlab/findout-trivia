@@ -6,14 +6,19 @@ import { http, cookieStorage, createConfig, createStorage } from 'wagmi';
 import { coinbaseWallet } from 'wagmi/connectors';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { type ReactNode, useState } from 'react';
-import { type State, WagmiProvider } from 'wagmi';
+import { PrivyProvider } from "@privy-io/react-auth";
+import { type State, WagmiProvider } from '@privy-io/wagmi';
+import { 
+  NEXT_PUBLIC_ONCHAINKIT_CDP_KEY, NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME,
+  NEXT_PUBLIC_CDP_API_KEY, 
+  NEXT_PUBLIC_PRIVY_APP_ID } from '../config';
 
 const config = createConfig({
   chains: [base],
   connectors: [
     coinbaseWallet({
-      appName: process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME,
-      preference: process.env.NEXT_PUBLIC_ONCHAINKIT_WALLET_CONFIG as
+      appName: NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME,
+      preference: NEXT_PUBLIC_ONCHAINKIT_WALLET_CONFIG as
         | 'smartWalletOnly'
         | 'all',
     }),
@@ -34,19 +39,49 @@ export default function Providers(props: {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <WagmiProvider config={config} initialState={props.initialState}>
-      <QueryClientProvider client={queryClient}>
-        <OnchainKitProvider
-          apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_CDP_KEY}
-          chain={base}
-          config={{ appearance: { 
-            mode: 'auto',
-            theme: 'base',
-           } }}
-        >
-          {props.children}
-        </OnchainKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+    <PrivyProvider
+      appId={NEXT_PUBLIC_PRIVY_APP_ID!}
+      config={{
+        // Customize Privy's appearance in your app
+        appearance: {
+          theme: 'light',
+          accentColor: '#676FFF',
+          logo: '',
+          walletList: ['coinbase_wallet'],
+        },
+
+        defaultChain: base,
+        supportedChains: [base, baseSepolia],
+
+        loginMethods: ['email', 'wallet', 'google', 'apple'],
+
+        // Create embedded wallets for users who don't have a wallet - we might have to delay the use of embedded wallet to concentrate our calls through coinbase smart wallet at the moment
+        // embeddedWallets: {
+        //   createOnLogin: 'users-without-wallets',
+        // },
+
+        externalWallets: {
+          coinbaseWallet: {
+            //Connection options should integrate coinbase smart wallet only
+            connectionOptions: 'smartWalletOnly',
+          },
+        },
+      }}
+    >
+      <WagmiProvider config={config} initialState={props.initialState}>
+        <QueryClientProvider client={queryClient}>
+          <OnchainKitProvider
+            apiKey={NEXT_PUBLIC_ONCHAINKIT_CDP_KEY}
+            chain={base}
+            config={{ appearance: { 
+              mode: 'auto',
+              theme: 'base',
+            } }}
+          >
+            {props.children}
+          </OnchainKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
+    </PrivyProvider>
   );
 }
