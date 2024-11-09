@@ -1,4 +1,4 @@
-// File: /home/sheys/findout/findout-trivia/front/findout/app/create/page.tsx
+// File: /home/sheys/findout/findout-trivia/frontend/app/create/page.tsx
 import * as entry from '../../../../app/create/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
