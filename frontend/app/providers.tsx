@@ -7,10 +7,10 @@ import { coinbaseWallet } from 'wagmi/connectors';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { type ReactNode, useState } from 'react';
 import { PrivyProvider } from "@privy-io/react-auth";
-import { type State, WagmiProvider } from '@privy-io/wagmi';
+import { type State, WagmiProvider } from 'wagmi';
 import { 
   NEXT_PUBLIC_ONCHAINKIT_CDP_KEY, NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME,
-  NEXT_PUBLIC_CDP_API_KEY, 
+  NEXT_PUBLIC_ONCHAINKIT_WALLET_CONFIG, 
   NEXT_PUBLIC_PRIVY_APP_ID } from '../config';
 
 const config = createConfig({
