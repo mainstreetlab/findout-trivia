@@ -51,7 +51,7 @@ export default function Providers(props: {
         },
 
         defaultChain: base,
-        supportedChains: [base, baseSepolia],
+        supportedChains: [base],
 
         loginMethods: ['email', 'wallet', 'google', 'apple'],
 
