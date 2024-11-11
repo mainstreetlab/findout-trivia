@@ -1,20 +1,20 @@
 'use client';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { base } from 'wagmi/chains';
+import { base, baseSepolia } from 'wagmi/chains';
 import { http, cookieStorage, createConfig, createStorage } from 'wagmi';
 import { coinbaseWallet } from 'wagmi/connectors';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { type ReactNode, useState } from 'react';
 import { PrivyProvider } from "@privy-io/react-auth";
-import { type State, WagmiProvider } from 'wagmi';
+import { type State, WagmiProvider } from '@privy-io/wagmi';
 import { 
   NEXT_PUBLIC_ONCHAINKIT_CDP_KEY, NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME,
   NEXT_PUBLIC_ONCHAINKIT_WALLET_CONFIG, 
   NEXT_PUBLIC_PRIVY_APP_ID } from '../config';
 
 const config = createConfig({
-  chains: [base],
+  chains: [base, baseSepolia],
   connectors: [
     coinbaseWallet({
       appName: NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME,
@@ -29,6 +29,7 @@ const config = createConfig({
   ssr: true,
   transports: {
     [base.id]: http(),
+    [baseSepolia.id]: http(),
   },
 });
 
@@ -50,8 +51,8 @@ export default function Providers(props: {
           walletList: ['coinbase_wallet'],
         },
 
-        defaultChain: base,
-        supportedChains: [base],
+        defaultChain: baseSepolia,
+        supportedChains: [base, baseSepolia],
 
         loginMethods: ['email', 'wallet', 'google', 'apple'],
 
@@ -72,7 +73,7 @@ export default function Providers(props: {
         <QueryClientProvider client={queryClient}>
           <OnchainKitProvider
             apiKey={NEXT_PUBLIC_ONCHAINKIT_CDP_KEY}
-            chain={base}
+            chain={base, baseSepolia}
             config={{ appearance: { 
               mode: 'auto',
               theme: 'base',
