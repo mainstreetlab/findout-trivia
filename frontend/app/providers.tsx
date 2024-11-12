@@ -1,7 +1,7 @@
 'use client';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { base, baseSepolia } from 'wagmi/chains';
+import { base } from 'wagmi/chains';
 import { type State, http, cookieStorage, createConfig, createStorage } from 'wagmi';
 import { coinbaseWallet } from 'wagmi/connectors';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
@@ -73,7 +73,7 @@ export default function Providers(props: {
         <QueryClientProvider client={queryClient}>
           <OnchainKitProvider
             apiKey={NEXT_PUBLIC_ONCHAINKIT_CDP_KEY}
-            chain={base, baseSepolia}
+            chain={base}
             config={{ appearance: { 
               mode: 'auto',
               theme: 'base',
