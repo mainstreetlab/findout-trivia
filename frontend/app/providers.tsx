@@ -14,7 +14,7 @@ import {
   NEXT_PUBLIC_PRIVY_APP_ID } from '../config';
 
 const config = createConfig({
-  chains: [base, baseSepolia],
+  chains: [base],
   connectors: [
     coinbaseWallet({
       appName: NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME,
