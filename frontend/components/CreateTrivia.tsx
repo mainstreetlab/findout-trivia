@@ -172,8 +172,8 @@ const CreateTrivia = ({ prize, answers }: CreateTriviaProps) => {
          // capabilities={capabilities}
           chainId={chainId}
           onStatus={handleOnStatus}
-          onError={handleError}
-          onSuccess={handleSuccess} 
+          //onError={handleError}
+          //onSuccess={handleSuccess} 
 
         >
           <TransactionButton
@@ -186,7 +186,7 @@ const CreateTrivia = ({ prize, answers }: CreateTriviaProps) => {
             <TransactionStatusLabel />
             <TransactionStatusAction />
           </TransactionStatus>
-      </Transaction>
+        </Transaction>
       ) : (
         <Button type="button" className="w-3/5 md:w-4/5" onClick={handleClick}>
           Login
