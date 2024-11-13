@@ -1,29 +1,22 @@
-import { createClient, createPublicClient, http } from "viem";
-import { base, baseSepolia } from "viem/chains";
-import { ENTRYPOINT_ADDRESS_V06 } from "permissionless";
-import { paymasterActionsEip7677 } from "permissionless/experimental";
-
-export const baseClient = createPublicClient({
-  chain: base,
-  //transport: http(process.env.BASE_RPC_URL!),
-  transport: http(),
-});
-
-export const baseSepoliaClient = createPublicClient({
-  chain: baseSepolia,
-  //transport: http(process.env.BASE_SEPOLIA_RPC_URL!),
-  transport: http(),
-});
+import { http } from "viem";
+import { entryPoint07Address } from "viem/account-abstraction";
+import { createPimlicoClient } from "permissionless/clients/pimlico";
 
 const basePaymasterService = process.env.CDP_BASE_PAYMASTER_RPC_HOST!;
 const baseSepoliaPaymasterService = process.env.CDP_BASESEPOLIA_PAYMASTER_RPC_HOST!;
 
-export const basePaymasterClient = createClient({
-  chain: base,
+export const basePaymasterClient = createPimlicoClient({
   transport: http(basePaymasterService),
-}).extend(paymasterActionsEip7677(ENTRYPOINT_ADDRESS_V06));
+  entryPoint: { // Optional, defaults to 0.7
+		address: entryPoint07Address, 
+		version: "0.7", 
+	} 
+});
 
-export const baseSepoliaPaymasterClient = createClient({
-  chain: baseSepolia,
+export const baseSepoliaPaymasterClient = createPimlicoClient({
   transport: http(baseSepoliaPaymasterService),
-}).extend(paymasterActionsEip7677(ENTRYPOINT_ADDRESS_V06));
+  entryPoint: { // Optional, defaults to 0.7
+		address: entryPoint07Address, 
+		version: "0.7", 
+	} 
+});
