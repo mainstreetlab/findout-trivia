@@ -2,12 +2,12 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { base, baseSepolia } from 'wagmi/chains';
-import { type State, http, cookieStorage, createConfig, createStorage } from 'wagmi';
+import { type State, http, cookieStorage, createConfig, createStorage, WagmiProvider } from 'wagmi';
 import { coinbaseWallet } from 'wagmi/connectors';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { type ReactNode, useState } from 'react';
 import { PrivyProvider } from "@privy-io/react-auth";
-import { WagmiProvider } from '@privy-io/wagmi';
+//import { WagmiProvider } from '@privy-io/wagmi';
 import { 
   NEXT_PUBLIC_ONCHAINKIT_CDP_KEY, NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME,
   NEXT_PUBLIC_ONCHAINKIT_WALLET_CONFIG, 
