@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { ArrowLeft, Check } from "lucide-react";
+import { ArrowLeft, Check, Bell, BellRing } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { useNotificationStore } from "@/lib/hooks/useNotificationStore";
 import Link from "next/link";
 import {
@@ -17,6 +19,7 @@ import {
   createMockNotificationsWithTimestamps,
 } from "@/lib/mockData";
 import { formatDistanceToNow } from "date-fns";
+import { cn } from "@/lib/utils";
 
 // Add this CSS to your global.css file or create a new CSS module
 // .hide-close-button [data-radix-collection-item][role="button"] {
@@ -37,7 +40,6 @@ export default function NotificationSheet({
     markAsRead,
     markAllAsRead,
     isLoaded,
-    addNotification,
     setNotifications,
   } = useNotificationStore();
 
@@ -62,7 +64,7 @@ export default function NotificationSheet({
         <div className="flex flex-col h-full">
           <SheetHeader className="p-4 border-b">
             <div className="flex items-center justify-between">
-              <div className="flex items-center">
+              <div className="flex items-center gap-4">
                 <SheetClose asChild>
                   <Button
                     variant="ghost"
@@ -79,86 +81,151 @@ export default function NotificationSheet({
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="text-purple-600 hover:text-purple-700 flex items-center gap-1"
                   onClick={markAllAsRead}
+                  className="text-purple-600 hover:text-purple-700"
                 >
-                  <Check className="h-4 w-4" />
-                  <span>Mark all as read</span>
+                  Mark all as read
                 </Button>
               )}
             </div>
           </SheetHeader>
 
-          <div className="flex-1 overflow-auto">
+          <div className="flex-1 overflow-auto p-4 space-y-3">
             {notifications.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-full text-gray-500">
-                <p>No notifications yet</p>
+              <div className="flex flex-col items-center justify-center h-full text-center p-4">
+                <Bell className="h-12 w-12 text-gray-300 mb-2" />
+                <h3 className="text-lg font-medium mb-1">No notifications</h3>
+                <p className="text-sm text-gray-500 mb-4">
+                  You don't have any notifications yet.
+                </p>
                 <Button
                   onClick={loadMockData}
-                  className="mt-4 bg-purple-500 hover:bg-purple-600 text-white"
+                  className="bg-purple-600 hover:bg-purple-700"
                 >
                   Load Sample Notifications
                 </Button>
               </div>
             ) : (
-              <div>
-                {notifications.map((notification, index) => {
+              <div className="space-y-3">
+                {notifications.map((notification) => {
                   const isWin = notification.type === "win";
                   const isLoss = notification.type === "loss";
                   const isSuccess = notification.type === "success";
-
-                  let bgColor = !notification.read ? "bg-gray-50" : "";
-                  if (isWin) bgColor = "bg-pink-100";
-                  if (isLoss) bgColor = "bg-red-100";
-                  if (isSuccess) bgColor = "bg-green-50";
+                  const isInfo = notification.type === "info";
 
                   return (
-                    <div key={notification.id}>
-                      <div
-                        className={`p-4 ${bgColor}`}
-                        onClick={() => markAsRead(notification.id)}
-                      >
-                        <div className="flex items-start">
-                          <div className="flex-1">
-                            <div className="flex items-center">
-                              {!notification.read && (
-                                <div className="w-2 h-2 bg-red-500 rounded-full mr-2 flex-shrink-0"></div>
+                    <Card
+                      key={notification.id}
+                      className={cn(
+                        "overflow-hidden transition-all hover:shadow-md cursor-pointer",
+                        !notification.read && "border-l-4 border-l-purple-500",
+                        isWin && "bg-pink-50",
+                        isLoss && "bg-red-50",
+                        isSuccess && "bg-green-50",
+                      )}
+                      onClick={() => {
+                        if (!notification.read) {
+                          markAsRead(notification.id);
+                        }
+                      }}
+                    >
+                      <CardContent className="p-4">
+                        <div className="flex items-start gap-3">
+                          <div
+                            className={cn(
+                              "rounded-full p-2 flex-shrink-0",
+                              isWin && "bg-pink-100",
+                              isLoss && "bg-red-100",
+                              isSuccess && "bg-green-100",
+                              isInfo && "bg-blue-100",
+                            )}
+                          >
+                            <BellRing
+                              className={cn(
+                                "h-4 w-4",
+                                isWin && "text-pink-600",
+                                isLoss && "text-red-600",
+                                isSuccess && "text-green-600",
+                                isInfo && "text-blue-600",
                               )}
-                              <p className="text-sm">{notification.message}</p>
+                            />
+                          </div>
+
+                          <div className="flex-1">
+                            <div className="flex items-start justify-between">
+                              <div className="flex items-center gap-2">
+                                {!notification.read && (
+                                  <Badge
+                                    variant="outline"
+                                    className="bg-purple-100 text-purple-800 border-purple-200 text-xs"
+                                  >
+                                    New
+                                  </Badge>
+                                )}
+                                <Badge
+                                  variant="outline"
+                                  className={cn(
+                                    "text-xs",
+                                    isWin &&
+                                      "bg-pink-100 text-pink-800 border-pink-200",
+                                    isLoss &&
+                                      "bg-red-100 text-red-800 border-red-200",
+                                    isSuccess &&
+                                      "bg-green-100 text-green-800 border-green-200",
+                                    isInfo &&
+                                      "bg-blue-100 text-blue-800 border-blue-200",
+                                  )}
+                                >
+                                  {notification.type.charAt(0).toUpperCase() +
+                                    notification.type.slice(1)}
+                                </Badge>
+                              </div>
+
+                              <span className="text-xs text-gray-500">
+                                {formatDistanceToNow(notification.timestamp, {
+                                  addSuffix: true,
+                                })}
+                              </span>
                             </div>
 
-                            <div className="mt-1 text-xs text-gray-500">
-                              {formatDistanceToNow(notification.timestamp, {
-                                addSuffix: true,
-                              })}
-                            </div>
+                            <p className="text-sm mt-2 font-medium">
+                              {notification.message}
+                            </p>
 
                             {notification.hasAction && (
-                              <div className="mt-3 flex space-x-2">
+                              <div className="mt-3 flex flex-wrap gap-4">
                                 {isWin && (
                                   <Button
-                                    size="sm"
+                                    size="md"
                                     className="bg-purple-500 hover:bg-purple-600 text-white"
+                                    onClick={(e) => {
+                                      e.stopPropagation(); // Prevent card click
+                                      // Handle claim action
+                                      console.log("Claiming prize");
+                                    }}
                                   >
                                     Claim
                                   </Button>
                                 )}
                                 {notification.quizId && (
-                                  <Link
-                                    href={`/quiz/${notification.quizId}/stats`}
+                                  <Button
+                                    size="md"
+                                    variant="outline"
+                                    onClick={(e) => {
+                                      e.stopPropagation(); // Prevent card click
+                                      // Navigate to stats page
+                                      window.location.href = `/quiz/${notification.quizId}/stats`;
+                                    }}
                                   >
-                                    <Button size="sm" variant="outline">
-                                      Check stats
-                                    </Button>
-                                  </Link>
+                                    Check stats
+                                  </Button>
                                 )}
                               </div>
                             )}
                           </div>
                         </div>
-                      </div>
-                      {index < notifications.length - 1 && <Separator />}
-                    </div>
+                      </CardContent>
+                    </Card>
                   );
                 })}
               </div>
