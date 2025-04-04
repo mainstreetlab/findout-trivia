@@ -1,12 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogClose,
-} from "@/components/ui/dialog";
+import { useState } from "react";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
@@ -18,7 +13,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { z } from "zod";
-import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
+import { useSettingsStore } from "@/hooks/useSettingsStore";
 
 interface SettingsModalProps {
   open: boolean;
@@ -36,7 +31,7 @@ export default function SettingsModal({
   open,
   onOpenChange,
 }: SettingsModalProps) {
-  const { settings, updateSetting, isLoaded } = useSettingsStore();
+  const { settings, updateSetting } = useSettingsStore();
   const [timerError, setTimerError] = useState<string | null>(null);
 
   const handleTimerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,14 +60,11 @@ export default function SettingsModal({
     });
   };
 
-  // Don't render until settings are loaded from localStorage
-  if (!isLoaded) return null;
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md p-6">
+      <DialogContent className="sm:max-w-md p-6 hide-close-button">
         <div className="flex justify-between items-center mb-6">
-          <DialogTitle className="text-xl">Settings Modal</DialogTitle>
+          <DialogTitle className="text-xl">Settings</DialogTitle>
         </div>
 
         <div className="space-y-8">
