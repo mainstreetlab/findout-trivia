@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation';
 import AvatarContainer from '@/components/AvatarContainer';
 import SettingsIcon from "@/app/svg/SettingsIcon";
 import NotificationIcon from "@/app/svg/NotificationIcon";
+import SettingsModal from "@/components/SettingsModal";
 
 import FindoutLogo from "@/public/Findout-Logo-v1.png";
 import FindoutMonogram from "@/public/Findout-Monogram-v1.png";
@@ -16,6 +17,7 @@ import Image from "next/image";
 const Header = () => {
   const [top, setTop] = useState(true);
   const pathName = usePathname();
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const scrollHandler = () => {
     window.scrollY >= 15 ? setTop(false) : setTop(true);
@@ -33,7 +35,10 @@ const Header = () => {
       {/* Position the icons and avatar in the top right corner */}
       <div className="absolute top-2 right-2 flex gap-2 items-center justify-between px-2 py-2">
         {/* Settings Icon */}
-        <button className="text-gray-600 hover:text-primary transition-colors">
+        <button
+          className="text-gray-600 hover:text-primary transition-colors"
+          onClick={() => setSettingsOpen(true)}
+        >
           <SettingsIcon />
         </button>
 
@@ -44,6 +49,9 @@ const Header = () => {
 
         <AvatarContainer />
       </div>
+
+      {/* Settings Modal */}
+      <SettingsModal open={settingsOpen} onOpenChange={setSettingsOpen} />
 
       {pathName.includes("/create") ? (
         <div
