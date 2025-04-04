@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import MobileNav from "./MobileNav";
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import Link from 'next/link';
+import MobileNav from './MobileNav';
+import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
-import AvatarContainer from "@/components/AvatarContainer";
+import AvatarContainer from '@/components/AvatarContainer';
 
 import FindoutLogo from '@/public/Findout-Logo-v1.png';
 import FindoutMonogram from '@/public/Findout-Monogram-v1.png';
@@ -26,7 +26,7 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 py-8 xl:py-12 bg-white text-primary z-10 transition-shadow duration-400 ${top ? 'border-b border-accent/15' : 'shadow-md'}`}
+      className={`fixed top-0 left-0 right-0 py-8 xl:py-10 bg-white text-primary z-10 transition-shadow duration-400 ${top ? 'border-b border-accent/15' : 'shadow-md'}`}
     >
       {pathName.includes('/create') ? (
         <div

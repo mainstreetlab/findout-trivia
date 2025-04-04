@@ -113,30 +113,31 @@ const Quiz = ({ trivia: { questions } }: QuizProps) => {
     if (complete) {
       return (
         <div
-          className="w-[90%] rounded-md p-8 flex flex-col justify-center items-center bg-gradient-to-r from-blue-400 via-blue-700/80 to-violet-600/90 text-white gap-6"
+          className="w-[90%] rounded-md p-8 flex flex-col justify-between items-center bg-gradient-to-r from-blue-400 via-blue-700/80 to-violet-600/90 text-white"
           style={{ height: '680px' }}
         >
-          <div className="w-48 h-48 bg-white rounded-full flex items-center justify-center">
-            <div className="w-42 h-42">
+          <div className="flex-1 flex flex-col items-center justify-center -mt-8">
+            <div className="w-48 h-48 bg-white rounded-full flex items-center justify-center mb-8">
               <Lottie
                 animationData={tickAnimation}
                 loop={false}
                 onComplete={() => setAnimationComplete(true)}
+                className="w-48 h-48"
               />
             </div>
+
+            <h2 className="text-2xl font-semibold text-center mb-4">
+              🎉 You finished the quiz!
+            </h2>
+            <p className="text-center">
+              You've completed all questions. Your answers have been submitted.
+            </p>
           </div>
-          <h2 className="text-2xl font-semibold text-center">
-            🎉 You finished the quiz!
-          </h2>
-          <p className="text-center">
-            You've completed all questions. Your answers have been submitted.
-          </p>
-          <div className="h-[52px] flex items-center justify-center">
-            {' '}
-            {/* Fixed height container */}
+
+          <div className="flex items-center justify-center mb-8">
             <Link
               href={'/results?id=abcdef'}
-              className={`mt-4 px-6 py-3 bg-indigo-500 text-white rounded-full font-semibold shadow-lg hover:bg-indigo-600 transition-all duration-300 ${
+              className={`px-6 py-3 bg-indigo-500 text-white rounded-full font-semibold shadow-lg hover:bg-indigo-600 transition-all duration-300 ${
                 animationComplete
                   ? 'opacity-100 visible'
                   : 'opacity-0 invisible'
