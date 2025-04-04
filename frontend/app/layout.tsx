@@ -8,6 +8,7 @@ import { Toaster } from "@/components/ui/toaster"
 import LoaderOverlay from "@/components/LoaderOverlay";
 import Providers from "./providers";
 import type { Metadata } from "next";
+import MockDataLoader from "@/components/MockDataLoader";
 
 const quickSand = Quicksand({
   subsets: ["latin"],
@@ -32,6 +33,7 @@ export default function RootLayout({
           <LoaderOverlay>
             <Header />
             {children}
+            <MockDataLoader />
             <ScrollTop />
           </LoaderOverlay>
         </Providers>

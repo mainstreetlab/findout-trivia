@@ -9,6 +9,9 @@ import AvatarContainer from '@/components/AvatarContainer';
 import SettingsIcon from "@/app/svg/SettingsIcon";
 import NotificationIcon from "@/app/svg/NotificationIcon";
 import SettingsModal from "@/components/SettingsModal";
+import NotificationSheet from "@/components/NotificationSheet";
+import { useNotificationStore } from "@/lib/hooks/useNotificationStore";
+import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 
 import FindoutLogo from "@/public/Findout-Logo-v1.png";
 import FindoutMonogram from "@/public/Findout-Monogram-v1.png";
@@ -18,6 +21,8 @@ const Header = () => {
   const [top, setTop] = useState(true);
   const pathName = usePathname();
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const { unreadCount } = useNotificationStore();
 
   const scrollHandler = () => {
     window.scrollY >= 15 ? setTop(false) : setTop(true);
@@ -42,10 +47,23 @@ const Header = () => {
           <SettingsIcon />
         </button>
 
-        {/* Notification Icon */}
-        <button className="text-gray-600 hover:text-primary transition-colors">
-          <NotificationIcon />
-        </button>
+        {/* Notification Icon with Sheet */}
+        <Sheet open={notificationsOpen} onOpenChange={setNotificationsOpen}>
+          <SheetTrigger asChild>
+            <button className="text-gray-600 hover:text-primary transition-colors relative">
+              <NotificationIcon />
+              {unreadCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                  {unreadCount > 9 ? "9+" : unreadCount}
+                </span>
+              )}
+            </button>
+          </SheetTrigger>
+          <NotificationSheet
+            open={notificationsOpen}
+            onOpenChange={setNotificationsOpen}
+          />
+        </Sheet>
 
         <AvatarContainer />
       </div>

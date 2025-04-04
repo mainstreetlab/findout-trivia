@@ -60,3 +60,11 @@
     text-wrap: balance;
   }
 }
+
+.hide-close-button [data-radix-collection-item]:has(svg) {
+  display: none !important;
+}
+
+.hide-close-button [role="dialog"] > button {
+  display: none !important;
+}
