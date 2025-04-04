@@ -6,10 +6,12 @@ import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 import AvatarContainer from '@/components/AvatarContainer';
+import SettingsIcon from "@/app/svg/SettingsIcon";
+import NotificationIcon from "@/app/svg/NotificationIcon";
 
-import FindoutLogo from '@/public/Findout-Logo-v1.png';
-import FindoutMonogram from '@/public/Findout-Monogram-v1.png';
-import Image from 'next/image';
+import FindoutLogo from "@/public/Findout-Logo-v1.png";
+import FindoutMonogram from "@/public/Findout-Monogram-v1.png";
+import Image from "next/image";
 
 const Header = () => {
   const [top, setTop] = useState(true);
@@ -20,36 +22,36 @@ const Header = () => {
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', scrollHandler);
-    return () => window.removeEventListener('scroll', scrollHandler);
+    window.addEventListener("scroll", scrollHandler);
+    return () => window.removeEventListener("scroll", scrollHandler);
   }, [top]);
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 py-8 xl:py-10 bg-white text-primary z-10 transition-shadow duration-400 ${top ? 'border-b border-accent/15' : 'shadow-md'}`}
+      className={`fixed top-0 left-0 right-0 py-8 xl:py-10 bg-white text-primary z-10 transition-shadow duration-400 ${top ? "border-b border-accent/15" : "shadow-md"}`}
     >
-      {pathName.includes('/create') ? (
+      {/* Position the icons and avatar in the top right corner */}
+      <div className="absolute top-2 right-2 flex gap-2 items-center justify-between px-2 py-2">
+        {/* Settings Icon */}
+        <button className="text-gray-600 hover:text-primary transition-colors">
+          <SettingsIcon />
+        </button>
+
+        {/* Notification Icon */}
+        <button className="text-gray-600 hover:text-primary transition-colors">
+          <NotificationIcon />
+        </button>
+
+        <AvatarContainer />
+      </div>
+
+      {pathName.includes("/create") ? (
         <div
-          className={`container mx-auto flex flex-col gap-4 items-center justify-center ${!top && 'pt-8'} transition-all duration-500 ease-in-out`}
+          className={`container mx-auto flex flex-col gap-4 items-center justify-center ${!top && "pt-8"} transition-all duration-500 ease-in-out`}
         >
           {/* logo */}
           <Link href="/">
             <h1 className="text-5xl font-extrabold">
-              {/* {!top ? (
-                <Image
-                  src={FindoutMonogram}
-                  alt="Findout Logo"
-                  height={96}
-                  width={96}
-                />
-              ) : (
-                <Image
-                  src={FindoutLogo}
-                  alt="Findout Logo"
-                  height={48}
-                  width={48}
-                />
-              )} */}
               <Image
                 src={FindoutLogo}
                 alt="Findout Logo"
@@ -60,16 +62,11 @@ const Header = () => {
           </Link>
 
           <h2 className="text-xl font-medium">Ask Anything</h2>
-
-          <AvatarContainer />
         </div>
       ) : (
-        <div className="container mx-auto flex justify-between items-center ">
+        <div className="container mx-auto flex justify-between items-center">
           {/* logo */}
           <Link href="/">
-            {/* <h1 className="text-5xl font-extrabold">
-              F<span className="text-accent -ml-2.5 inline-flex">.</span>
-            </h1> */}
             <Image
               src={FindoutLogo}
               alt="Findout Logo"

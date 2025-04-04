@@ -3,6 +3,7 @@
 import { usePrivy } from "@privy-io/react-auth";
 import { Button } from "./ui/button";
 import { MdOutlineLogin } from "react-icons/md";
+import Link from "next/link";
 
 import {
   Tooltip,
@@ -15,7 +16,9 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
+} from "@/components/ui/popover";
+
+import { Separator } from "@/components/ui/separator";
 
 const AvatarContainer = () => {
   const { ready, authenticated, login, logout, user } = usePrivy();
@@ -24,15 +27,28 @@ const AvatarContainer = () => {
   const disableLogin = !ready || (ready && authenticated);
 
   return (
-    <div className="absolute top-2 right-2 flex gap-2 items-center justify-between px-2 py-2">
+    <div className="flex gap-2 items-center justify-between">
       {ready && authenticated ? (
         <Popover>
           <p className="text-sm font-semibold text-primary/80">$0</p>
           <PopoverTrigger className="bg-gradient-to-bl from-purple-700 via-blue-700 to-purple-500 w-10 h-10 rounded-full text-lg font-semibold flex items-center justify-center text-white border border-accent-hover">
             {user!.email?.address.slice(0, 2).toUpperCase()}
           </PopoverTrigger>
-          <PopoverContent className="w-24 p-1">
-            <Button variant="link" onClick={logout}>
+          <PopoverContent className="w-24 p-1 flex flex-col space-y-0">
+            <Link href="/profile" className="w-full">
+              <Button
+                variant="link"
+                className="w-full justify-start py-1 h-auto"
+              >
+                Profile
+              </Button>
+            </Link>
+            <Separator className="my-1" />
+            <Button
+              variant="link"
+              onClick={logout}
+              className="w-full justify-start py-1 h-auto"
+            >
               Sign Out
             </Button>
           </PopoverContent>
