@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -18,6 +18,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { z } from "zod";
+import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
 
 interface SettingsModalProps {
   open: boolean;
@@ -35,29 +36,37 @@ export default function SettingsModal({
   open,
   onOpenChange,
 }: SettingsModalProps) {
-  const [expiry, setExpiry] = useState("24hrs");
-  const [prizeSplit, setPrizeSplit] = useState("winner-takes-all");
-  const [mode, setMode] = useState("custom");
-  const [unitTimer, setUnitTimer] = useState("30");
+  const { settings, updateSetting, isLoaded } = useSettingsStore();
   const [timerError, setTimerError] = useState<string | null>(null);
-  const [customEnabled, setCustomEnabled] = useState({
-    prizeSplit: false,
-    mode: false,
-  });
 
   const handleTimerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setUnitTimer(value);
 
     try {
       unitTimerSchema.parse(value);
       setTimerError(null);
+      updateSetting("unitTimer", value);
     } catch (error) {
       if (error instanceof z.ZodError) {
         setTimerError(error.errors[0].message);
       }
+      // Still update the value to show the invalid input
+      updateSetting("unitTimer", value);
     }
   };
+
+  const handleCustomEnabledChange = (
+    key: "prizeSplit" | "mode",
+    checked: boolean,
+  ) => {
+    updateSetting("customEnabled", {
+      ...settings.customEnabled,
+      [key]: checked,
+    });
+  };
+
+  // Don't render until settings are loaded from localStorage
+  if (!isLoaded) return null;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -72,7 +81,10 @@ export default function SettingsModal({
             <Label htmlFor="expiry" className="text-base font-medium">
               Expiry:
             </Label>
-            <Select value={expiry} onValueChange={setExpiry}>
+            <Select
+              value={settings.expiry}
+              onValueChange={(value) => updateSetting("expiry", value)}
+            >
               <SelectTrigger className="w-44">
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
@@ -97,9 +109,9 @@ export default function SettingsModal({
             </Label>
             <div className="flex items-center gap-2">
               <Select
-                value={prizeSplit}
-                onValueChange={setPrizeSplit}
-                disabled={customEnabled.prizeSplit}
+                value={settings.prizeSplit}
+                onValueChange={(value) => updateSetting("prizeSplit", value)}
+                disabled={settings.customEnabled.prizeSplit}
               >
                 <SelectTrigger className="w-44">
                   <SelectValue placeholder="Select" />
@@ -121,12 +133,9 @@ export default function SettingsModal({
               </Select>
               <Checkbox
                 id="custom-prize-split"
-                checked={customEnabled.prizeSplit}
+                checked={settings.customEnabled.prizeSplit}
                 onCheckedChange={(checked) => {
-                  setCustomEnabled({
-                    ...customEnabled,
-                    prizeSplit: checked === true,
-                  });
+                  handleCustomEnabledChange("prizeSplit", checked === true);
                 }}
               />
             </div>
@@ -139,9 +148,9 @@ export default function SettingsModal({
             </Label>
             <div className="flex items-center gap-2">
               <Select
-                value={mode}
-                onValueChange={setMode}
-                disabled={customEnabled.mode}
+                value={settings.mode}
+                onValueChange={(value) => updateSetting("mode", value)}
+                disabled={settings.customEnabled.mode}
               >
                 <SelectTrigger className="w-44">
                   <SelectValue placeholder="Select" />
@@ -160,12 +169,9 @@ export default function SettingsModal({
               </Select>
               <Checkbox
                 id="custom-mode"
-                checked={customEnabled.mode}
+                checked={settings.customEnabled.mode}
                 onCheckedChange={(checked) => {
-                  setCustomEnabled({
-                    ...customEnabled,
-                    mode: checked === true,
-                  });
+                  handleCustomEnabledChange("mode", checked === true);
                 }}
               />
             </div>
@@ -180,7 +186,7 @@ export default function SettingsModal({
               <div className="flex items-center gap-2">
                 <Input
                   id="unit-timer"
-                  value={unitTimer}
+                  value={settings.unitTimer}
                   onChange={handleTimerChange}
                   onKeyDown={(e) =>
                     ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()
