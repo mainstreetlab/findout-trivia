@@ -11,6 +11,8 @@ interface LoaderProps {
 const LoaderOverlay = ({ children }: LoaderProps) => {
   const { ready } = usePrivy();
 
+  console.log("ready",ready)
+
   return (
     <div
       className={cn({

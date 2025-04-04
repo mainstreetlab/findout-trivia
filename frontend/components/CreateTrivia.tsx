@@ -168,7 +168,7 @@ const CreateTrivia = ({ prize, answers }: CreateTriviaProps) => {
               args: answers,
             },
           ]}
-          className="w-[450px]"
+          className="w-[450px] justify-center items-center"
          // capabilities={capabilities}
           chainId={chainId}
           onStatus={handleOnStatus}
